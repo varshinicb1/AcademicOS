@@ -420,7 +420,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"): _p(ADMIN["qbank_review"]),
     ("POST", "/api/v1/curriculum/seed/cbse10"): _p(PRINCIPAL),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"): _p(ADMIN["qbank_review"]),
-    ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"): _p(ANY_USER, "school-scoped; should be staff (reported, not edited)"),
+    ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"): _p(STAFF, "security review 2026-10, F2"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"): _p(ADMIN["qbank_review"]),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics"): _p(ADMIN["qbank_review"]),
     ("POST", "/api/v1/curriculum/topics/{topic_id}/subtopics"): _p(ADMIN["qbank_review"]),
@@ -431,7 +431,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("PATCH", "/api/v1/curriculum/chapters/{chapter_id}/sequence"): _p(ADMIN["qbank_review"]),
     ("PATCH", "/api/v1/curriculum/topics/{topic_id}/sequence"): _p(ADMIN["qbank_review"]),
     ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"): _p(ADMIN["qbank_review"]),
-    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"): _p(ANY_USER, "a write any role can make; should be staff (reported, not edited)"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"): _p(STAFF, "it changes what papers are made from; security review 2026-10, F2"),
     ("POST", "/api/v1/curriculum/questions/by-subtopics"): _p(ANY_USER, "returns question ids only; should be staff (reported, not edited)"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"): _p(ADMIN["calendar"]),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"): _p(ANY_USER, "the school's own calendar"),
@@ -449,8 +449,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"): _p(ADMIN["timetable"]),
     ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"): _p(ANY_USER),
     ("POST", "/api/v1/curriculum/books/{book_id}/schedule"): _p(ADMIN["timetable"]),
-    ("GET", "/api/v1/curriculum/books/{book_id}/schedule"): _p(ANY_USER, "includes teacher notes; should be staff (reported, not edited)"),
-    ("GET", "/api/v1/curriculum/schedule"): _p(ANY_USER, "includes teacher notes; should be staff (reported, not edited)"),
+    ("GET", "/api/v1/curriculum/books/{book_id}/schedule"): _p(ANY_USER, "a student's answer leaves out the teacher's note and who marked it (2026-10, F2)"),
+    ("GET", "/api/v1/curriculum/schedule"): _p(ANY_USER, "the student schedule page reads it; a student's answer leaves out the teacher's note and who marked it (2026-10, F2)"),
     ("POST", "/api/v1/curriculum/teacher-assignments"): _p(ADMIN["timetable"]),
     ("GET", "/api/v1/curriculum/my-schedule"): _p(ANY_USER, "only the caller's own assigned books; empty for a student"),
     ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"): _p(ANY_USER, "handler admits only the assigned teacher or a principal"),
@@ -462,7 +462,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/my-progress"): _p(ANY_USER, "handler admits students only, their own grade"),
     ("GET", "/api/v1/curriculum/reporting/coverage"): _p(ADMIN["reports"]),
     ("GET", "/api/v1/curriculum/reporting/delayed-topics"): _p(ADMIN["reports"]),
-    ("GET", "/api/v1/curriculum/export"): _p(ADMIN["reports"]),
+    ("GET", "/api/v1/curriculum/export"): _p(PRINCIPAL, "answer keys and every account; security review 2026-10, F3"),
 
     # ---- curriculum/routes.py: book editions, seeding, terms ----
     # feat/product-calendar branched before this table existed, so its twelve
@@ -486,7 +486,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"): _p(
         ANY_USER, "read-only; resolves a syllabus slug to the caller's own school's chapter, so a teacher's subtopic picker can find one"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"): _p(
-        ANY_USER, "pending, unapproved topics of the caller's own school (_require_school_owns_chapter)"),
+        STAFF, "pending, unapproved topics of the caller's own school; staff work (security review 2026-10, F2)"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"): _p(
         PRINCIPAL, "approval is the principal's act; Depends(require_principal)"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"): _p(

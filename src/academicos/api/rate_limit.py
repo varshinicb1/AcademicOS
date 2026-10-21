@@ -237,6 +237,17 @@ account_failures = RateLimiter(max_requests=ACCOUNT_FAILURES, window_seconds=15 
                                name="account_failures")
 
 
+# The operator's keys (X-Cron-Key, X-Ops-Key) are compared in constant time but were unthrottled:
+# a guesser had unlimited tries (security review 2026-10, ASVS V4.1.1). Cloud Scheduler calls a few
+# times an hour.
+operator_key_limiter = RateLimiter(max_requests=30, window_seconds=60.0, name="operator_key")
+
+
+def limit_operator_key(request: Request) -> None:
+    """A route dependency for the routes behind an operator key."""
+    operator_key_limiter.check(f"ip:{get_client_ip(request)}")
+
+
 def get_client_ip(request: Request) -> str:
     """Extract real client IP, respecting standard reverse-proxy headers.
 

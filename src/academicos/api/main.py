@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -34,7 +35,7 @@ from ..assessment.llm_evaluate import LLMEvaluationError
 from ..assessment.qbank_store import ReviewStateError
 from ..llm.sarvam import LLMProviderError
 from ..assessment.postgres_kv import durable_table
-from ..assessment.auth_routes import get_current_user
+from ..assessment.auth_routes import get_current_user, limit_costly
 from ..assessment.authz import require_school_owns_student
 from ..assessment.users import User
 from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_config,
@@ -368,7 +369,14 @@ def _public(exc: SupabaseUnavailable) -> str:
     The backend's own message is logged, not returned: a Postgres error carries SQL, column names
     and the values of a violated key, such as an email (security review 2026-10, ASVS V7.4.1)."""
     status = f" (HTTP {exc.status})" if getattr(exc, "status", None) is not None else ""
-    return f"{getattr(exc, 'op', 'call')} on {getattr(exc, 'table', '?')!r} failed{status}"
+    # The backend's error code (PostgREST's PGRST205, Postgres's SQLSTATE 42P01) says why for an
+    # operator, and is a code, not data.
+    code = getattr(getattr(exc, "cause", None) or exc.__cause__, "sqlstate", None)
+    if not code:
+        found = re.search(r'"code"\s*:\s*"([A-Za-z0-9]{3,12})"', getattr(exc, "body", "") or "")
+        code = found.group(1) if found else None
+    return (f"{getattr(exc, 'op', 'call')} on {getattr(exc, 'table', '?')!r} failed{status}"
+            + (f" [{code}]" if code else ""))
 
 
 # --- domain exceptions that used to surface as bare 500s -------------------
@@ -898,7 +906,7 @@ def search(req: SearchRequest) -> dict:
     }
 
 
-@app.post("/v1/agent/doubt", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/doubt", dependencies=[Depends(limit_costly)])
 def agent_doubt(req: DoubtRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -913,7 +921,7 @@ def agent_doubt(req: DoubtRequest) -> dict:
         return DoubtSolver(_retriever, _graph, critic=_critic).solve(req.doubt)
 
 
-@app.post("/v1/agent/score", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/score", dependencies=[Depends(limit_costly)])
 def agent_score(req: ScoreRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -921,7 +929,7 @@ def agent_score(req: ScoreRequest) -> dict:
         return ExaminerScorer(_retriever, _graph).score(req.question, req.student_answer, req.marks_available)
 
 
-@app.post("/v1/agent/analyze", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/analyze", dependencies=[Depends(limit_costly)])
 def agent_analyze(req: AnalyzeRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -1012,7 +1020,7 @@ def study_plan(req: StudyPlanRequest, current: User = Depends(get_current_user))
     }
 
 
-@app.post("/v1/question/solve", dependencies=[Depends(get_current_user)])
+@app.post("/v1/question/solve", dependencies=[Depends(limit_costly)])
 def question_solve(req: QuestionSolveRequest) -> dict:
     """P5.2 — question-solve with evidence: map a question to graph concepts
     (LLM-assisted, verifier-checked) and persist the mapping for tracing."""

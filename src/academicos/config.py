@@ -287,6 +287,14 @@ def production_config_problems(cfg: "Config") -> list[str]:
         if insecure:
             problems.append(f"CORS origins include non-https {insecure} -- ACOS_CORS_ORIGINS is "
                             "unset (dev defaults) or wrong; set it to the Hosting origins")
+    # The operator's keys guard the scheduler route and the cross-school usage and error views. A
+    # short one is warned about rather than refused: refusing would stop a running service at its
+    # next deploy over a key nobody has rotated yet (security review 2026-10, ASVS V4.1.1).
+    for name in ("ACOS_CRON_KEY", "ACOS_OPS_KEY"):
+        value = os.environ.get(name, "")
+        if value and len(value) < MIN_PRINCIPAL_BOOTSTRAP_KEY_CHARS:
+            log.warning("%s is %d characters; use at least %d (e.g. `openssl rand -hex 32`)",
+                        name, len(value), MIN_PRINCIPAL_BOOTSTRAP_KEY_CHARS)
     if demo_accounts_enabled():
         problems.append("ACOS_DEMO_ACCOUNTS is on: the demo principal (password123) would be "
                         "seeded; unset it")

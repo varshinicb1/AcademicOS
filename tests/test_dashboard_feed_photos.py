@@ -63,13 +63,15 @@ def test_logout_says_so_when_the_session_could_not_be_ended(w):
             raise requests.exceptions.ConnectionError("the session store is unreachable")
 
     users = cr._require_users()
+    token = w.s1["Authorization"].split(" ", 1)[1]
     real = users._remote_sessions
     users._remote_sessions = Down()
     try:
         assert w.c.post("/api/v1/auth/logout", headers=w.s1).status_code == 503
     finally:
         users._remote_sessions = real
-    assert w.c.post("/api/v1/auth/logout", headers=w.s1).status_code == 200
+    # The local copy went anyway: only the durable store's could outlive the logout.
+    assert users.conn.execute("SELECT 1 FROM sessions WHERE token=?", (token,)).fetchone() is None
 
 
 def test_v1_homework_sets(w, monkeypatch):

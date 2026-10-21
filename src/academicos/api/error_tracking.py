@@ -49,7 +49,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from .rate_limit import get_client_ip
+from .rate_limit import get_client_ip, limit_operator_key
 
 logger = logging.getLogger(__name__)
 
@@ -292,7 +292,8 @@ class ErrorGroupResponse(BaseModel):
     schools: int
 
 
-@router.get("/api/v1/ops/errors", response_model=list[ErrorGroupResponse], response_model_by_alias=True)
+@router.get("/api/v1/ops/errors", response_model=list[ErrorGroupResponse], response_model_by_alias=True,
+            dependencies=[Depends(limit_operator_key)])
 def list_errors(x_ops_key: Optional[str] = Header(default=None, alias="X-Ops-Key")) -> list[ErrorGroupResponse]:
     """This process's error groups, most recent first, for the operator.
     Needs the operator's key (env ACOS_OPS_KEY); 404 when none is

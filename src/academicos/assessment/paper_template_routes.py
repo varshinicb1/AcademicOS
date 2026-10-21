@@ -29,7 +29,7 @@ from ..operations.question_reviews import bank_usable
 from ..config import Config
 from . import paper_edit, paper_timing
 from .audit_log import get_audit_log
-from .auth_routes import require_staff
+from .auth_routes import limit_costly, require_staff
 from .authz import require_may_change_paper, require_own_school, require_school_owns_paper
 from .paper import generate_paper_sets, lettered, report_competency, set_repeat_warnings
 from .paper_edit import Bank, SwapCounts, bank_for
@@ -403,7 +403,7 @@ def template_availability(
     return report
 
 
-@router.post("/papers/generate-from-template", response_model=TemplatePaperResponse)
+@router.post("/papers/generate-from-template", dependencies=[Depends(limit_costly)], response_model=TemplatePaperResponse)
 def generate_from_template(
     req: GenerateFromTemplateRequest, current: User = Depends(require_staff),
 ) -> TemplatePaperResponse:

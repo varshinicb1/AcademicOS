@@ -176,11 +176,12 @@ def test_every_limiter_the_app_defines_is_named_and_names_are_unique():
     """The keys repeat across limiters, so the name is what keeps their shared
     hits apart; an unnamed one would quietly stay per instance."""
     import importlib
-    names = []
+    found = {}
     for module in ("academicos.api.rate_limit", "academicos.operations.sign_in_codes",
-                   "academicos.operations.google_sign_in"):
+                   "academicos.operations.google_sign_in", "academicos.assessment.auth_routes"):
         for value in vars(importlib.import_module(module)).values():
             if isinstance(value, RateLimiter):
-                names.append(value.name)
-    assert len(names) == 7 and None not in names, names
+                found[id(value)] = value          # a module re-exports another's limiter
+    names = [v.name for v in found.values()]
+    assert len(names) == 9 and None not in names, names
     assert len(set(names)) == len(names), names

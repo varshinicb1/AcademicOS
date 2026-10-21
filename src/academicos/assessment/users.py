@@ -763,24 +763,26 @@ class UserStore:
 
     def delete_session(self, token: str, *, strict: bool = False) -> None:
         """End one session. `strict` (logout) raises when the durable store could not be reached,
-        where the session would outlive the logout; an expired session's cleanup does not."""
+        where the session would outlive the logout; an expired session's cleanup does not. The
+        local row goes either way, before anything is raised."""
+        failed: Optional[Exception] = None
         if self._remote_sessions.enabled:
             try:
                 self._remote_sessions.delete(token=token)
             except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
-                if strict:
-                    raise
-                # Was `pass`. The local delete below still runs, so logout
-                # succeeds from the caller's point of view -- but a failed
-                # REMOTE delete means the session can outlive the logout on the
-                # durable store. Security-relevant, so it is logged.
+                # Was `pass`. A failed REMOTE delete means the session can
+                # outlive the logout on the durable store. Security-relevant,
+                # so it is logged.
                 logger.warning(
                     "remote session delete failed during logout; the session may "
                     "outlive it on the remote store (%s: %s)",
                     type(exc).__name__, exc)
+                failed = exc
         with self._conn_lock:
             self.conn.execute("DELETE FROM sessions WHERE token=?", (token,))
             self.conn.commit()
+        if strict and failed is not None:
+            raise failed
 
     # ---------------- closing and reopening an account ----------------
 

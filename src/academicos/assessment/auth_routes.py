@@ -24,15 +24,15 @@ from urllib.parse import quote
 import requests
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import ConfigDict
+from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..api.rate_limit import account_failures, rate_limit_login, rate_limit_register
+from ..api.rate_limit import RateLimiter, account_failures, rate_limit_login, rate_limit_register
 from ..config import Config
 from .schemas import Camel
 from .supabase_kv import SupabaseUnavailable
 from .users import (
-    OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
+    CLOSED_PREFIX, OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
     InviteNotFound, RegistrationRefused, User, UserStore, get_user_store, is_closed,
 )
 
@@ -57,9 +57,11 @@ def _require() -> UserStore:
 
 
 class RegisterRequest(Camel):
-    name: str
-    email: str
-    password: str
+    # Bounded (security review 2026-10): a name is shown on every page and export, and ASVS
+    # V2.1.2 caps passwords at 128 characters.
+    name: str = Field(max_length=120)
+    email: str = Field(max_length=254)
+    password: str = Field(max_length=128)
     # The normal way in: a single-use code a principal issued. The account's
     # school and role are the invite's.
     invite_code: Optional[str] = None
@@ -355,6 +357,20 @@ def require_owner(
     return user
 
 
+# Security review 2026-10 (ASVS V11.1.3, V11.1.4): the routes that cost money or minutes (the model
+# routes, OCR of a scanned page, paper generation, AI marking) share one allowance per person. Well
+# above a teacher's real pace (a class set of answer booklets is about 50 pages in 10 minutes), and
+# far below what a loop on one account at the instance's concurrency could send.
+COSTLY_PER_10_MINUTES = 200
+_costly = RateLimiter(max_requests=COSTLY_PER_10_MINUTES, window_seconds=600.0, name="costly")
+
+
+def limit_costly(current: User = Depends(get_current_user)) -> None:
+    """A route dependency: counts one costly call against the signed-in person (shared across
+    instances, api/rate_limit.py)."""
+    _costly.check(f"user:{current.id}")
+
+
 def require_principal(current: User = Depends(get_current_user)) -> User:
     if current.role != "principal":
         raise HTTPException(403, "this action requires the principal role")
@@ -491,6 +507,15 @@ def _school_account(user_id: str, admin: User) -> User:
     return user
 
 
+def _staff_accounts_are_the_principals(admin: User, user: User) -> None:
+    """A delegated admin (a teacher with the users grant) closes and reopens students' and parents'
+    accounts only, as with password resets: closing a colleague's also takes away their grants
+    (security review 2026-10, F7)."""
+    role = user.role[len(CLOSED_PREFIX):] if is_closed(user.role) else user.role
+    if admin.role != "principal" and role not in ("student", "parent"):
+        raise HTTPException(403, "only the principal closes or reopens a staff member's account")
+
+
 def _audit_account(action: str, admin: User, user: User, before: str) -> None:
     from .audit_log import get_audit_log
     if _cfg is not None:
@@ -509,6 +534,7 @@ def close_account(user_id: str, admin: User = Depends(require_admin("users"))) -
         raise HTTPException(422, "you cannot close your own account")
     if user.role == "principal":
         raise HTTPException(403, "the principal's account is changed by the operator, not in the app")
+    _staff_accounts_are_the_principals(admin, user)
     before = user.role
     closed = _require().close_account(user.id)
     try:
@@ -527,6 +553,7 @@ def reopen_account(user_id: str, admin: User = Depends(require_admin("users"))) 
     """Undo a close: the account gets back the role it had. Grants are not
     restored; the principal gives them again if they are still wanted."""
     user = _school_account(user_id, admin)
+    _staff_accounts_are_the_principals(admin, user)
     before = user.role
     reopened = _require().reopen_account(user.id)
     if before != reopened.role:

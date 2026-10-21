@@ -299,6 +299,13 @@ def _owned_leave(leave_id: str, user: User):
     return l
 
 
+def _not_your_own(teacher_id: str, admin: User) -> None:
+    """The leave grant lets a teacher decide colleagues' leave, not their own: approving yourself
+    skipped the principal and the school's leave rules (security review 2026-10, F9)."""
+    if admin.role != "principal" and teacher_id == admin.id:
+        raise HTTPException(403, "the principal decides your own leave and attendance")
+
+
 def _owned_sub(sub_id: str, user: User):
     s = cr._require().get_substitution(sub_id)
     if s is None:
@@ -403,7 +410,7 @@ def decide_leave(leave_id: str, req: LeaveDecisionRequest,
                  principal: User = Depends(require_admin("leave"))) -> LeaveDecisionResponse:
     """Approve (every missed period gets a substitution with a proposed
     substitute) or reject."""
-    _owned_leave(leave_id, principal)
+    _not_your_own(_owned_leave(leave_id, principal).teacher_id, principal)
     try:
         leave, subs = cr._require().decide_leave(leave_id, approve=req.approve, decided_by=principal.id)
     except CoverError as e:
@@ -441,6 +448,7 @@ def set_leave_replacement(leave_id: str, req: ReplacementRequest,
     Null takes the replacement off, and the engine proposes cover again.
     Returns the leave and its substitutions from today on."""
     leave = _owned_leave(leave_id, principal)
+    _not_your_own(leave.teacher_id, principal)
     if leave.status != "approved":
         raise HTTPException(409, f"this leave is {leave.status}; approve it before naming a replacement")
     if req.teacher_id:
@@ -884,6 +892,7 @@ def mark_teacher_attendance(req: AttendanceRequest, on: Optional[str] = Query(de
     store = cr._require()
     for m in req.marks:
         _staff_of_school(m.teacher_id, principal)
+        _not_your_own(m.teacher_id, principal)
     year = _year_for(store, principal.school_id, day)
     opened = []
     for m in req.marks:

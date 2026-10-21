@@ -16,8 +16,9 @@ from pydantic import Field
 
 from . import mobile_scan
 from . import routes as assessment_routes
-from .authz import require_consent, require_school_owns_assessment, require_school_owns_scan_session
-from .auth_routes import require_staff
+from .authz import (require_consent, require_school_owns_assessment, require_school_owns_paper,
+                    require_school_owns_scan_session)
+from .auth_routes import limit_costly, require_staff
 from .evaluate import Evaluation, MarkingPointOutcome
 from .mapping import to_question_schema
 from .pool import get_pool
@@ -132,14 +133,25 @@ class CapturedPageResponse(Camel):
     warnings: list[str] = Field(default_factory=list)
 
 
-@router.post("/scan/sessions/{session_id}/pages", response_model=CapturedPageResponse)
+# A phone photo of a page is 3-8 MB; an answer booklet is up to about 40 pages.
+MAX_SCAN_PAGE_BYTES = 15 * 1024 * 1024
+MAX_SCAN_PAGES = 80
+
+
+@router.post("/scan/sessions/{session_id}/pages", dependencies=[Depends(limit_costly)], response_model=CapturedPageResponse)
 async def upload_scan_page(
     session_id: str, file: UploadFile = File(...), current: User = Depends(require_staff),
 ) -> CapturedPageResponse:
     session = _get_session_to_process(session_id, current)
-    image_bytes = await file.read()
+    # Read no more than the cap: an uncapped read let one upload take the instance's memory, and
+    # with it every school's requests (security review 2026-10, ASVS V12.1.1).
+    if len(session.pages) >= MAX_SCAN_PAGES:
+        raise HTTPException(409, f"a scan session holds at most {MAX_SCAN_PAGES} pages")
+    image_bytes = await file.read(MAX_SCAN_PAGE_BYTES + 1)
     if not image_bytes:
         raise HTTPException(400, "empty file upload")
+    if len(image_bytes) > MAX_SCAN_PAGE_BYTES:
+        raise HTTPException(413, f"a page photo can be at most {MAX_SCAN_PAGE_BYTES // (1024 * 1024)} MB")
     page = mobile_scan.add_page(session, image_bytes)
     return CapturedPageResponse(
         page_no=page.page_no, cropped=page.cropped,
@@ -186,7 +198,7 @@ class ProcessSessionResponse(Camel):
     warnings: list[str] = Field(default_factory=list)
 
 
-@router.post("/scan/sessions/{session_id}/process", response_model=ProcessSessionResponse)
+@router.post("/scan/sessions/{session_id}/process", dependencies=[Depends(limit_costly)], response_model=ProcessSessionResponse)
 def process_scan_session(session_id: str, current: User = Depends(require_staff)) -> ProcessSessionResponse:
     session = _get_session_to_process(session_id, current)
 
@@ -195,7 +207,9 @@ def process_scan_session(session_id: str, current: User = Depends(require_staff)
     if paper is None:
         assessment = assessment_routes._store.get(session.assessment_id) if assessment_routes._store else None
         paper_id = assessment.generated_paper_id if assessment else None
-        paper = papers.get(paper_id) if paper_id else None
+        # The paper must be this school's too, whatever the assessment names (F1).
+        paper = (require_school_owns_paper(papers, assessment_routes._store, paper_id, current)
+                 if paper_id else None)
     if paper is None:
         raise HTTPException(409, "this assessment has no generated paper to mark against")
 

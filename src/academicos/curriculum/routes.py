@@ -1005,7 +1005,7 @@ def extract_chapter(chapter_id: str, req: ExtractRequest,
 
 @router.get("/extraction-runs/{run_id}", response_model=ExtractionRunWithProposalsResponse)
 def get_extraction_run(run_id: str,
-                       current: User = Depends(get_current_user)) -> ExtractionRunWithProposalsResponse:
+                       current: User = Depends(require_staff)) -> ExtractionRunWithProposalsResponse:
     store = _require()
     run = store.get_extraction_run(run_id)
     if run is None:
@@ -1055,7 +1055,7 @@ def approve_extraction_run(run_id: str, req: ApproveRunRequest,
 @router.get("/chapters/{chapter_id}/proposed-topics",
             response_model=list[ExtractionRunWithProposalsResponse])
 def list_proposed_topics(chapter_id: str,
-                         current: User = Depends(get_current_user),
+                         current: User = Depends(require_staff),
                          ) -> list[ExtractionRunWithProposalsResponse]:
     """Every still-unapproved decomposition proposal for one chapter, so the web
     admin can show "3 topics proposed from the NCERT headings -- approve?" next
@@ -1216,7 +1216,7 @@ def set_subtopic_sequence(subtopic_id: str, req: SetSequenceRequest,
 
 @router.post("/chapters/{chapter_id}/questions/tag", response_model=TagQuestionResponse)
 def tag_question(chapter_id: str, req: TagQuestionRequest,
-                 current: User = Depends(get_current_user)) -> TagQuestionResponse:
+                 current: User = Depends(require_staff)) -> TagQuestionResponse:
     """Resolves one question's text against this chapter's real, approved
     subtopics and persists the match -- the bridge that makes "generate a
     paper from these subtopics" possible. Scoped to one chapter rather than
@@ -1862,12 +1862,15 @@ def get_teaching_time_estimate(subtopic_id: str, academic_year_id: str,
 # calendar -> a real, dated ScheduledLesson[] (§11-14, §38-41) ----------------
 
 
-def _lesson_response(lesson) -> ScheduledLessonResponse:
+def _lesson_response(lesson, *, for_student: bool = False) -> ScheduledLessonResponse:
+    """A student sees what is planned and whether it was taught, not the teacher's note on it
+    or which colleague marked it (security review 2026-10, F2)."""
     return ScheduledLessonResponse(id=lesson.id, school_id=lesson.school_id,
                                    academic_year_id=lesson.academic_year_id, book_id=lesson.book_id,
                                    subtopic_id=lesson.subtopic_id, date=lesson.date,
-                                   status=lesson.status, note=lesson.note,
-                                   completed_by=lesson.completed_by, completed_at=lesson.completed_at,
+                                   status=lesson.status, note=None if for_student else lesson.note,
+                                   completed_by=None if for_student else lesson.completed_by,
+                                   completed_at=lesson.completed_at,
                                    created_at=lesson.created_at, section_id=lesson.section_id)
 
 
@@ -2050,7 +2053,7 @@ def get_book_schedule(book_id: str, academic_year_id: str,
     _require_school_owns_book(book_id, current)
     if section_id is not None:
         _require_school_owns_section(section_id, current)
-    return [_lesson_response(l)
+    return [_lesson_response(l, for_student=current.role == "student")
             for l in store.scheduled_lessons_for_book(academic_year_id, book_id, section_id)]
 
 
@@ -2064,7 +2067,7 @@ def get_schedule_for_range(start_date: str, end_date: str,
     request parameter -- same posture as every other write/read in this
     module that touches per-school administrative data."""
     store = _require()
-    return [_lesson_response(l)
+    return [_lesson_response(l, for_student=current.role == "student")
             for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)]
 
 
@@ -2580,7 +2583,7 @@ def _curriculum_tree_for_export(store: CurriculumStore, school_id: str) -> list[
 
 
 @router.get("/export")
-def export_school_data(principal: User = Depends(require_admin("reports"))) -> dict[str, Any]:
+def export_school_data(principal: User = Depends(require_principal)) -> dict[str, Any]:
     """Bulk export of everything this principal's school owns, for backup
     or manual transfer to another AcademicOS instance -- the concrete
     "easy transfer of school data" feature. school_id always comes from
