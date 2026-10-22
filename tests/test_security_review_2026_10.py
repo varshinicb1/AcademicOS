@@ -50,6 +50,24 @@ def test_a_student_sees_a_lesson_but_not_the_teachers_note_on_it():
     assert seen.note is None and seen.completed_by is None and seen.status == "completed"
 
 
+def test_only_the_principal_reopens_a_staff_account_and_nobody_a_former_principals(w):
+    """Reopening gives access back. A delegated users admin may close a colleague's account (an
+    earlier audit's decision) but not undo the principal's closing of one; and a former principal's
+    account, which only the operator closes, could be reopened in the app, making someone who had
+    left a principal again."""
+    from academicos.curriculum import routes as cr
+    users = cr._require_users()
+    assert w.c.post(f"/api/v1/auth/users/{w.uid['ana']}/close", headers=w.p).status_code == 200
+    assert _grant(w, "bala", "users").status_code == 200
+    r = w.c.post(f"/api/v1/auth/users/{w.uid['ana']}/reopen", headers=w.t["bala"])
+    assert r.status_code == 403 and "principal" in r.json()["detail"]
+    assert w.c.post(f"/api/v1/auth/users/{w.uid['ana']}/reopen", headers=w.p).status_code == 200
+    users._set_role(w.uid["chitra"], "left:principal")          # as the operator leaves one
+    for who in (w.p, w.t["bala"]):
+        assert w.c.post(f"/api/v1/auth/users/{w.uid['chitra']}/reopen", headers=who).status_code == 403
+    assert users.get(w.uid["chitra"]).role == "left:principal"
+
+
 def test_a_delegated_leave_admin_does_not_decide_their_own_leave(w):
     """F9: approving yourself skipped the principal and the school's leave rules."""
     assert _grant(w, "bala", "leave").status_code == 200

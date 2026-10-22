@@ -32,7 +32,7 @@ from ..config import Config
 from .schemas import Camel
 from .supabase_kv import SupabaseUnavailable
 from .users import (
-    OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
+    CLOSED_PREFIX, OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
     InviteNotFound, RegistrationRefused, User, UserStore, get_user_store, is_closed,
 )
 
@@ -541,8 +541,20 @@ def close_account(user_id: str, admin: User = Depends(require_admin("users"))) -
 @router.post("/users/{user_id}/reopen", response_model=UserResponse)
 def reopen_account(user_id: str, admin: User = Depends(require_admin("users"))) -> UserResponse:
     """Undo a close: the account gets back the role it had. Grants are not
-    restored; the principal gives them again if they are still wanted."""
+    restored; the principal gives them again if they are still wanted.
+
+    Reopening gives access back, so it is narrower than closing (security review 2026-10):
+    - a former principal's account is the operator's to reopen, as closing it is: reopened here,
+      someone who left would be a principal again;
+    - a staff account is the principal's to reopen. A delegated admin may close a colleague's
+      (an earlier audit's decision: it takes access away) but not undo the principal's closing of one.
+    """
     user = _school_account(user_id, admin)
+    role = user.role[len(CLOSED_PREFIX):] if is_closed(user.role) else user.role
+    if role in ("principal", OWNER_ROLE):
+        raise HTTPException(403, "the principal's account is changed by the operator, not in the app")
+    if admin.role != "principal" and role not in ("student", "parent"):
+        raise HTTPException(403, "only the principal reopens a staff member's account")
     before = user.role
     reopened = _require().reopen_account(user.id)
     if before != reopened.role:
