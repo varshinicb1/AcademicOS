@@ -98,14 +98,19 @@ def refuse_if_moved(purpose: str) -> None:
                        "ACOS_STORE_BACKEND=postgres, or with ACOS_STORE_BACKEND=sqlite to roll back on purpose.")
 
 
+# The stores that open their connection here (R-A1), each in its own schema. The question bank's
+# API keys and webhooks were snapshot files beside OperationsStore's, and moved with it.
+STORE_KINDS = ("curriculum", "operations", "api_keys", "webhooks")
+
+
 def describe() -> dict[str, Any]:
-    """Where CurriculumStore and OperationsStore keep their tables, for /health/storage: the cutover
-    is verified by reading this on the live service."""
+    """Where the four SQLite-shaped stores keep their tables, for /health/storage: the cutover is
+    verified by reading this on the live service."""
     if not enabled():
         return {"backend": "sqlite_snapshots"}
     return {"backend": "postgres",
             "schemas": {k: os.environ.get(f"ACOS_PG_SCHEMA_{k.upper()}", "").strip() or "per-path"
-                        for k in ("curriculum", "operations")}}
+                        for k in STORE_KINDS}}
 
 
 def schema_for(kind: str, db_path: Path) -> str:
@@ -113,6 +118,11 @@ def schema_for(kind: str, db_path: Path) -> str:
     named = os.environ.get(f"ACOS_PG_SCHEMA_{kind.upper()}", "").strip()
     if named:
         return _ident(named)
+    if os.environ.get("ACOS_ENV", "").strip().lower() == "production":
+        # A path-derived schema is a new, empty one: a deploy that forgot this setting would start
+        # with no API keys (or no school) and say nothing. Refuse to start instead.
+        raise RuntimeError(f"ACOS_PG_SCHEMA_{kind.upper()} is not set; in production every store's schema is "
+                           "named (docs/r-a1-cutover.md, step 4)")
     digest = hashlib.sha1(str(Path(db_path).resolve()).encode("utf-8")).hexdigest()[:12]
     return f"{kind}_{digest}"
 

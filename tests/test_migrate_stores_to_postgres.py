@@ -31,15 +31,16 @@ def env(monkeypatch):
     for k, v in _pg_env().items():
         monkeypatch.setenv(k, v)
     tag = uuid.uuid4().hex[:8]
-    monkeypatch.setenv("ACOS_PG_SCHEMA_CURRICULUM", f"mig_curriculum_{tag}")
-    monkeypatch.setenv("ACOS_PG_SCHEMA_OPERATIONS", f"mig_operations_{tag}")
+    kinds = ("curriculum", "operations", "api_keys", "webhooks")
+    for kind in kinds:
+        monkeypatch.setenv(f"ACOS_PG_SCHEMA_{kind.upper()}", f"mig_{kind}_{tag}")
     yield tag
     import psycopg
     from academicos.storage import pg_sqlite
     pg_sqlite.close_idle()
     with psycopg.connect(**pg_sqlite._dsn(), autocommit=True) as c:
-        c.execute(f"DROP SCHEMA IF EXISTS mig_curriculum_{tag} CASCADE")
-        c.execute(f"DROP SCHEMA IF EXISTS mig_operations_{tag} CASCADE")
+        for kind in kinds:
+            c.execute(f"DROP SCHEMA IF EXISTS mig_{kind}_{tag} CASCADE")
 
 
 def _sqlite_stores(tmp_path, monkeypatch):
@@ -126,3 +127,38 @@ def test_a_value_sqlite_stored_with_another_type_than_its_column_stops_the_copy(
     raw.close()
     with pytest.raises(SystemExit, match=r"practice_sets: rowid \d+ column 'grade' reads back as a int, was a float"):
         _script().migrate_store("operations", tmp_path / "operations.sqlite")
+
+
+def test_the_question_bank_apis_keys_and_webhooks_copy_too(tmp_path, monkeypatch, env):
+    """The partner API's two stores snapshot beside OperationsStore's and move with it: a key made
+    on SQLite authenticates on Postgres, with its quota, and a delivery still waiting is still due."""
+    from datetime import datetime, timezone
+    monkeypatch.setenv("ACOS_STORE_BACKEND", "sqlite")
+    from academicos.assessment.api_keys import ApiKeyStore
+    from academicos.assessment.webhooks import WebhookStore, _event
+    keys = ApiKeyStore(tmp_path / "api_keys.sqlite")
+    plaintext, key = keys.create(school_id="school_1", scopes=["questions:read"], label="partner",
+                                 quota_per_minute=30, grades=[10])
+    keys.check_quota(key)
+    hooks = WebhookStore(tmp_path / "webhooks.sqlite")
+    _, hook = hooks.create(key_id=key.id, school_id="school_1", url="https://partner.example/hook",
+                           events=["questions.added"], created_by="t")
+    due = datetime(2026, 10, 19, tzinfo=timezone.utc)
+    delivery = hooks.enqueue(hook["id"], _event(subject="Science", grade=10, chapter_id="c1", question_ids=["q1"],
+                                                reason="test"), due_at=due)
+    hooks.set_served_ids(["q1", "q2"])
+    keys.close()
+    hooks.close()
+
+    assert _script().main(["--api-keys", str(tmp_path / "api_keys.sqlite"),
+                           "--webhooks", str(tmp_path / "webhooks.sqlite")]) == 0
+
+    monkeypatch.setenv("ACOS_STORE_BACKEND", "postgres")
+    keys = ApiKeyStore(tmp_path / "api_keys.sqlite")
+    hooks = WebhookStore(tmp_path / "webhooks.sqlite")
+    assert keys.conn.schema == f"mig_api_keys_{env}" and hooks.conn.schema == f"mig_webhooks_{env}"
+    again = keys.authenticate(plaintext)
+    assert again is not None and again.id == key.id and again.quota_per_minute == 30 and again.grades == {10}
+    assert [d["id"] for d in hooks.due(due)] == [delivery]
+    assert hooks.served_ids() == {"q1", "q2"}
+    assert hooks.get(hook["id"])["secret"] == hook["secret"], "the signing secret partners verify with"

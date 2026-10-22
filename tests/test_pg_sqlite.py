@@ -91,6 +91,17 @@ def test_schema_names_come_from_the_environment_or_the_path(tmp_path, monkeypatc
         pg_sqlite.schema_for("curriculum", tmp_path / "a.sqlite")
 
 
+def test_production_refuses_a_store_whose_schema_is_not_named(tmp_path, monkeypatch):
+    """Without its name, a store would open a fresh, empty schema: in production, a deploy that
+    forgot ACOS_PG_SCHEMA_API_KEYS would have lost every partner's key without an error."""
+    monkeypatch.setenv("ACOS_ENV", "production")
+    monkeypatch.delenv("ACOS_PG_SCHEMA_API_KEYS", raising=False)
+    with pytest.raises(RuntimeError, match="ACOS_PG_SCHEMA_API_KEYS is not set"):
+        pg_sqlite.schema_for("api_keys", tmp_path / "api_keys.sqlite")
+    monkeypatch.setenv("ACOS_PG_SCHEMA_API_KEYS", "api_keys")
+    assert pg_sqlite.schema_for("api_keys", tmp_path / "api_keys.sqlite") == "api_keys"
+
+
 # ---- behaviour, against a real Postgres ----------------------------------------------------------
 
 def _dsn():

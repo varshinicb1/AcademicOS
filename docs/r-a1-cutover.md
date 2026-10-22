@@ -1,8 +1,10 @@
-# R-A1: moving CurriculumStore and OperationsStore to Cloud SQL
+# R-A1: moving the four SQLite stores to Cloud SQL
 
-**What it changes.** The two stores hold about 80 tables: the school's year, classes, timetable,
-plans, cover, homework, marks, exams and notifications. Today they live in SQLite files on the
-container, snapshotted to GCS every 20 to 30 seconds. That pins the service to one instance, because
+**What it changes.**
+- CurriculumStore and OperationsStore hold about 80 tables: the school's year, classes, timetable, plans, cover, homework, marks, exams and notifications.
+- The question bank API's two stores hold partners' API keys with their per-minute counts, and their webhooks with the delivery queue.
+
+Today all four live in SQLite files on the container, snapshotted to GCS (every 20 to 30 seconds for the school's stores, 2 for the partners'). That pins the service to one instance, because
 two would overwrite each other's snapshots. A crash can also lose up to 30 seconds of a school's
 writes. On Cloud SQL every write is durable when it commits, and two or more instances can serve
 the same school.
@@ -29,6 +31,9 @@ on condition that six findings were fixed first. Each one, and its evidence:
    - What it was: every instance runs the automations on its own (every five minutes of traffic, and on the scheduler's call), so two runs at once both found a job "not done" and both ran it. Notification delivery was locked only inside one process.
    - The fix: both now take `pg_sqlite.exclusive`, a process lock plus a Postgres advisory lock. A run that finds another one going skips that round.
    - Evidence: `tests/test_two_instances.py` starts two processes on one schema at the same moment. Each scheduled job runs once and each of 6 messages is sent once. With the advisory lock removed, both jobs run twice (`[2, 2]`) and every message is sent twice (`[6, 6]`).
+   - The partner API (added in the follow-up to #157):
+     - Webhook delivery and the "new questions" announcement at bank load take the same lock. Without it, two instances delivered each of 6 events twice (`[6, 6]`). During a rollout, the old and new instance would both have announced the same questions.
+     - A key's per-minute quota is now one atomic statement: count the request only while under the quota, and return the count. The old read-then-add let two instances both pass the last request. With quota 25 and two instances taking 40 each, it allowed 26 in three runs out of three (`[13, 13]`, `[14, 12]`, `[12, 14]`); now exactly 25.
    - Other read-modify-write paths (cover, plan rebuilds, leave decisions) are started by a person, one request at a time. They keep their transactions, as on SQLite.
 2. **SQLite constructs the plan missed.**
    - The translator handles all of them: `INSERT OR IGNORE` (3 sites), `INSERT OR REPLACE` (4), `rowid` ordering (5), `AUTOINCREMENT` (1), `instr()` (1), `IS ?`, `WHERE 0`, two-argument `max`/`min`, and every `PRAGMA`. It does this without touching their call sites.
@@ -70,7 +75,7 @@ gcloud run jobs deploy acos-move-stores --project vidyuthlabs --region asia-sout
   --service-account academicos-runtime@vidyuthlabs.iam.gserviceaccount.com \
   --set-cloudsql-instances vidyuthlabs:asia-south1:academicos-pg \
   --set-secrets ACOS_POSTGRES_PASSWORD=postgres-password:latest \
-  --set-env-vars "^@^ACOS_POSTGRES_HOST=/cloudsql/vidyuthlabs:asia-south1:academicos-pg@ACOS_POSTGRES_DB=academicos_rehearsal@ACOS_POSTGRES_USER=academicos@ACOS_GCS_BUCKET=vidyuthlabs-academicos-media@ACOS_PG_SCHEMA_CURRICULUM=curriculum@ACOS_PG_SCHEMA_OPERATIONS=operations" \
+  --set-env-vars "^@^ACOS_POSTGRES_HOST=/cloudsql/vidyuthlabs:asia-south1:academicos-pg@ACOS_POSTGRES_DB=academicos_rehearsal@ACOS_POSTGRES_USER=academicos@ACOS_GCS_BUCKET=vidyuthlabs-academicos-media@ACOS_PG_SCHEMA_CURRICULUM=curriculum@ACOS_PG_SCHEMA_OPERATIONS=operations@ACOS_PG_SCHEMA_API_KEYS=api_keys@ACOS_PG_SCHEMA_WEBHOOKS=webhooks" \
   --command python --args="-m,academicos.storage.migrate_stores,--from-gcs,--latency" \
   --max-retries 0 --task-timeout 1800
 gcloud run jobs execute acos-move-stores --project vidyuthlabs --region asia-south1 --wait
@@ -96,10 +101,11 @@ All in one sitting, at the agreed window.
    ```
    Wait 2 minutes: the snapshot debounce is at most 30 s. Check that both objects in the bucket stop changing (`gcloud storage ls -l gs://vidyuthlabs-academicos-media/academicos/curriculum-snapshots/` and the operations equivalent).
 3. **Copy** with the job above, pointed at the live database. Set `ACOS_POSTGRES_DB=academicos` and add `--mark-moved` to its args. The job aborts and rolls back on any mismatch; if it does, go to Rollback. `--mark-moved` leaves `MOVED_TO_POSTGRES` beside each snapshot. From then on a SQLite boot refuses to start unless `ACOS_STORE_BACKEND=sqlite` is set on purpose.
-4. **Deploy** the same image with three more settings: `ACOS_STORE_BACKEND=postgres`, `ACOS_PG_SCHEMA_CURRICULUM=curriculum` and `ACOS_PG_SCHEMA_OPERATIONS=operations`. Add them to `ENV_VARS` in `docs/deploy-by-hand.md` step 3, and in the same change add them to `.github/workflows/deploy-gcp.yml`. Every later deploy must carry them; the marker is there to catch the one that does not.
+4. **Deploy** the same image with five more settings: `ACOS_STORE_BACKEND=postgres`, `ACOS_PG_SCHEMA_CURRICULUM=curriculum`, `ACOS_PG_SCHEMA_OPERATIONS=operations`, `ACOS_PG_SCHEMA_API_KEYS=api_keys` and `ACOS_PG_SCHEMA_WEBHOOKS=webhooks`. With `ACOS_ENV=production`, a store whose schema is not named refuses to start rather than opening an empty one. Add them to `ENV_VARS` in `docs/deploy-by-hand.md` step 3, and in the same change add them to `.github/workflows/deploy-gcp.yml`. Every later deploy must carry them; the marker is there to catch the one that does not.
 5. **Verify** before reopening:
    - `/health` names the commit;
-   - `/health/storage` shows `"school_stores": {"backend": "postgres", "schemas": {"curriculum": "curriculum", "operations": "operations"}}`;
+   - `/health/storage` shows `"school_stores": {"backend": "postgres", "schemas": {"curriculum": "curriculum", "operations": "operations", "api_keys": "api_keys", "webhooks": "webhooks"}}`;
+   - a partner key still answers: `curl -H "X-API-Key: <a test key>" https://academicos-backend-2eskom55ta-el.a.run.app/v1/questions?limit=1` (issue one before step 2 if there is none);
    - `scripts/prod_check.py` passes;
    - sign in as the operator and open a school's My week, a homework and the term report.
 6. **Reopen**: `gcloud run services update academicos-backend --ingress all`.
@@ -107,6 +113,6 @@ All in one sitting, at the agreed window.
 
 ## Rollback
 
-Before step 6, or within the first hours: deploy the previous configuration with `ACOS_STORE_BACKEND=sqlite`, set explicitly (it gets past the marker). Then delete the two `MOVED_TO_POSTGRES` objects. The service restores the snapshots frozen at step 2.
+Before step 6, or within the first hours: deploy the previous configuration with `ACOS_STORE_BACKEND=sqlite`, set explicitly (it gets past the marker). Then delete the two `MOVED_TO_POSTGRES` objects (one in `curriculum-snapshots`, one in `operations-snapshots`, which holds three of the four stores). The service restores the snapshots frozen at step 2.
 
 Writes made on Postgres after step 6 are not in those snapshots and would be lost. That is why the decision to roll back has to be made before reopening, or quickly after. Later, roll forward instead: fix on Postgres, where the data now is.
