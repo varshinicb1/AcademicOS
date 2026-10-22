@@ -22432,7 +22432,7 @@
     },
     "/api/v1/auth/users/{user_id}/reopen": {
       "post": {
-        "description": "Undo a close: the account gets back the role it had. Grants are not\nrestored; the principal gives them again if they are still wanted.",
+        "description": "Undo a close: the account gets back the role it had. Grants are not\nrestored; the principal gives them again if they are still wanted.\n\nReopening gives access back, so it is narrower than closing (security review 2026-10):\n- a former principal's account is the operator's to reopen, as closing it is: reopened here,\n  someone who left would be a principal again;\n- a staff account is the principal's to reopen. A delegated admin may close a colleague's\n  (an earlier audit's decision: it takes access away) but not undo the principal's closing of one.",
         "operationId": "reopen_account_api_v1_auth_users__user_id__reopen_post",
         "parameters": [
           {

@@ -745,6 +745,12 @@ export interface paths {
          * Reopen Account
          * @description Undo a close: the account gets back the role it had. Grants are not
          *     restored; the principal gives them again if they are still wanted.
+         *
+         *     Reopening gives access back, so it is narrower than closing (security review 2026-10):
+         *     - a former principal's account is the operator's to reopen, as closing it is: reopened here,
+         *       someone who left would be a principal again;
+         *     - a staff account is the principal's to reopen. A delegated admin may close a colleague's
+         *       (an earlier audit's decision: it takes access away) but not undo the principal's closing of one.
          */
         post: operations["reopen_account_api_v1_auth_users__user_id__reopen_post"];
         delete?: never;
