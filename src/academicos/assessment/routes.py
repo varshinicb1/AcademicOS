@@ -1193,8 +1193,9 @@ def update_assessment(
         # A PUT that creates is the caller's paper, as POST makes it: a teacher
         # could otherwise plant one under a colleague's name.
         assessment.teacher_id = current.id
-        if assessment.generated_paper_id:
-            require_school_owns_paper(_require_papers(), store, assessment.generated_paper_id, current)
+        # The server records the paper when it generates one; a new assessment brings none. Checking
+        # the school was not enough: a colleague's unreleased paper is the same school's (F1).
+        assessment.generated_paper_id = None
     assessment.id = assessment_id
     assessment.school_id = current.school_id
     assessment.updated_at = _now()

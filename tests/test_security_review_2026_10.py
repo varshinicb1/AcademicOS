@@ -29,11 +29,14 @@ def test_an_assessment_keeps_the_paper_the_server_recorded(w):
     assert r.json()["generatedPaperId"] is None
 
 
-def test_a_new_assessment_cannot_name_a_paper_of_another_school(w):
+def test_a_new_assessment_brings_no_paper_of_its_own(w):
+    """Nor on create: a school check alone would still let a teacher name a colleague's unreleased
+    paper, which is the same school's."""
     a = _assessment(w, "ana")
     a.update(id="asm_made_by_put", generatedPaperId="paper_0123456789ab", status="draft")
     r = w.c.put("/api/v1/assessments/asm_made_by_put", json=a, headers=w.t["ana"])
-    assert r.status_code in (403, 404), r.text
+    assert r.status_code == 200, r.text
+    assert r.json()["generatedPaperId"] is None
 
 
 def test_a_student_sees_a_lesson_but_not_the_teachers_note_on_it():
