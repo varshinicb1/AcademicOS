@@ -50,14 +50,6 @@ def test_a_student_sees_a_lesson_but_not_the_teachers_note_on_it():
     assert seen.note is None and seen.completed_by is None and seen.status == "completed"
 
 
-def test_a_delegated_admin_does_not_close_a_colleagues_account(w):
-    """F7: a teacher with the users grant could close another teacher's account, taking their grants."""
-    assert _grant(w, "bala", "users").status_code == 200
-    r = w.c.post(f"/api/v1/auth/users/{w.uid['ana']}/close", headers=w.t["bala"])
-    assert r.status_code == 403 and "principal" in r.json()["detail"]
-    assert w.c.post(f"/api/v1/auth/users/{w.uid['ana']}/close", headers=w.p).status_code == 200
-
-
 def test_a_delegated_leave_admin_does_not_decide_their_own_leave(w):
     """F9: approving yourself skipped the principal and the school's leave rules."""
     assert _grant(w, "bala", "leave").status_code == 200

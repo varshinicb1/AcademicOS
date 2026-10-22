@@ -12937,6 +12937,7 @@
       "RegisterRequest": {
         "properties": {
           "email": {
+            "maxLength": 254,
             "title": "Email",
             "type": "string"
           },
@@ -12952,10 +12953,12 @@
             "title": "Invitecode"
           },
           "name": {
+            "maxLength": 120,
             "title": "Name",
             "type": "string"
           },
           "password": {
+            "maxLength": 128,
             "title": "Password",
             "type": "string"
           },

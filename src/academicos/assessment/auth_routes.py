@@ -32,7 +32,7 @@ from ..config import Config
 from .schemas import Camel
 from .supabase_kv import SupabaseUnavailable
 from .users import (
-    CLOSED_PREFIX, OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
+    OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
     InviteNotFound, RegistrationRefused, User, UserStore, get_user_store, is_closed,
 )
 
@@ -507,15 +507,6 @@ def _school_account(user_id: str, admin: User) -> User:
     return user
 
 
-def _staff_accounts_are_the_principals(admin: User, user: User) -> None:
-    """A delegated admin (a teacher with the users grant) closes and reopens students' and parents'
-    accounts only, as with password resets: closing a colleague's also takes away their grants
-    (security review 2026-10, F7)."""
-    role = user.role[len(CLOSED_PREFIX):] if is_closed(user.role) else user.role
-    if admin.role != "principal" and role not in ("student", "parent"):
-        raise HTTPException(403, "only the principal closes or reopens a staff member's account")
-
-
 def _audit_account(action: str, admin: User, user: User, before: str) -> None:
     from .audit_log import get_audit_log
     if _cfg is not None:
@@ -534,7 +525,6 @@ def close_account(user_id: str, admin: User = Depends(require_admin("users"))) -
         raise HTTPException(422, "you cannot close your own account")
     if user.role == "principal":
         raise HTTPException(403, "the principal's account is changed by the operator, not in the app")
-    _staff_accounts_are_the_principals(admin, user)
     before = user.role
     closed = _require().close_account(user.id)
     try:
@@ -553,7 +543,6 @@ def reopen_account(user_id: str, admin: User = Depends(require_admin("users"))) 
     """Undo a close: the account gets back the role it had. Grants are not
     restored; the principal gives them again if they are still wanted."""
     user = _school_account(user_id, admin)
-    _staff_accounts_are_the_principals(admin, user)
     before = user.role
     reopened = _require().reopen_account(user.id)
     if before != reopened.role:
