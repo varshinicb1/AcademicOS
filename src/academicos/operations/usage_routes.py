@@ -17,7 +17,9 @@ import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
+
+from ..api.rate_limit import limit_operator_key
 
 from ..assessment.schemas import Camel
 
@@ -56,7 +58,7 @@ def _iso(value) -> Optional[str]:
     return str(value)
 
 
-@router.get("/usage", response_model=list[SchoolUsage])
+@router.get("/usage", response_model=list[SchoolUsage], dependencies=[Depends(limit_operator_key)])
 def usage(x_ops_key: Optional[str] = Header(default=None, alias="X-Ops-Key")) -> list[SchoolUsage]:
     """Each school's use of AcademicOS, most recently active first."""
     _check_key(x_ops_key)

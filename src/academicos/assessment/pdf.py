@@ -696,7 +696,7 @@ def instruction_lines(paper: GeneratedPaper) -> list[str]:
 
 def _instructions(paper: GeneratedPaper, styles: _Styles) -> list:
     total_q = sum(len(s.questions) for s in paper.sections)
-    labels = ", ".join(s.label for s in paper.sections)
+    labels = escape(", ".join(s.label for s in paper.sections))
     story = [Paragraph("General Instructions:", styles.instr_head)]
     teacher = instruction_lines(paper)
     if teacher:
@@ -804,8 +804,8 @@ def _section_block(section: GeneratedSectionSchema, styles: _Styles,
                    frame_height: float) -> list:
     note = _section_note(section)
     story: list = [
-        Paragraph(f"SECTION {section.label}", styles.section),
-        Paragraph(counted(f"({section.name} — {len(section.questions)} question(s), "
+        Paragraph(f"SECTION {escape(section.label)}", styles.section),
+        Paragraph(counted(f"({escape(section.name)} — {len(section.questions)} question(s), "
                           f"{section.total_marks} mark(s). This section {note})"), styles.section_note),
     ]
     for gq in section.questions:

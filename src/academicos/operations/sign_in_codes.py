@@ -68,19 +68,29 @@ class CodesMixin:
         return code
 
     def check_code(self, email: str, code: str) -> bool:
-        """True once, for the right unexpired code; every try counts."""
-        row = self._fetchone("SELECT * FROM sign_in_codes WHERE email=?", (email,))
-        if row is None:
-            return False
-        expired = datetime.fromisoformat(row["expires_at"]) <= datetime.now(timezone.utc)
-        ok = not expired and hmac.compare_digest(row["code_hash"], _hash(email, code))
+        """True once, for the right unexpired code; every try counts.
+
+        Each outcome is one statement, so tries at the same moment (two tabs, two instances) cannot
+        both pass: the right code is claimed by deleting it, and only one DELETE gets the row back;
+        a wrong one adds to the count in place. Reading the row first and writing later let two
+        submissions of the right code both sign in, and wrong ones each see a count under the limit
+        (security review 2026-10, ASVS V2.7.3)."""
+        now = datetime.now(timezone.utc)
         with self._conn_lock:
-            if ok or expired or row["attempts"] + 1 >= MAX_ATTEMPTS:
+            claimed = self.conn.execute(
+                "DELETE FROM sign_in_codes WHERE email=? AND code_hash=? RETURNING expires_at",
+                (email, _hash(email, code))).fetchone()
+            if claimed is not None:
+                self._commit()
+                return datetime.fromisoformat(claimed["expires_at"]) > now
+            row = self.conn.execute(
+                "UPDATE sign_in_codes SET attempts=attempts+1 WHERE email=? RETURNING attempts, expires_at",
+                (email,)).fetchone()
+            if row is not None and (row["attempts"] >= MAX_ATTEMPTS
+                                    or datetime.fromisoformat(row["expires_at"]) <= now):
                 self.conn.execute("DELETE FROM sign_in_codes WHERE email=?", (email,))
-            else:
-                self.conn.execute("UPDATE sign_in_codes SET attempts=attempts+1 WHERE email=?", (email,))
             self._commit()
-        return ok
+        return False
 
 
 class CodeRequest(Camel):

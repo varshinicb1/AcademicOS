@@ -86,3 +86,47 @@ def test_without_email_set_up_the_route_says_so(w, monkeypatch):
     monkeypatch.setattr(mailer, "available_backends", lambda: {"smtp": {"configured": False, "reason": "no host"}})
     r = w.c.post("/api/v1/auth/code/request", json={"email": "s1@example.com"})
     assert r.status_code == 503 and "password" in r.json()["detail"]
+
+
+def test_the_right_code_sent_twice_at_once_signs_in_once(tmp_path):
+    """Security review 2026-10 (ASVS V2.7.3): the check read the row and deleted it later, so two
+    submissions of the right code at the same moment (two tabs, or two instances) both passed."""
+    import threading
+
+    from academicos.operations.store import OperationsStore
+    ops = OperationsStore(tmp_path / "operations.sqlite")
+    code = ops.issue_code("kid@example.com")
+    start = threading.Barrier(8)
+    results = []
+
+    def submit():
+        start.wait()
+        results.append(ops.check_code("kid@example.com", code))
+
+    threads = [threading.Thread(target=submit) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert results.count(True) == 1, results
+
+
+def test_wrong_codes_at_once_still_burn_the_code_at_five(tmp_path):
+    import threading
+
+    from academicos.operations.store import OperationsStore
+    ops = OperationsStore(tmp_path / "operations.sqlite")
+    code = ops.issue_code("kid@example.com")
+    wrong = "000000" if code != "000000" else "111111"
+    start = threading.Barrier(8)
+
+    def guess():
+        start.wait()
+        ops.check_code("kid@example.com", wrong)
+
+    threads = [threading.Thread(target=guess) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert ops.check_code("kid@example.com", code) is False, "eight wrong tries burnt it"

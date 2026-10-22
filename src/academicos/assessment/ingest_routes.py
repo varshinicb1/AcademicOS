@@ -63,6 +63,11 @@ def _require() -> tuple[Config, SourceRegistry, LocalStore]:
     return _cfg, _registry, _store
 
 
+MAX_INGEST_BYTES = 40 * 1024 * 1024
+MAX_ZIP_MEMBERS = 5000
+MAX_ZIP_UNPACKED_BYTES = 300 * 1024 * 1024
+
+
 def strip_macros(data: bytes) -> tuple[bytes, bool]:
     """Remove any vbaProject.bin member from an OOXML zip and fix up its
     Content_Types macro-enabled declarations. Returns (possibly-rewritten
@@ -70,6 +75,11 @@ def strip_macros(data: bytes) -> tuple[bytes, bool]:
     unchanged with macros_were_found=False."""
     try:
         with zipfile.ZipFile(io.BytesIO(data)) as zin:
+            infos = zin.infolist()
+            # Measured before anything is unpacked: a small file that inflates to gigabytes took the
+            # instance's memory (security review 2026-10, ASVS V12.1.2).
+            if len(infos) > MAX_ZIP_MEMBERS or sum(i.file_size for i in infos) > MAX_ZIP_UNPACKED_BYTES:
+                raise HTTPException(413, "this document unpacks to more than a school document can be")
             names = zin.namelist()
             if not any(_MACRO_MEMBER_RE.search(n) for n in names):
                 return data, False
@@ -137,9 +147,11 @@ async def ingest_school_document(
         raise HTTPException(400, f"unknown docType '{doc_type}' -- must be one of "
                                   f"{[d.value for d in DocType]}")
 
-    data = await file.read()
+    data = await file.read(MAX_INGEST_BYTES + 1)
     if not data:
         raise HTTPException(400, "empty file upload")
+    if len(data) > MAX_INGEST_BYTES:
+        raise HTTPException(413, f"a document can be at most {MAX_INGEST_BYTES // (1024 * 1024)} MB")
 
     macros_stripped = False
     if ext in _OOXML_EXTENSIONS:

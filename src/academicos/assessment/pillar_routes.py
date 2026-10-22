@@ -25,7 +25,7 @@ from . import remediation as remediation_mod
 from .authz import require_consent, require_may_download_paper, require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
 from .chapter_filing import ChapterFiling
-from .auth_routes import get_current_user, require_admin, require_principal, require_staff
+from .auth_routes import get_current_user, limit_costly, require_admin, require_principal, require_staff
 from .audit_log import AuditLog, get_audit_log, record_pii_read
 from .consent import ConsentStore, get_consent_store
 from .evaluate import Evaluation, evaluate_answer
@@ -666,7 +666,7 @@ def _to_response(ev: Evaluation, question: QuestionSchema, student_answer: str) 
     )
 
 
-@router.post("/evaluations/answer", response_model=EvaluationResponse)
+@router.post("/evaluations/answer", dependencies=[Depends(limit_costly)], response_model=EvaluationResponse)
 def evaluate_one(req: EvaluateAnswerRequest, current: User = Depends(require_staff)) -> EvaluationResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     _require()
@@ -712,7 +712,7 @@ class EvaluateSheetResponse(Camel):
     evaluations: list[EvaluationResponse]
 
 
-@router.post("/evaluations/sheet", response_model=EvaluateSheetResponse)
+@router.post("/evaluations/sheet", dependencies=[Depends(limit_costly)], response_model=EvaluateSheetResponse)
 def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_staff)) -> EvaluateSheetResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     _require()
@@ -1037,7 +1037,7 @@ class PracticeSetResponse(Camel):
     warnings: list[str] = Field(default_factory=list)
 
 
-@router.post("/practice/generate", response_model=PracticeSetResponse)
+@router.post("/practice/generate", dependencies=[Depends(limit_costly)], response_model=PracticeSetResponse)
 def generate_practice(req: PracticeRequestBody, current: User = Depends(get_current_user)) -> PracticeSetResponse:
     require_school_owns_student(_users(), req.student_id, current)
     _, knowledge, _ = _require()

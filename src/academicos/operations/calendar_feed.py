@@ -19,7 +19,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import Response
 
 from ..assessment.auth_routes import get_current_user
-from ..assessment.users import User
+from ..assessment.users import User, is_closed
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
 
@@ -407,7 +407,9 @@ def ics(token: str) -> Response:
         raise HTTPException(503, "the calendar feed is not initialised")
     user_id = store().feed_owner(token)
     user = cr._require_users().get(user_id) if user_id else None
-    if user is None:
+    # A closed account (someone who left the school) no longer has a feed: its address was
+    # handed to a calendar app and would otherwise show the school's week indefinitely.
+    if user is None or is_closed(user.role):
         raise HTTPException(404, "Not Found")
     body = build_calendar(user, cr._school_today())
     return Response(content=body, media_type="text/calendar; charset=utf-8",

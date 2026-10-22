@@ -170,7 +170,7 @@ def my_photo(homework_id: str, photo_id: str, current: User = Depends(get_curren
     p = store().get_photo(photo_id)
     if p is None or p["homework_id"] != hw.id or p["student_id"] != current.id:
         raise HTTPException(404, "photo not found")
-    return Response(content=_bytes(p), media_type=p["content_type"], headers={"Cache-Control": "private, max-age=3600"})
+    return Response(content=_bytes(p), media_type=p["content_type"], headers={"Cache-Control": "private, no-store"})
 
 
 @router.delete("/my-homework/{homework_id}/photos/{photo_id}")
@@ -202,4 +202,4 @@ def student_photo(homework_id: str, student_id: str, photo_id: str,
         raise HTTPException(404, "photo not found")
     record_pii_read(get_audit_log(cr._cfg.data_root), actor=current.id, what="homework_photo",
                     student_id=student_id, photo_id=photo_id)
-    return Response(content=_bytes(p), media_type=p["content_type"], headers={"Cache-Control": "private, max-age=3600"})
+    return Response(content=_bytes(p), media_type=p["content_type"], headers={"Cache-Control": "private, no-store"})

@@ -25,6 +25,7 @@ of its own.
 from __future__ import annotations
 
 import collections
+import hashlib
 import logging
 import os
 import threading
@@ -173,7 +174,11 @@ class RateLimiter:
         if retry_after is _LOCAL:
             retry_after = self._memory_take(key, count=True)
         if retry_after is not None:
-            logger.warning("Rate limit exceeded for key %s (max %d in %ds)", key, self.max_requests, self.window_seconds)
+            # A hash, not the key: keys hold whatever email was typed, newlines included, which
+            # put any address in the logs and let a request forge log lines (ASVS V7.3.1).
+            logger.warning("Rate limit exceeded for %s key %s (max %d in %ds)", self.name,
+                           hashlib.sha256(key.encode("utf-8")).hexdigest()[:12], self.max_requests,
+                           self.window_seconds)
             raise HTTPException(
                 status_code=429,
                 detail=f"Rate limit exceeded. Please try again in {retry_after} seconds.",
@@ -230,6 +235,17 @@ register_limiter = RateLimiter(max_requests=120, window_seconds=60.0, name="regi
 ACCOUNT_FAILURES = 10
 account_failures = RateLimiter(max_requests=ACCOUNT_FAILURES, window_seconds=15 * 60.0,
                                name="account_failures")
+
+
+# The operator's keys (X-Cron-Key, X-Ops-Key) are compared in constant time but were unthrottled:
+# a guesser had unlimited tries (security review 2026-10, ASVS V4.1.1). Cloud Scheduler calls a few
+# times an hour.
+operator_key_limiter = RateLimiter(max_requests=30, window_seconds=60.0, name="operator_key")
+
+
+def limit_operator_key(request: Request) -> None:
+    """A route dependency for the routes behind an operator key."""
+    operator_key_limiter.check(f"ip:{get_client_ip(request)}")
 
 
 def get_client_ip(request: Request) -> str:
