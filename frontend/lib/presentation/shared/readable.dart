@@ -3,6 +3,8 @@
 /// "(classes 10)" and "1 papers".
 library;
 
+import '../workspace/strings.dart';
+
 const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 String _two(int n) => n.toString().padLeft(2, '0');
@@ -35,8 +37,9 @@ String readableTime(String iso) {
   return d == null ? iso : '${_two(d.hour)}:${_two(d.minute)}';
 }
 
-/// "1 paper", "2 papers"; [many] when the plural is not [one] + "s".
-String plural(int n, String one, [String? many]) => '$n ${n == 1 ? one : (many ?? '${one}s')}';
+/// "1 paper", "2 papers"; [many] when the plural is not [one] + "s". The noun
+/// goes through [tr]: Hindi counts read "3 पीरियड" (R-B5).
+String plural(int n, String one, [String? many]) => '$n ${tr(n == 1 ? one : (many ?? '${one}s'))}';
 
 /// "class 10", "classes 9 and 10", "classes 6, 7 and 8".
 String classesLabel(List<Object?> grades) {

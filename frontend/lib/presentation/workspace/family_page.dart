@@ -41,8 +41,8 @@ class _FamilyPageState extends State<FamilyPage> {
         final kids = snap.data!;
         if (kids.isEmpty) {
           return Scaffold(appBar: destinationAppBar(context, title: Text(tr('My children'))),
-              body: const EmptyState(icon: Icons.family_restroom, title: 'No child linked yet',
-                  message: 'Ask the school to link your account to your child.'));
+              body: EmptyState(icon: Icons.family_restroom, title: tr('No child linked yet'),
+                  message: tr('Ask the school to link your account to your child.')));
         }
         return DefaultTabController(
           length: kids.length,
@@ -77,7 +77,9 @@ class _ChildView extends StatelessWidget {
       child: Column(children: [
         ListTile(
           title: Text(child['name'] as String, style: Theme.of(context).textTheme.titleMedium),
-          subtitle: Text(child['sectionName'] != null ? 'Class ${child['sectionName']}' : 'Not placed in a class yet'),
+          subtitle: Text(child['sectionName'] != null
+              ? trf('Class {name}', {'name': child['sectionName']})
+              : tr('Not placed in a class yet')),
           trailing: _ConsentChip(studentId: id, status: child['consent'] as String, onChanged: onChanged),
         ),
         // EX-8: this term's report card.
@@ -122,21 +124,21 @@ class _ConsentChip extends StatelessWidget {
     return ActionChip(
       avatar: Icon(granted ? Icons.verified_user : Icons.gpp_maybe, size: 18,
           color: granted ? AppColors.success : Theme.of(context).colorScheme.error),
-      label: Text(granted ? 'Consent given' : 'Consent needed'),
+      label: Text(granted ? tr('Consent given') : tr('Consent needed')),
       onPressed: () async {
         // Each button pops the dialog's own route (its builder's context).
         // The chip's context is under the shell's navigator, so popping with
         // it closed the page behind the dialog and left the dialog open, and
         // no consent call was ever made (QA S-01).
         final ok = await showDialog<bool>(context: context, builder: (dialog) => AlertDialog(
-          title: Text(granted ? 'Withdraw consent?' : 'Give consent'),
+          title: Text(granted ? tr('Withdraw consent?') : tr('Give consent')),
           content: Text(granted
-              ? 'The school will not be able to mark or process your child\'s work in the app until you give consent again.'
-              : 'You agree that the school may process your child\'s homework, tests and practice in this app to teach '
-                'and assess them (Digital Personal Data Protection Act, 2023). You can withdraw at any time.'),
+              ? tr('The school will not be able to mark or process your child\'s work in the app until you give consent again.')
+              : tr('You agree that the school may process your child\'s homework, tests and practice in this app to teach '
+                'and assess them (Digital Personal Data Protection Act, 2023). You can withdraw at any time.')),
           actions: [
             TextButton(onPressed: () => Navigator.pop(dialog, false), child: Text(tr('Cancel'))),
-            FilledButton(onPressed: () => Navigator.pop(dialog, true), child: Text(granted ? 'Withdraw' : 'I agree')),
+            FilledButton(onPressed: () => Navigator.pop(dialog, true), child: Text(granted ? tr('Withdraw') : tr('I agree'))),
           ],
         ));
         if (ok != true) return;
@@ -168,8 +170,8 @@ class _Week extends StatelessWidget {
         if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final entries = (snap.data!['entries'] as List).cast<Map>();
         if (entries.isEmpty) {
-          return const EmptyState(icon: Icons.calendar_view_week, title: 'No timetable yet',
-              message: 'The school has not published a timetable for this class.');
+          return EmptyState(icon: Icons.calendar_view_week, title: tr('No timetable yet'),
+              message: tr('The school has not published a timetable for this class.'));
         }
         final byDay = <int, List<Map>>{};
         for (final e in entries) {
@@ -178,7 +180,7 @@ class _Week extends StatelessWidget {
         final names = Map<String, dynamic>.from(snap.data!['subjectNames'] as Map? ?? {});
         return ListView(padding: const EdgeInsets.all(16), children: [
           for (final day in byDay.keys.toList()..sort()) ...[
-            Text(_weekdays[day], style: Theme.of(context).textTheme.titleSmall),
+            Text(tr(_weekdays[day]), style: Theme.of(context).textTheme.titleSmall),
             Wrap(spacing: 6, runSpacing: 6, children: [
               for (final e in byDay[day]!..sort((a, b) => (a['period'] as int).compareTo(b['period'] as int)))
                 Chip(label: Text('P${e['period']} ${names[e['subjectId']] ?? ''}')),
@@ -205,8 +207,8 @@ class _Today extends StatelessWidget {
         final rows = (snap.data!['rows'] as List).cast<Map>();
         final names = Map<String, dynamic>.from(snap.data!['subjectNames'] as Map? ?? {});
         if (rows.isEmpty) {
-          return const EmptyState(icon: Icons.weekend_outlined, title: 'No classes today',
-              message: 'A holiday, a weekly off, or no timetable yet.');
+          return EmptyState(icon: Icons.weekend_outlined, title: tr('No classes today'),
+              message: tr('A holiday, a weekly off, or no timetable yet.'));
         }
         const kinds = {
           'regular': 'As usual', 'substitute': 'Substitute teacher', 'supervised': 'Supervised period',
@@ -218,7 +220,7 @@ class _Today extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(child: Text('${r['period']}')),
               title: Text(names[r['subjectId']]?.toString() ?? ''),
-              trailing: ChipTag(label: kinds[r['kind']] ?? r['kind']),
+              trailing: ChipTag(label: tr(kinds[r['kind']] ?? r['kind'] as String)),
               subtitle: r['note'] != null ? Text(r['note']) : null,
             ),
         ]);
@@ -252,8 +254,8 @@ class _Calendar extends StatelessWidget {
         if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final items = snap.data!;
         if (items.isEmpty) {
-          return const EmptyState(icon: Icons.event_available_outlined, title: 'Nothing coming up',
-              message: 'Holidays, exams and homework due in the next six weeks appear here.');
+          return EmptyState(icon: Icons.event_available_outlined, title: tr('Nothing coming up'),
+              message: tr('Holidays, exams and homework due in the next six weeks appear here.'));
         }
         final muted = Theme.of(context).colorScheme.onSurfaceVariant;
         return ListView(padding: const EdgeInsets.all(16), children: [
@@ -264,7 +266,7 @@ class _Calendar extends StatelessWidget {
               title: Text('${i['title']}'),
               subtitle: Text([
                 i['endDate'] != null && i['endDate'] != i['date']
-                    ? '${shortDate('${i['date']}')} to ${shortDate('${i['endDate']}')}'
+                    ? trf('{start} to {end}', {'start': shortDate('${i['date']}'), 'end': shortDate('${i['endDate']}')})
                     : friendlyDate('${i['date']}'),
                 if (i['startTime'] != null) '${i['startTime']}${i['endTime'] != null ? '-${i['endTime']}' : ''}',
               ].join(' · ')),
@@ -291,13 +293,13 @@ class _Homework extends StatelessWidget {
         if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
         final items = snap.data!;
         if (items.isEmpty) {
-          return const EmptyState(icon: Icons.assignment_turned_in_outlined, title: 'No homework',
-              message: 'Homework the teachers set will appear here.');
+          return EmptyState(icon: Icons.assignment_turned_in_outlined, title: tr('No homework'),
+              message: tr('Homework the teachers set will appear here.'));
         }
         return ListView(padding: const EdgeInsets.all(16), children: [
           if (young)
             Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(
-                'In classes 1-5 you do the homework with $name: open one to answer it together.',
+                trf('In classes 1-5 you do the homework with {name}: open one to answer it together.', {'name': name}),
                 style: Theme.of(context).textTheme.bodyMedium)),
           for (final h in items)
             HomeworkStatusTile(item: h, onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(

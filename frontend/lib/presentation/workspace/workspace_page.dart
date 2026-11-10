@@ -179,7 +179,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           IconButton(tooltip: tr('Switch profile'), icon: const Icon(Icons.switch_account_outlined),
               onPressed: () => showProfileSwitcher(context)),
         if (CurrentSession.role != 'parent')
-          IconButton(tooltip: 'Copy my calendar link', icon: const Icon(Icons.event_available),
+          IconButton(tooltip: tr('Copy my calendar link'), icon: const Icon(Icons.event_available),
               onPressed: () => copyCalendarLink(context)),
       ]),
       // Keyed by school, so the dashboard reloads after an owner's switch.

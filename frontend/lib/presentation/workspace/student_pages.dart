@@ -39,8 +39,8 @@ class _MyHomeworkPageState extends State<MyHomeworkPage> {
           }
           final items = snap.data!;
           if (items.isEmpty) {
-            return const EmptyState(icon: Icons.assignment_turned_in_outlined, title: 'No homework',
-                message: 'When your teacher sets homework it appears here.');
+            return EmptyState(icon: Icons.assignment_turned_in_outlined, title: tr('No homework'),
+                message: tr('When your teacher sets homework it appears here.'));
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
             for (final h in items) HomeworkStatusTile(item: h,
@@ -78,7 +78,8 @@ class HomeworkStatusTile extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(item['title'] ?? '', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
-            Text('${item['subjectName']} · due ${readableDate(item['dueDate'] as String)}', style: theme.textTheme.bodySmall),
+            Text(trf('{subject} · due {date}', {'subject': item['subjectName'], 'date': readableDate(item['dueDate'] as String)}),
+                style: theme.textTheme.bodySmall),
           ]),
         ),
         ChipTag(label: label, color: color),
@@ -135,7 +136,8 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
     try {
       final hw = await Ops.send('POST', '$_base/${widget.homeworkId}/submit',
           body: {'answers': {for (final e in _answers.entries) e.key: e.value.text.trim()}},
-          label: 'Answers for ${_hw?['title'] ?? 'homework'}${widget.childName == null ? '' : ' (${widget.childName})'}');
+          label: trf('Answers for {title}', {'title': _hw?['title'] ?? tr('homework')})
+              + (widget.childName == null ? '' : ' (${widget.childName})'));
       setState(() => _hw = Map<String, dynamic>.from(hw as Map));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
@@ -168,9 +170,11 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
       body: ListView(padding: const EdgeInsets.all(16), children: [
         if (widget.childId != null && widget.young)
           Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(
-              'Do this together: read each question to ${widget.childName ?? 'your child'}, let them answer, and hand it in.',
+              trf('Do this together: read each question to {name}, let them answer, and hand it in.',
+                  {'name': widget.childName ?? tr('your child')}),
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary))),
-        Text('${hw['subjectName']} · due ${readableDate(hw['dueDate'] as String)} · ${hw['totalMarks']} marks', style: theme.textTheme.bodyMedium),
+        Text(trf('{subject} · due {date} · {marks} marks', {'subject': hw['subjectName'],
+            'date': readableDate(hw['dueDate'] as String), 'marks': hw['totalMarks']}), style: theme.textTheme.bodyMedium),
         if ((hw['instructions'] as String? ?? '').isNotEmpty)
           Padding(padding: const EdgeInsets.only(top: 8), child: Text(hw['instructions'])),
         if (graded)
@@ -178,8 +182,9 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
             margin: const EdgeInsets.symmetric(vertical: 12),
             color: AppColors.success.withValues(alpha: 0.08),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Marks: ${_fmt(hw['marks'])} / ${hw['totalMarks']}', style: theme.textTheme.titleMedium),
-              if (hw['feedback'] != null) Padding(padding: const EdgeInsets.only(top: 6), child: Text('Teacher: ${hw['feedback']}')),
+              Text(trf('Marks: {marks} / {total}', {'marks': _fmt(hw['marks']), 'total': hw['totalMarks']}),
+                  style: theme.textTheme.titleMedium),
+              if (hw['feedback'] != null) Padding(padding: const EdgeInsets.only(top: 6), child: Text(trf('Teacher: {feedback}', {'feedback': hw['feedback']}))),
             ]),
           ),
         const SizedBox(height: 8),
@@ -187,7 +192,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
           AppCard(
             margin: const EdgeInsets.only(bottom: 12),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Q${i + 1}. (${q['marks']} mark${q['marks'] == 1 ? '' : 's'})',
+              Text(trf(q['marks'] == 1 ? 'Q{n}. ({marks} mark)' : 'Q{n}. ({marks} marks)', {'n': i + 1, 'marks': q['marks']}),
                   style: theme.textTheme.labelLarge),
               const SizedBox(height: 6),
               Text(q['stem'] ?? ''),
@@ -202,7 +207,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
                   enabled: open,
                   minLines: q['type'] == 'long_answer' ? 5 : 2,
                   maxLines: 12,
-                  decoration: const InputDecoration(hintText: 'Your answer'),
+                  decoration: InputDecoration(hintText: tr('Your answer')),
                 ),
               if (evals[q['id']] != null) _EvalLine(e: Map<String, dynamic>.from(evals[q['id']]!)),
             ]),
@@ -216,7 +221,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
             label: Text(hw['myStatus'] == 'submitted' ? 'Send again' : 'Submit'),
           ),
         if (hw['status'] == 'closed' && !graded)
-          const Text('This homework is closed.'),
+          Text(tr('This homework is closed.')),
       ]),
     ));
   }
@@ -257,7 +262,7 @@ class _EvalLine extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('${_fmt(e['awardedMarks'])} / ${e['maxMarks']}', style: theme.textTheme.titleSmall),
         if ((e['modelAnswer'] ?? '').toString().isNotEmpty)
-          Text('Model answer: ${e['modelAnswer']}', style: theme.textTheme.bodySmall),
+          Text(trf('Model answer: {answer}', {'answer': e['modelAnswer']}), style: theme.textTheme.bodySmall),
       ]),
     );
   }
@@ -321,8 +326,8 @@ class _LearningViewState extends State<LearningView> {
         final d = snap.data!;
         final subjects = (d['subjects'] as List).cast<Map>();
         if (subjects.isEmpty) {
-          return const EmptyState(icon: Icons.insights_outlined, title: 'No marked work yet',
-              message: 'Progress appears here once homework, tests or practice are marked.');
+          return EmptyState(icon: Icons.insights_outlined, title: tr('No marked work yet'),
+              message: tr('Progress appears here once homework, tests or practice are marked.'));
         }
         final revise = (d['reviseNext'] as List).cast<Map>();
         final weeks = (d['weekly'] as List).cast<Map>();
@@ -363,8 +368,8 @@ class _LearningViewState extends State<LearningView> {
           ),
           const SizedBox(height: 16),
           for (final s in subjects) ...[
-            SectionHeader(title: '${s['subject']} · class ${s['grade']}',
-                subtitle: _statusLabel[s['status']] ?? s['status']),
+            SectionHeader(title: trf('{subject} · class {grade}', {'subject': s['subject'], 'grade': s['grade']}),
+                subtitle: tr(_statusLabel[s['status']] ?? s['status'] as String)),
             for (final c in (s['chapters'] as List).cast<Map>())
               ExpansionTile(
                 title: Text(c['chapterName']),
@@ -383,7 +388,8 @@ class _LearningViewState extends State<LearningView> {
                     ListTile(
                       dense: true,
                       title: Text(t['topicName']),
-                      subtitle: Text('${_statusLabel[t['status']]} · ${t['evidenceCount']} answers'),
+                      subtitle: Text(trf('{status} · {n} answers',
+                          {'status': tr(_statusLabel[t['status']] ?? t['status'] as String), 'n': t['evidenceCount']})),
                       trailing: SizedBox(width: 100, child: LinearProgressIndicator(
                           value: (t['mastery'] as num?)?.toDouble() ?? 0, color: _color(t['status'] as String, theme))),
                     ),
@@ -411,12 +417,12 @@ class MyExamsPage extends StatelessWidget {
           if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!));
           final exams = (snap.data!['exams'] as List).cast<Map>();
           if (exams.isEmpty) {
-            return const EmptyState(icon: Icons.event_available_outlined, title: 'No exams published',
-                message: 'Datesheets and duties appear here once the school publishes them.');
+            return EmptyState(icon: Icons.event_available_outlined, title: tr('No exams published'),
+                message: tr('Datesheets and duties appear here once the school publishes them.'));
           }
           return ListView(padding: const EdgeInsets.all(16), children: [
             for (final e in exams) ...[
-              SectionHeader(title: e['name'], subtitle: '${e['startDate']} to ${e['endDate']}'),
+              SectionHeader(title: e['name'], subtitle: trf('{start} to {end}', {'start': e['startDate'], 'end': e['endDate']})),
               for (final p in (e['papers'] as List).cast<Map>().where((_) => (e['duties'] as List).isEmpty))
                 ListTile(leading: const Icon(Icons.description_outlined), title: Text(p['subjectName']),
                     subtitle: Text('${p['date']} · ${p['startTime']}-${p['endTime']}'),
