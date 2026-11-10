@@ -130,3 +130,85 @@ def test_a_rejection_never_changes_the_cached_bank():
         assert [q.id for q in bank.questions] == ["a", "b", "c"], "the cached bank is unchanged"
     finally:
         qr.withheld_for = original
+
+
+# ------------------------------------------------- QB-5: new written questions wait for review (R-C3)
+
+def _pending(qid, topic="Reflection", **kw):
+    r = _checked(qid, topic, **kw)
+    r["reviewState"] = "in_review"
+    return r
+
+
+def test_a_new_written_question_is_not_drawn_until_the_school_approves_it(w, monkeypatch):
+    """R-C3's acceptance: a new AI item cannot be served unapproved, and an
+    approved one is served -- over HTTP, as the web draws homework, and for the
+    approving school only."""
+    from academicos.assessment import qbank_routes
+    from academicos.assessment.qbank_engine import QuestionBank
+    from academicos.operations.question_reviews import usable, withheld_for
+    monkeypatch.setattr(qbank_routes, "_bank", QuestionBank(
+        [_checked("q1", "Reflection"), _pending("q2"), _pending("q3")]))
+
+    def drawn():
+        r = w.c.post("/api/v1/homework", json={
+            "subjectId": w.sci10, "sectionIds": [w.a10], "title": "Light", "dueDate": "2026-06-03",
+            "chapterIds": ["light"], "count": 3}, headers=w.ana)
+        assert r.status_code == 200, r.text
+        return {q["id"] for q in r.json()["questions"]}
+
+    assert drawn() == {"q1"}
+    picked = w.c.post("/api/v1/homework", json={
+        "subjectId": w.sci10, "sectionIds": [w.a10], "title": "Light", "dueDate": "2026-06-03",
+        "questionIds": ["q2"]}, headers=w.ana)
+    assert picked.status_code == 422 and "not yet approved" in picked.text and "q2" in picked.text
+
+    # The queue offers both to the reviewer; approving one serves it in this school.
+    queue = w.c.get("/api/v1/qbank/review-queue", params={"grade": 10}, headers=w.p).json()
+    assert {"q2", "q3"} <= {i["id"] for i in queue["items"]}
+    assert w.c.post("/api/v1/qbank/review/q2", json={"decision": "approved"}, headers=w.p).status_code == 200
+    assert drawn() == {"q1", "q2"}
+
+    # Another school, and a draw with no school at all, still wait.
+    assert withheld_for("school_2") == {"q2", "q3"}
+    assert withheld_for(None) == {"q2", "q3"}
+    q2 = SimpleNamespace(id="q2")
+    assert usable([q2], "school_1") == [q2] and usable([q2], "school_2") == []
+
+
+def test_a_rejection_lookup_that_fails_still_withholds_what_waits_for_review(w, monkeypatch):
+    """The rejection lookup fails open (a paper is never stopped by it); the
+    review gate fails closed."""
+    from academicos.assessment import qbank_routes
+    from academicos.assessment.qbank_engine import QuestionBank
+    from academicos.operations import question_reviews as qr
+    from academicos.operations import routes as ops_routes
+    monkeypatch.setattr(qbank_routes, "_bank", QuestionBank([_checked("old1", "Reflection"), _pending("new1")]))
+
+    def broken():
+        raise RuntimeError("store unavailable")
+    monkeypatch.setattr(ops_routes, "store", broken)
+    assert qr.withheld_for("school_1") == {"new1"}
+    assert qr.rejected_for("school_1") == frozenset()
+
+
+def test_the_question_bank_api_serves_no_question_waiting_for_review(monkeypatch):
+    """`/v1` and the MCP share `_matches`: by default a question waiting for
+    review is in no page, no count and no facet; `review_state=in_review` is
+    the audit path. By id it is a 404."""
+    from fastapi import HTTPException
+    from academicos.assessment import qbank_routes
+    from academicos.assessment.qbank_engine import QuestionBank
+    bank = QuestionBank([_checked("old1", "Reflection"), _pending("new1")])
+    items, _, total = bank.page(grade=10)
+    assert [r["id"] for r in items] == ["old1"] and total == 1
+    assert [r["id"] for r in bank.page(grade=10, review_state="in_review")[0]] == ["new1"]
+
+    monkeypatch.setattr(qbank_routes, "_bank", bank)
+    monkeypatch.setattr(qbank_routes, "_refuse_record_outside", lambda key, rec: None)
+    monkeypatch.setattr(qbank_routes, "_rate_headers", lambda key: {})
+    assert qbank_routes.get_question("old1", key=None).status_code == 200
+    for route in (qbank_routes.get_question, qbank_routes.get_scheme):
+        with pytest.raises(HTTPException) as e:
+            route("new1", key=None)
+        assert e.value.status_code == 404

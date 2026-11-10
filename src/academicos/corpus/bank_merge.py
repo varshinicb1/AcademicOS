@@ -2085,6 +2085,44 @@ def ai_not_grounded(rec: dict) -> bool:
                 and isinstance(quotes, list) and any(isinstance(q, str) and q.strip() for q in quotes))
 
 
+# ---------------------------------------------------------------- review state (QB-5, R-C3)
+# A question a model or a teacher wrote is served only once a school's reviewer
+# approves it (operations/question_reviews.py). The records served before this
+# rule existed stay served, by the owner's decision (developer handover, R-C3),
+# and are listed by id in SERVED_BEFORE_REVIEW_NAME next to the served bank.
+# Every other such record leaves this gate as `reviewState: "in_review"`; the
+# draw for a school (`question_reviews.withheld_for`), the /v1 API's default
+# filter (`qbank_engine._matches`) and the offline bundle leave it out.
+REVIEW_REQUIRED_SOURCES = frozenset({"ai_generated", "teacher_created"})
+IN_REVIEW = "in_review"
+SERVED_BEFORE_REVIEW_NAME = "served_before_review.json"
+
+
+def needs_review(rec: dict) -> bool:
+    """True for a record whose question a model or a teacher wrote."""
+    return rec.get("source") in REVIEW_REQUIRED_SOURCES
+
+
+def load_served_before_review(path: Path) -> frozenset[str]:
+    """The ids served before the review gate. A missing file raises: read as
+    "none", it would take every model-written question out of every school."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return frozenset(str(i) for i in payload["ids"])
+
+
+def mark_review_state(records: list[dict], served_before_review: frozenset[str]) -> tuple[list[dict], int]:
+    """`records` with every model- or teacher-written record not served before the
+    gate set to `in_review`, and how many that is. Records are copied, not changed."""
+    out: list[dict] = []
+    marked = 0
+    for rec in records:
+        if needs_review(rec) and str(rec.get("id")) not in served_before_review:
+            rec = {**rec, "reviewState": IN_REVIEW}
+            marked += 1
+        out.append(rec)
+    return out, marked
+
+
 def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             held: list[dict] = (), exemplar: list[dict] = (), transcribed: list[dict] = (),
             textbook: list[dict] = (), ai: list[dict] = ()) -> ComposeResult:
