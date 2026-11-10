@@ -121,12 +121,12 @@ def test_a_rejection_never_changes_the_cached_bank():
             self.id = i
     qs = tuple(Q(i) for i in ("a", "b", "c"))
     bank = Bank(qs, {q.id: q for q in qs}, frozenset({"a", "b"}))
-    original = qr.rejected_for
+    original = qr.withheld_for
     try:
-        qr.rejected_for = lambda school: frozenset({"b"}) if school == "school_1" else frozenset()
+        qr.withheld_for = lambda school: frozenset({"b"}) if school == "school_1" else frozenset()
         mine = qr.bank_usable(bank, "school_1")
         assert [q.id for q in mine.questions] == ["a", "c"] and "b" not in mine.by_id and mine.keyed == {"a"}
         assert qr.bank_usable(bank, "school_2") is bank
         assert [q.id for q in bank.questions] == ["a", "b", "c"], "the cached bank is unchanged"
     finally:
-        qr.rejected_for = original
+        qr.withheld_for = original
