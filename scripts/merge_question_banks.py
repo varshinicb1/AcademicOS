@@ -101,10 +101,17 @@ class Paths:
     # Questions a model wrote from a chapter, collected by collect_ai_910.py; served only
     # where grounded (bank_merge.ai_not_grounded). No file serves none.
     ai: Path | None = None
+    # The model- and teacher-written ids served before the review gate (QB-5).
+    # Next to `served` unless named.
+    before_review: Path | None = None
 
     @property
     def withheld(self) -> Path:
         return self.held or self.excluded.with_name(bank_merge.WITHHELD_NAME)
+
+    @property
+    def served_before_review(self) -> Path:
+        return self.before_review or self.served.with_name(bank_merge.SERVED_BEFORE_REVIEW_NAME)
 
 
 DEFAULT = Paths(
@@ -251,6 +258,17 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
     questions, chapter_ids = bank_merge.resolve_chapter_ids(
         result.questions, _chapters_by_grade(names), _taxonomy_names(paths.taxonomy))
     questions = bank_merge.apply_chapter_names(questions, names)
+    # QB-5: a model- or teacher-written question new to the bank waits for a
+    # school's reviewer. Without the list of those served before the gate, every
+    # one of them would leave every school, so the merge refuses instead.
+    written = any(bank_merge.needs_review(q) for q in questions)
+    if written and not paths.served_before_review.exists():
+        print(f"refusing: {paths.served_before_review} is missing, so every model-written "
+              f"question would go to review -- restore it from git")
+        return 2
+    questions, in_review = bank_merge.mark_review_state(
+        questions, bank_merge.load_served_before_review(paths.served_before_review)
+        if written else frozenset())
     covered = sum(1 for q in questions if _has_official_scheme(q))
 
     # Deterministic, so re-running on unchanged sources gives identical bytes:
@@ -276,6 +294,8 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
         print(f"  {n:5,}  {str(source):20s} {reason}")
     print("by grade:", dict(sorted(collections.Counter(q.get("grade") for q in questions).items())))
     print(f"official scheme coverage: {covered:,}/{len(questions):,}")
+    print(f"model- or teacher-written, waiting for a school's review (not in the offline bundle): "
+          f"{in_review:,}")
     # A raw CBE content code is never offered as a chapter: it is resolved to
     # the syllabus chapter the record names, or dropped (Task 121).
     print(f"chapter ids resolved to a syllabus chapter: {chapter_ids['resolved']:,}; "
@@ -313,8 +333,13 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
     # The withheld records first: a board record leaving the served file is
     # kept somewhere before that file is replaced.
     bank_merge.write_withheld(paths.withheld, bank_merge.hold(held, result.withheld))
-    body = json.dumps(payload, ensure_ascii=False)
-    for target in (paths.served, paths.apk):
+    # The offline app has no reviewer and no school to approve for, so a question
+    # waiting for review stays out of its bundle (QB-5).
+    offline = [q for q in questions if q.get("reviewState") != bank_merge.IN_REVIEW]
+    offline_payload = payload if len(offline) == len(questions) else {
+        **payload, "questions": offline, "exportedCount": len(offline)}
+    for target, data in ((paths.served, payload), (paths.apk, offline_payload)):
+        body = json.dumps(data, ensure_ascii=False)
         target.parent.mkdir(parents=True, exist_ok=True)
         tmp = target.with_suffix(target.suffix + ".tmp")
         tmp.write_text(body, encoding="utf-8")

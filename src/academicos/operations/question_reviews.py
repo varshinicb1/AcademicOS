@@ -68,6 +68,44 @@ def rejected_for(school_id: Optional[str]) -> frozenset[str]:
         return frozenset()
 
 
+_in_review_cache: Optional[tuple[object, frozenset[str]]] = None
+
+
+def in_review_ids() -> frozenset[str]:
+    """The served bank's questions waiting for review (`reviewState` "in_review":
+    model- or teacher-written, new since the QB-5 gate, `corpus/bank_merge`).
+    Computed once per loaded bank."""
+    global _in_review_cache
+    from ..assessment import qbank_routes
+    bank = qbank_routes._bank
+    if bank is None:
+        return frozenset()
+    if _in_review_cache is None or _in_review_cache[0] is not bank:
+        _in_review_cache = (bank, frozenset(str(r.get("id")) for r in bank.records
+                                            if r.get("reviewState") == "in_review"))
+    return _in_review_cache[1]
+
+
+def withheld_for(school_id: Optional[str]) -> frozenset[str]:
+    """What `school_id` may not draw: the questions its reviewer rejected, and
+    every question waiting for review that its reviewer has not approved (QB-5).
+    With no school, or no decisions to read, a question waiting for review is
+    still withheld: the gate fails closed, a rejection lookup open."""
+    pending = in_review_ids()
+    if not school_id:
+        return pending
+    try:
+        from .routes import _cfg, store
+        if _cfg is None:
+            return pending
+        decided = store().review_decisions(school_id)
+    except Exception:  # noqa: BLE001 - a review lookup must never stop a paper being made
+        return pending
+    rejected = {q for q, r in decided.items() if r["decision"] == "rejected"}
+    approved = {q for q, r in decided.items() if r["decision"] == "approved"}
+    return frozenset(rejected | (pending - approved))
+
+
 def usable(items, school_id: Optional[str]) -> list:
     """`items` (anything with an `.id`) less the questions `school_id`'s
     reviewer rejected, in order. Every place that draws questions for a school
@@ -77,18 +115,18 @@ def usable(items, school_id: Optional[str]) -> list:
     set in a sync dependency never reached the endpoint, and a cache filtered
     for one school would have served every school)."""
     items = list(items)
-    rejected = rejected_for(school_id)
-    return [q for q in items if q.id not in rejected] if rejected else items
+    withheld = withheld_for(school_id)
+    return [q for q in items if q.id not in withheld] if withheld else items
 
 
 def bank_usable(bank, school_id: Optional[str]):
-    """A `paper_edit.Bank` less the school's rejected questions: the cached
+    """A `paper_edit.Bank` less what the school may not draw (`withheld_for`): the cached
     bank itself is never changed."""
-    rejected = rejected_for(school_id)
-    if not rejected:
+    withheld = withheld_for(school_id)
+    if not withheld:
         return bank
-    qs = tuple(q for q in bank.questions if q.id not in rejected)
-    return type(bank)(qs, {q.id: q for q in qs}, frozenset(bank.keyed - rejected))
+    qs = tuple(q for q in bank.questions if q.id not in withheld)
+    return type(bank)(qs, {q.id: q for q in qs}, frozenset(bank.keyed - withheld))
 
 
 def _bank():
@@ -278,7 +316,7 @@ def review_queue(grade: Optional[int] = Query(None, ge=1, le=12), subject: Optio
     decided = store().review_decisions(reviewer.school_id)
     rows = []
     for rec in bank.records:
-        if key_tier(rec) != "checked":
+        if key_tier(rec) != "checked" and rec.get("reviewState") != "in_review":
             continue
         if grade is not None and int(rec.get("grade") or 0) != grade:
             continue
