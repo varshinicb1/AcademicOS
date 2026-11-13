@@ -14,11 +14,10 @@ from academicos.assessment.users import UserStore
 from academicos.operations import retention
 from academicos.operations.store import get_operations_store
 
-NOW = datetime.now(timezone.utc)
-
-
 def _ago(**kw) -> str:
-    return (NOW - timedelta(**kw)).isoformat()
+    # The real clock at the call, not at import: the suite runs for minutes,
+    # and an import-time "5 minutes from now" was in the past by this test.
+    return (datetime.now(timezone.utc) - timedelta(**kw)).isoformat()
 
 
 @pytest.fixture
@@ -103,7 +102,7 @@ def test_another_schools_rows_are_untouched(s, monkeypatch):
 def test_a_clock_ahead_of_the_real_one_does_not_purge_early(s):
     s.users.conn.execute("UPDATE sessions SET expires_at=? WHERE user_id='school_a-young'", (_ago(days=-2),))
     s.users.conn.commit()
-    retention.enforce(s.ops, None, s.users, s.audit, now=NOW + timedelta(days=30))
+    retention.enforce(s.ops, None, s.users, s.audit, now=datetime.now(timezone.utc) + timedelta(days=30))
     assert _sessions(s, "school_a-young") == 1
 
 
