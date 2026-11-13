@@ -607,13 +607,19 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     room_of = {(e.section_id, e.day_of_week, e.period, e.subject_id): e.room_id for e in current
                if e.room_id not in managed_rooms}
     lab_of = {(aid, d, p): rid for (aid, d, p, rid), v in y.items() if solver.Value(v)}
+    homeless: list[ProposedEntry] = []
     for (aid, d, p), v in x.items():
         if solver.Value(v):
             a = alloc_by_id[aid]
-            room = lab_of.get((aid, d, p)) if a.room_kind else room_of.get((a.section_id, d, p, a.subject_id))
-            entries.append(ProposedEntry(section_id=a.section_id, day_of_week=d, period=p,
-                                         subject_id=a.subject_id, teacher_id=a.teacher_id,
-                                         room_id=room, co_teacher_id=a.co_teacher_id))
+            key = (a.section_id, d, p, a.subject_id)
+            room = lab_of.get((aid, d, p)) if a.room_kind else room_of.get(key)
+            entry = ProposedEntry(section_id=a.section_id, day_of_week=d, period=p,
+                                  subject_id=a.subject_id, teacher_id=a.teacher_id,
+                                  room_id=room, co_teacher_id=a.co_teacher_id)
+            entries.append(entry)
+            if not a.room_kind and key not in placed:
+                homeless.append(entry)
+    _seat_in_classrooms(homeless, entries, current, rooms, managed_rooms, grids)
     group_out = [GroupSession(group_id=gid, day_of_week=d, period=p) for (gid, d, p), v in gx.items()
                  if solver.Value(v)]
     before = {(e.section_id, e.day_of_week, e.period, e.subject_id) for e in current
@@ -626,6 +632,46 @@ def solve(store, academic_year_id: str, options: Optional[SolveOptions] = None) 
     return SolveResult(status="solved", entries=entries, kept=len(before & after),
                        moved_or_added=len(after - before), removed=len(before - after), seconds=seconds,
                        group_sessions=group_out, group_ids=set(solving_groups))
+
+
+def _home_classrooms(current, rooms, managed_rooms) -> dict[str, str]:
+    """Each section's classroom, read from its own week (TA-1, SA-1): the
+    room of kind "classroom" that most of its ordinary periods are in, ties
+    to the room id. A section none of whose periods names a classroom has
+    none -- nothing is guessed from names."""
+    classrooms = {r.id for r in rooms if r.kind == "classroom" and r.id not in managed_rooms}
+    counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for e in current:
+        if e.room_id in classrooms:
+            counts[e.section_id][e.room_id] += 1
+    return {sid: min(c, key=lambda rid: (-c[rid], rid)) for sid, c in counts.items()}
+
+
+def _seat_in_classrooms(homeless, entries, current, rooms, managed_rooms, grids) -> None:
+    """A period the solver moved or added, of a subject that needs no kind
+    of room, had no room: the teacher's and the student's day then said
+    nowhere to go (handover §9; TA-1, SA-1). It goes to its section's
+    classroom when that room is free at that clock time; otherwise it stays
+    without a room, as before. In a fixed order, so the week stays
+    deterministic; a slot that had a period with no room keeps none."""
+    home = _home_classrooms(current, rooms, managed_rooms)
+    if not home:
+        return
+    busy: dict[tuple[str, int], list[tuple[int, int]]] = defaultdict(list)
+    for e in entries:
+        span = grids.get(e.section_id, (None, {}))[1].get(e.period)
+        if e.room_id and span:
+            busy[(e.room_id, e.day_of_week)].append(span)
+    for e in sorted(homeless, key=lambda e: (e.section_id, e.day_of_week, e.period, e.subject_id)):
+        rid = home.get(e.section_id)
+        span = grids[e.section_id][1].get(e.period)
+        if rid is None or span is None:
+            continue
+        start, end = span
+        if any(s < end and start < t for s, t in busy[(rid, e.day_of_week)]):
+            continue
+        e.room_id = rid
+        busy[(rid, e.day_of_week)].append(span)
 
 
 def _search(solver, model, stall_seconds: float) -> int:
