@@ -292,6 +292,7 @@ _cors_origins = getattr(_cfg, "cors_origins", ["*"])
 if "*" in _cors_origins:
     app.add_middleware(
         CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"],
+        expose_headers=["X-Request-ID"],
     )
 else:
     app.add_middleware(
@@ -304,7 +305,16 @@ else:
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        # R-A4: the web client may read the request id to quote it in an error report.
+        expose_headers=["X-Request-ID"],
     )
+
+# R-A4, NFR-7: a request id on every request and response, the signed-in
+# school on every log line, and one access line per request. Added after CORS
+# so it is the outermost middleware: its duration covers every layer.
+from .request_logging import RequestContextMiddleware  # noqa: E402
+
+app.add_middleware(RequestContextMiddleware)
 app.include_router(assessment_routes.router)
 app.include_router(pillar_routes.router)
 app.include_router(mobile_routes.router)

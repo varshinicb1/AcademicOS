@@ -36,10 +36,9 @@ log = logging.getLogger("academicos")
 
 
 def _setup_logging(verbose: bool) -> None:
-    logging.basicConfig(
-        level=logging.DEBUG if verbose else logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
+    # R-A4: JSON lines on Cloud Run (or ACOS_LOG_FORMAT=json), plain text locally.
+    from .api.request_logging import configure_logging
+    configure_logging(logging.DEBUG if verbose else logging.INFO)
 
 
 def _dt(value) -> "object":
@@ -1146,7 +1145,11 @@ def cmd_serve(args: argparse.Namespace) -> int:
     from .config import enforce_production_config
 
     enforce_production_config(Config.load())
-    uvicorn.run("academicos.api.main:app", host=args.host, port=args.port, reload=False)
+    # R-A4: uvicorn's own logging config would replace ours, and its access
+    # line carries the raw path and query string. The app logs its own access
+    # line (api/request_logging.py), with the route template instead.
+    uvicorn.run("academicos.api.main:app", host=args.host, port=args.port, reload=False,
+                log_config=None, access_log=False)
     return 0
 
 
