@@ -3,9 +3,12 @@ remember to send.
 
 Each job has a window on the school's clock (IST) and a period (a day or a
 week). A run does every job whose window has opened and whose period has not
-been done, and records it, so running every five minutes -- or on every
-inbox poll -- sends each thing once. Notifications carry dedupe keys too, so
-even two overlapping runs cannot double a message.
+been done, so running every five minutes -- or on every inbox poll -- sends
+each thing once. Before a job runs, its run claims (job, period) with one
+atomic insert, and only the run whose insert went in does the job, so two
+instances at once cannot both run it (#143). A job that fails gives its claim
+back for the next run to retry. Notifications carry dedupe keys too, so a
+retry does not repeat what the failed run already sent.
 
 - homework_due_tomorrow (from 16:00): students who have not submitted
   homework due tomorrow.
@@ -68,19 +71,66 @@ CREATE TABLE IF NOT EXISTS automation_school_runs (
 class AutomationsMixin:
     """Added to OperationsStore."""
 
+    # A claim is a row with notified = RUNNING until its job finishes. Two instances (or the
+    # scheduler's route and a traffic-driven run) both found a job "not done" and both ran it, so
+    # every notice went twice (#143, finding 1). Now each run claims (job, period) atomically before
+    # the job runs, and only the one whose insert went in runs it.
+    RUNNING = -1
+    # A claim older than this whose job never finished (its instance was stopped mid-run) may be
+    # taken over, so a killed instance costs one late run rather than the day's notices.
+    STALE_CLAIM_MINUTES = 30
+
     def automation_done(self, job: str, period_key: str) -> bool:
         return self._fetchone("SELECT 1 AS x FROM automation_runs WHERE job=? AND period_key=?",
                               (job, period_key)) is not None
 
+    def claim_automation(self, job: str, period_key: str, now: Optional[datetime] = None) -> Optional[str]:
+        """Claim (job, period_key) for this run: the claim's stamp when this caller got it, None when
+        another run already has it (finished, or running and not stale). One statement decides, on
+        SQLite and Postgres alike (INSERT ... ON CONFLICT DO NOTHING, then a conditional UPDATE for a
+        stale claim), and it is committed before the job starts, so another instance sees it."""
+        now = now or datetime.now(timezone.utc)
+        stamp = now.astimezone(timezone.utc).isoformat(timespec="microseconds")
+        stale = (now - timedelta(minutes=self.STALE_CLAIM_MINUTES)).astimezone(timezone.utc).isoformat(
+            timespec="microseconds")
+        with self._conn_lock:
+            cur = self.conn.execute("INSERT INTO automation_runs (job, period_key, ran_at, notified) VALUES (?,?,?,?)"
+                                    " ON CONFLICT (job, period_key) DO NOTHING",
+                                    (job, period_key, stamp, self.RUNNING))
+            got = cur.rowcount == 1
+            if not got:
+                cur = self.conn.execute("UPDATE automation_runs SET ran_at=? WHERE job=? AND period_key=? "
+                                        "AND notified=? AND ran_at<?",
+                                        (stamp, job, period_key, self.RUNNING, stale))
+                got = cur.rowcount == 1
+                if got:
+                    log.warning("automation %s %s: taking over a claim older than %d minutes",
+                                job, period_key, self.STALE_CLAIM_MINUTES)
+            self._commit()
+        return stamp if got else None
+
+    def release_automation(self, job: str, period_key: str, stamp: str) -> None:
+        """The job failed after claiming: give the claim back, so the next run (five minutes on)
+        retries. Only this run's own claim is deleted, never a finished run or another's claim; the
+        notices the failed run already made are not repeated, because each carries a dedupe key."""
+        with self._conn_lock:
+            self.conn.execute("DELETE FROM automation_runs WHERE job=? AND period_key=? AND ran_at=? AND notified=?",
+                              (job, period_key, stamp, self.RUNNING))
+            self._commit()
+
     def record_automation(self, job: str, period_key: str, notified: int,
                           per_school: Optional[dict[str, int]] = None) -> None:
+        """Mark (job, period_key) done with what it sent: finishes this run's claim, or records a run
+        that was never claimed."""
+        ran_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
         with self._conn_lock:
-            self.conn.execute("INSERT OR REPLACE INTO automation_runs (job, period_key, ran_at, notified)"
-                              " VALUES (?,?,?,?)",
-                              (job, period_key, datetime.now(timezone.utc).isoformat(timespec="seconds"), notified))
+            self.conn.execute("INSERT INTO automation_runs (job, period_key, ran_at, notified) VALUES (?,?,?,?)"
+                              " ON CONFLICT (job, period_key) DO UPDATE SET ran_at=excluded.ran_at,"
+                              " notified=excluded.notified", (job, period_key, ran_at, notified))
             for school_id, n in (per_school or {}).items():
-                self.conn.execute("INSERT OR REPLACE INTO automation_school_runs (job, period_key, school_id,"
-                                  " notified) VALUES (?,?,?,?)", (job, period_key, school_id, n))
+                self.conn.execute("INSERT INTO automation_school_runs (job, period_key, school_id, notified)"
+                                  " VALUES (?,?,?,?) ON CONFLICT (job, period_key, school_id)"
+                                  " DO UPDATE SET notified=excluded.notified", (job, period_key, school_id, n))
             self._commit()
 
     def automation_history(self, school_id: str, limit: int = 50) -> list[dict]:
@@ -566,14 +616,17 @@ def _run_due(ops, cs, users, notify, now: Optional[datetime]) -> dict[str, Any]:
             continue
         key = (local.date().isoformat() if period == "day"
                else f"{local.isocalendar().year}-W{local.isocalendar().week:02d}" if period == "week" else None)
-        if key is not None and ops.automation_done(job, key):
-            out[job] = "done"
+        claim = ops.claim_automation(job, key) if key is not None else None
+        if key is not None and claim is None:
+            out[job] = "done"       # or running on another instance: it is that run's to do
             continue
         made.clear()
         try:
             n = fn(ops, cs, users, counted, now)
         except Exception as e:  # noqa: BLE001
             log.warning("automation %s failed", job, exc_info=True)
+            if claim is not None:
+                ops.release_automation(job, key, claim)
             out[job] = f"failed: {e}"
             continue
         if key is not None:
