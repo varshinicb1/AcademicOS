@@ -177,3 +177,33 @@ def test_an_unhandled_error_still_gets_one_access_line(access):
     [line] = access
     assert line["severity"] == "ERROR" and line["httpRequest"]["status"] == 500
     assert line["route"] == "/boom/{sid}" and line["request_id"] == "req-abcdef12"
+
+
+def test_configure_logging_survives_a_closed_stderr_and_keeps_other_handlers(monkeypatch, capsys):
+    """The CLI configures logging; a later write must go to the stderr of that
+    moment, not to one a test runner has since closed, and a handler someone
+    else installed stays."""
+    import io
+
+    root = logging.getLogger()
+    before = list(root.handlers)
+    old_level = root.level
+    other = logging.NullHandler()
+    root.addHandler(other)
+    try:
+        first = io.StringIO()
+        monkeypatch.setattr(sys, "stderr", first)
+        rl.configure_logging()
+        rl.configure_logging()
+        first.close()
+        second = io.StringIO()
+        monkeypatch.setattr(sys, "stderr", second)
+        logging.getLogger("academicos.t").warning("still writable")
+        assert "still writable" in second.getvalue()
+        assert other in root.handlers
+        assert sum(isinstance(h, rl._StderrHandler) for h in root.handlers) == 1
+    finally:
+        for h in list(root.handlers):
+            if h not in before:
+                root.removeHandler(h)
+        root.setLevel(old_level)

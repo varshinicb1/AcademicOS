@@ -190,13 +190,32 @@ def use_json() -> bool:
     return bool(os.environ.get("K_SERVICE"))
 
 
+class _StderrHandler(logging.StreamHandler):
+    """Writes to whatever `sys.stderr` is at the time of the write, so a
+    stream swapped out and closed later (a test runner's capture) is never
+    written to."""
+
+    def __init__(self) -> None:
+        super().__init__(sys.stderr)
+
+    @property  # type: ignore[override]
+    def stream(self):  # noqa: ANN201
+        return sys.stderr
+
+    @stream.setter
+    def stream(self, _value) -> None:  # noqa: ANN001
+        pass
+
+
 def configure_logging(level: int = logging.INFO) -> None:
-    """Replace the root handler with one that writes the chosen format to
-    stderr. Called from `cli` before any command runs."""
-    handler = logging.StreamHandler(sys.stderr)
+    """Install one root handler writing the chosen format to stderr. Called
+    from `cli` before any command runs; calling it again replaces only the
+    handler it installed, never another (a test runner's, say)."""
+    handler = _StderrHandler()
     handler.setFormatter(JsonFormatter() if use_json() else TextFormatter())
     root = logging.getLogger()
     for old in list(root.handlers):
-        root.removeHandler(old)
+        if isinstance(old, _StderrHandler):
+            root.removeHandler(old)
     root.addHandler(handler)
     root.setLevel(level)
