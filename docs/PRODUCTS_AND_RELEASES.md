@@ -108,7 +108,8 @@ Supabase, else local SQLite**. So:
 
 ```bash
 # Mobile sub-product (offline, no backend)
-cd frontend && flutter build apk --release --dart-define=ACADEMICOS_OFFLINE=true
+cd frontend && flutter build apk --release --flavor offline --dart-define=ACADEMICOS_OFFLINE=true
+# Teacher and student apps, signing and Play upload: docs/apps.md
 
 # Web sub-product against the GCP release (same-origin: served BY Cloud Run)
 flutter build web --release --dart-define=ACADEMICOS_API=/api/v1

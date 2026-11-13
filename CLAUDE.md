@@ -41,8 +41,8 @@ pytest tests/test_homework.py::test_name                     # one test
 
 App builds:
 - `flutter build web` is the console.
-- `--dart-define=ACADEMICOS_APP=teacher|student` gives the phone apps.
-- `--dart-define=ACADEMICOS_OFFLINE=true` gives the offline Android app (`docs/apps.md`).
+- `--flavor teacher|student --dart-define=ACADEMICOS_APP=teacher|student` gives the phone apps (flavor and define must match).
+- `--flavor offline --dart-define=ACADEMICOS_OFFLINE=true` gives the offline Android app (`docs/apps.md`).
 
 Runtime config:
 - `config/config.toml`, overridable by `ACOS_*` environment variables (`ACOS_DATA_ROOT`,
