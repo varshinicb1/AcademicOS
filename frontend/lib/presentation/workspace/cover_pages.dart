@@ -124,8 +124,8 @@ class _CoverPageState extends State<CoverPage> {
       final opened = (out['substitutions'] as List).length;
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(opened == 0
-            ? 'Attendance saved'
-            : 'Attendance saved. $opened periods need cover; substitutes have been proposed.')));
+            ? tr('Attendance saved')
+            : trf('Attendance saved. {n} periods need cover; substitutes have been proposed.', {'n': opened}))));
       }
       await _load();
     } catch (e) {

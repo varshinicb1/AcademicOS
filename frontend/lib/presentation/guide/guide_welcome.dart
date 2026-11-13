@@ -7,6 +7,7 @@ import '../shared/device_memory.dart';
 import '../shared/user_progress.dart';
 import '../shared/widgets/shell.dart';
 import '../workspace/app_mode.dart';
+import '../workspace/strings.dart';
 import 'guide_content.dart';
 import 'guide_page.dart';
 
@@ -97,27 +98,27 @@ class WelcomeDialog extends StatelessWidget {
     return AlertDialog(
       key: const ValueKey('guide-welcome'),
       icon: const Icon(Icons.waving_hand_outlined),
-      title: const Text('Welcome to AcademicOS'),
+      title: Text(tr('Welcome to AcademicOS')),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 420),
         child: Text(
-          'A short guide shows, step by step, the jobs a ${guideRoleName(role)} does most, '
-          'with a button that takes you to each page.\n\n'
+          '${trf('A short guide shows, step by step, the jobs a {role} does most, '
+              'with a button that takes you to each page.', {'role': tr(guideRoleName(role))})}\n\n'
           // The phone apps have tabs, not the menu.
-          '${appMode == AppMode.console ? 'You can open it any time: Guide in the menu, or the question mark '
-              'at the top of a page.' : 'You can open it any time from the question mark at the top of a page.'}',
+          '${tr(appMode == AppMode.console ? 'You can open it any time: Guide in the menu, or the question mark '
+              'at the top of a page.' : 'You can open it any time from the question mark at the top of a page.')}',
         ),
       ),
       actions: [
         TextButton(
           key: const ValueKey('guide-welcome-later'),
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Not now'),
+          child: Text(tr('Not now')),
         ),
         FilledButton(
           key: const ValueKey('guide-welcome-go'),
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Show me around'),
+          child: Text(tr('Show me around')),
         ),
       ],
     );

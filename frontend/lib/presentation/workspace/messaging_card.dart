@@ -105,7 +105,8 @@ class _MessagingCardState extends State<MessagingCard> {
       if (off.isNotEmpty) ...[
         const Gap(4),
         Text(key: const ValueKey('messaging-off'),
-            '${tr('The school has not switched on')} ${off.join(' / ')} ${tr('yet; your choice is kept for when it does.')}',
+            trf('The school has not switched on {channels} yet; your choice is kept for when it does.',
+                {'channels': off.join(' / ')}),
             style: muted),
       ],
       const Gap(8),

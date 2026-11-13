@@ -298,7 +298,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                       initialValue: selectedSubject,
                       decoration: InputDecoration(labelText: tr('Subject')),
                       items: _quickPaperSubjectsForGrade(selectedGrade)
-                          .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                          .map((s) => DropdownMenuItem(value: s, child: Text(tr(s))))
                           .toList(),
                       onChanged: (v) => setDialogState(() => selectedSubject = v!),
                     ),

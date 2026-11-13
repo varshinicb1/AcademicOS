@@ -235,7 +235,7 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
                   OutlinedButton.icon(
                     onPressed: _sections.isEmpty || _busy ? null : _suggest,
                     icon: const Icon(Icons.auto_awesome),
-                    label: const Text("Suggest from the lesson"),
+                    label: Text(tr('Suggest from the lesson')),
                   ),
                   if (_suggestion != null) ...[
                     const SizedBox(height: 8),

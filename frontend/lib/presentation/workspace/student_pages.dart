@@ -66,9 +66,10 @@ class HomeworkStatusTile extends StatelessWidget {
     final status = item['myStatus'] as String;
     final overdue = item['overdue'] == true;
     final (label, color) = switch (status) {
-      'graded' => ('Marked: ${_fmt(item['marks'])}/${item['totalMarks']}', AppColors.success),
-      'submitted' => ('Submitted, waiting for marks', theme.colorScheme.primary),
-      _ => (overdue ? 'Overdue' : 'Not submitted', overdue ? theme.colorScheme.error : theme.colorScheme.outline),
+      'graded' => (trf('Marked: {marks}/{total}', {'marks': _fmt(item['marks']), 'total': item['totalMarks']}),
+          AppColors.success),
+      'submitted' => (tr('Submitted, waiting for marks'), theme.colorScheme.primary),
+      _ => (tr(overdue ? 'Overdue' : 'Not submitted'), overdue ? theme.colorScheme.error : theme.colorScheme.outline),
     };
     return AppCard(
       onTap: onTap,
@@ -141,7 +142,9 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
       setState(() => _hw = Map<String, dynamic>.from(hw as Map));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
-            _hw!['myStatus'] == 'graded' ? 'Marked: ${_fmt(_hw!['marks'])}/${_hw!['totalMarks']}' : 'Sent to your teacher')));
+            _hw!['myStatus'] == 'graded'
+                ? trf('Marked: {marks}/{total}', {'marks': _fmt(_hw!['marks']), 'total': _hw!['totalMarks']})
+                : tr('Sent to your teacher'))));
       }
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -218,7 +221,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage> {
           FilledButton.icon(
             onPressed: _sending ? null : _submit,
             icon: const Icon(Icons.send),
-            label: Text(hw['myStatus'] == 'submitted' ? 'Send again' : 'Submit'),
+            label: Text(tr(hw['myStatus'] == 'submitted' ? 'Send again' : 'Submit')),
           ),
         if (hw['status'] == 'closed' && !graded)
           Text(tr('This homework is closed.')),
@@ -355,8 +358,12 @@ class _LearningViewState extends State<LearningView> {
                 Expanded(
                   child: Tooltip(
                     message: w['average'] == null
-                        ? 'Week of ${w['weekStart']}: no marked work'
-                        : 'Week of ${w['weekStart']}: ${((w['average'] as num) * 100).round()}% over ${w['answered']} answers',
+                        ? trf('Week of {date}: no marked work', {'date': readableDate(w['weekStart'] as String)})
+                        : trf('Week of {date}: {pct}% over {n} answers', {
+                            'date': readableDate(w['weekStart'] as String),
+                            'pct': ((w['average'] as num) * 100).round(),
+                            'n': w['answered'],
+                          }),
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       height: w['average'] == null ? 4 : 8 + 72 * (w['average'] as num).toDouble(),
@@ -374,8 +381,9 @@ class _LearningViewState extends State<LearningView> {
               ExpansionTile(
                 title: Text(c['chapterName']),
                 subtitle: Text(c['evidenceCount'] == 0
-                    ? 'Not started'
-                    : '${_statusLabel[c['status']]} · ${c['evidenceCount']} answers'),
+                    ? tr('Not started')
+                    : trf('{status} · {n} answers',
+                        {'status': tr(_statusLabel[c['status']] ?? c['status'] as String), 'n': c['evidenceCount']})),
                 trailing: SizedBox(
                   width: 120,
                   child: LinearProgressIndicator(

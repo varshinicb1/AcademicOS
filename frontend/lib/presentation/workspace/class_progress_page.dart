@@ -80,17 +80,17 @@ class _ClassProgressPageState extends State<ClassProgressPage> {
         if (_section != null && d == null && _error == null) const SizedBox(height: 120, child: LoadingIndicator()),
         if (d != null) ...[
           const SizedBox(height: 12),
-          Text('${d['sectionName']} · ${d['students']} students', style: theme.textTheme.titleMedium),
+          Text(trf('{section} · {n} students', {'section': d['sectionName'], 'n': d['students']}), style: theme.textTheme.titleMedium),
           if ((d['chapters'] as List).isEmpty)
-            const Padding(padding: EdgeInsets.only(top: 12),
-                child: Text('No marked homework, tests or practice yet for this class.')),
+            Padding(padding: const EdgeInsets.only(top: 12),
+                child: Text(tr('No marked homework, tests or practice yet for this class.'))),
           if ((d['needingHelp'] as List).isNotEmpty) ...[
-            SectionHeader(title: tr('Students who need help'), subtitle: 'Visible to you and the principal only'),
+            SectionHeader(title: tr('Students who need help'), subtitle: tr('Visible to you and the principal only')),
             for (final s in (d['needingHelp'] as List).cast<Map>())
               ListTile(dense: true, title: Text(s['name']),
-                  subtitle: Text('Needs work: ${(s['needsWork'] as List).join(', ')}')),
+                  subtitle: Text(trf('Needs work: {chapters}', {'chapters': (s['needsWork'] as List).join(', ')}))),
           ],
-          SectionHeader(title: tr('By chapter'), subtitle: 'Weakest first'),
+          SectionHeader(title: tr('By chapter'), subtitle: tr('Weakest first')),
           for (final c in (d['chapters'] as List).cast<Map>())
             ExpansionTile(
               title: Text('${c['subject']} · ${c['name']}'),
@@ -109,6 +109,8 @@ class _ClassProgressPageState extends State<ClassProgressPage> {
   }
 
   String _counts(Map<String, dynamic> c, int total) =>
-      '$total students · ${c['mastered']} mastered · ${c['developing']} getting there · '
-      '${c['needs_work']} need work · ${c['early']} too early';
+      trf('{n} students · {mastered} mastered · {developing} getting there · {needsWork} need work · {early} too early', {
+        'n': total, 'mastered': c['mastered'], 'developing': c['developing'], 'needsWork': c['needs_work'],
+        'early': c['early'],
+      });
 }

@@ -185,8 +185,8 @@ class _WeekHeader extends StatelessWidget {
     final dates = weekDates(DateTime.now());
     final first = dates.first, last = dates[5];
     final range = first.month == last.month
-        ? '${first.day} – ${last.day} ${_months[last.month - 1]}'
-        : '${first.day} ${_months[first.month - 1]} – ${last.day} ${_months[last.month - 1]}';
+        ? '${first.day} – ${last.day} ${tr(_months[last.month - 1])}'
+        : '${first.day} ${tr(_months[first.month - 1])} – ${last.day} ${tr(_months[last.month - 1])}';
     return Padding(
       padding: const EdgeInsets.fromLTRB(2, 16, 0, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -212,7 +212,7 @@ String calendarWhen(Map item, DateTime today) {
   final d = DateTime.parse(item['date'] as String);
   final day = DateTime(today.year, today.month, today.day);
   final gap = DateTime(d.year, d.month, d.day).difference(day).inDays;
-  String label(DateTime x) => '${tr(_dayNames[x.weekday - 1])} ${x.day} ${_months[x.month - 1]}';
+  String label(DateTime x) => '${tr(_dayNames[x.weekday - 1])} ${x.day} ${tr(_months[x.month - 1])}';
   final when = gap == 0 ? tr('Today') : gap == 1 ? tr('Tomorrow') : label(d);
   final end = item['endDate'] as String?;
   if (end != null && end != item['date']) return '$when – ${label(DateTime.parse(end))}';
