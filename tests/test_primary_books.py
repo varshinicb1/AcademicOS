@@ -127,11 +127,17 @@ def test_a_class_3_school_gets_a_dated_plan_for_every_evs_chapter(tmp_path, monk
     from test_assessment_routes_auth import _boot_client, _register
     from test_web_school_setup import BASE, PRINCIPAL_KEY, _session
 
+    from datetime import date
+
+    from academicos.curriculum import routes as curriculum_routes
+
+    # A fixed school day: the periods left in the year shrink as the real
+    # date moves on, so an unfrozen clock fails this test from mid-November.
+    monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 10, 1))
     with _boot_client(tmp_path, monkeypatch) as client:
         principal = _register(client, "school_1", "head@school1.test", "Head", principal_key=PRINCIPAL_KEY)
         auth = {"Authorization": f"Bearer {principal['token']}"}
-        from academicos.curriculum.routes import _school_today
-        label, start, end = _session(_school_today())
+        label, start, end = _session(curriculum_routes._school_today())
         seeded = client.post(f"{BASE}/seed/cbse", headers=auth, json={
             "grade": 3, "academicYearLabel": label, "startDate": start, "endDate": end}).json()
         evs = next(t for t in seeded["topicTemplates"] if t["subject"] == "EVS")
