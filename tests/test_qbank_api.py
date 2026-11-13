@@ -22,6 +22,7 @@ from academicos.assessment.api_keys import (
     hash_key,
     validate_scopes,
 )
+from store_backend import sqlite_only
 
 
 @pytest.fixture
@@ -720,6 +721,7 @@ def test_a_key_stores_its_classes_and_subjects(tmp_path):
     b.close()
 
 
+@sqlite_only
 def test_a_store_from_before_the_limits_opens_and_reads_unlimited(tmp_path):
     """The live store is restored from a snapshot made before the columns
     existed; `CREATE TABLE IF NOT EXISTS` would leave it without them."""

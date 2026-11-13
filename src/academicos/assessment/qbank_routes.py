@@ -683,7 +683,8 @@ def get_scheme(
     """
     assert _bank is not None
     rec = _bank.get(question_id)
-    if rec is None:
+    # QB-5: a question waiting for review is not served, by id either.
+    if rec is None or rec.get("reviewState") == "in_review":
         raise HTTPException(404, detail=f"no question {question_id!r}")
     _refuse_record_outside(key, rec)
 
@@ -713,7 +714,8 @@ def get_question(
     """One question, with full provenance and scheme."""
     assert _bank is not None
     rec = _bank.get(question_id)
-    if rec is None:
+    # QB-5: a question waiting for review is not served, by id either.
+    if rec is None or rec.get("reviewState") == "in_review":
         raise HTTPException(404, detail=f"no question {question_id!r}")
     _refuse_record_outside(key, rec)
     return JSONResponse(rec, headers=_rate_headers(key))

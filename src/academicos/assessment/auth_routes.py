@@ -21,16 +21,18 @@ import secrets
 from typing import Optional
 from urllib.parse import quote
 
+import requests
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import ConfigDict
+from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..api.rate_limit import account_failures, rate_limit_login, rate_limit_register
+from ..api.rate_limit import RateLimiter, account_failures, rate_limit_login, rate_limit_register
 from ..config import Config
 from .schemas import Camel
+from .supabase_kv import SupabaseUnavailable
 from .users import (
-    OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
+    CLOSED_PREFIX, OWNER_ROLE, AccountClosed, EmailAlreadyRegistered, InvalidCredentials, Invite, InviteAlreadyUsed,
     InviteNotFound, RegistrationRefused, User, UserStore, get_user_store, is_closed,
 )
 
@@ -55,9 +57,11 @@ def _require() -> UserStore:
 
 
 class RegisterRequest(Camel):
-    name: str
-    email: str
-    password: str
+    # Bounded (security review 2026-10): a name is shown on every page and export, and ASVS
+    # V2.1.2 caps passwords at 128 characters.
+    name: str = Field(max_length=120)
+    email: str = Field(max_length=254)
+    password: str = Field(max_length=128)
     # The normal way in: a single-use code a principal issued. The account's
     # school and role are the invite's.
     invite_code: Optional[str] = None
@@ -212,7 +216,14 @@ def login(req: LoginRequest) -> AuthResponse:
 def logout(authorization: str = Header(default="")) -> dict:
     token = _bearer_token(authorization)
     if token:
-        _require().delete_session(token)
+        try:
+            _require().delete_session(token, strict=True)
+        except (SupabaseUnavailable, requests.exceptions.RequestException):
+            # The session is still valid on the durable store: say so, so the app can try again
+            # rather than report a sign-out that did not happen.
+            logging.getLogger(__name__).warning("logout could not end the session on the durable store",
+                                                exc_info=True)
+            raise HTTPException(503, "could not sign you out on the server; try again")
     return {"ok": True}
 
 
@@ -344,6 +355,20 @@ def require_owner(
         raise HTTPException(403, OWNER_DETAIL)
     request.scope["acos_actor"] = user.id
     return user
+
+
+# Security review 2026-10 (ASVS V11.1.3, V11.1.4): the routes that cost money or minutes (the model
+# routes, OCR of a scanned page, paper generation, AI marking) share one allowance per person. Well
+# above a teacher's real pace (a class set of answer booklets is about 50 pages in 10 minutes), and
+# far below what a loop on one account at the instance's concurrency could send.
+COSTLY_PER_10_MINUTES = 200
+_costly = RateLimiter(max_requests=COSTLY_PER_10_MINUTES, window_seconds=600.0, name="costly")
+
+
+def limit_costly(current: User = Depends(get_current_user)) -> None:
+    """A route dependency: counts one costly call against the signed-in person (shared across
+    instances, api/rate_limit.py)."""
+    _costly.check(f"user:{current.id}")
 
 
 def require_principal(current: User = Depends(get_current_user)) -> User:
@@ -516,8 +541,20 @@ def close_account(user_id: str, admin: User = Depends(require_admin("users"))) -
 @router.post("/users/{user_id}/reopen", response_model=UserResponse)
 def reopen_account(user_id: str, admin: User = Depends(require_admin("users"))) -> UserResponse:
     """Undo a close: the account gets back the role it had. Grants are not
-    restored; the principal gives them again if they are still wanted."""
+    restored; the principal gives them again if they are still wanted.
+
+    Reopening gives access back, so it is narrower than closing (security review 2026-10):
+    - a former principal's account is the operator's to reopen, as closing it is: reopened here,
+      someone who left would be a principal again;
+    - a staff account is the principal's to reopen. A delegated admin may close a colleague's
+      (an earlier audit's decision: it takes access away) but not undo the principal's closing of one.
+    """
     user = _school_account(user_id, admin)
+    role = user.role[len(CLOSED_PREFIX):] if is_closed(user.role) else user.role
+    if role in ("principal", OWNER_ROLE):
+        raise HTTPException(403, "the principal's account is changed by the operator, not in the app")
+    if admin.role != "principal" and role not in ("student", "parent"):
+        raise HTTPException(403, "only the principal reopens a staff member's account")
     before = user.role
     reopened = _require().reopen_account(user.id)
     if before != reopened.role:

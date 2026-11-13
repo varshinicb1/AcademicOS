@@ -238,8 +238,8 @@ const _hi = <String, String>{
   'Leave approved by the school\'s rule. Cover for your periods is being arranged.':
       'विद्यालय के नियम से अवकाश स्वीकृत। आपके पीरियड की व्यवस्था की जा रही है।',
   'of': 'में से',
-  'About ten minutes, and your school will be ready to make question papers for the classes you teach, from 6 to 10.':
-      'लगभग दस मिनट में आपका विद्यालय, कक्षा 6 से 10 में जो कक्षाएँ आप पढ़ाते हैं, उनके प्रश्न पत्र बनाने के लिए तैयार होगा।',
+  'About ten minutes, and your school will be ready to make question papers for the classes you teach, from 1 to 10.':
+      'लगभग दस मिनट में आपका विद्यालय, कक्षा 1 से 10 में जो कक्षाएँ आप पढ़ाते हैं, उनके प्रश्न पत्र बनाने के लिए तैयार होगा।',
   'Plans that cannot finish': 'योजनाएँ जो पूरी नहीं हो सकतीं',
   'Cannot finish this year': 'इस वर्ष पूरा नहीं हो सकता',
   'Subtopics with no day in this year\'s plan: the timetable gives too few periods':

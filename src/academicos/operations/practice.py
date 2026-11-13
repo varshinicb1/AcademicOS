@@ -96,7 +96,7 @@ class PracticeMixin:
 
     def practice_for(self, student_id: str, limit: int = 20) -> list[dict]:
         return [self._practice(r) for r in self._fetchall(
-            "SELECT * FROM practice_sets WHERE student_id=? ORDER BY created_at DESC LIMIT ?", (student_id, limit))]
+            "SELECT * FROM practice_sets WHERE student_id=? ORDER BY created_at DESC, rowid DESC LIMIT ?", (student_id, limit))]
 
     def finish_practice(self, practice_id: str, *, answers: dict[str, str], evaluations: list[dict],
                         marks: float) -> dict:

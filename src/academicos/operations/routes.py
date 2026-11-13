@@ -7,6 +7,8 @@ import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query
+
+from ..api.rate_limit import limit_operator_key
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
@@ -205,7 +207,7 @@ def _maybe_run_automations() -> None:
         webhooks.service().kick()
 
 
-@router.post("/automations/run")
+@router.post("/automations/run", dependencies=[Depends(limit_operator_key)])
 def automations_run(x_cron_key: Optional[str] = Header(default=None, alias="X-Cron-Key")) -> dict:
     """For Cloud Scheduler: run every automation that is due. Needs the
     operator's key (env ACOS_CRON_KEY); 404 when none is configured, so the

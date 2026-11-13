@@ -41,12 +41,13 @@ def bank_subject(name: str) -> str:
 
 
 def _usable(questions: list[dict], current) -> list[dict]:
-    """Bank questions less those the caller's school rejected in its review
-    queue (operations/question_reviews.py). Applied here, at the draw, because
+    """Bank questions less those the caller's school may not draw: rejected in
+    its review queue, or waiting for its reviewer's approval
+    (operations/question_reviews.py). Applied here, at the draw, because
     `_bank_questions` serves every school and tests replace it."""
-    from .question_reviews import rejected_for
-    rejected = rejected_for(current.school_id)
-    return [q for q in questions if q["id"] not in rejected] if rejected else questions
+    from .question_reviews import withheld_for
+    withheld = withheld_for(current.school_id)
+    return [q for q in questions if q["id"] not in withheld] if withheld else questions
 
 
 def _bank_questions(subject: str, grade: int, chapter_ids: Optional[list[str]] = None) -> list[dict]:
@@ -459,7 +460,7 @@ def create_homework(req: HomeworkCreateRequest, current: User = Depends(require_
         bank = {q["id"]: q for q in _usable(list(whole.values()), current)}
         refused = [qid for qid in req.question_ids if qid in whole and qid not in bank]
         if refused:
-            raise HTTPException(422, "your school's reviewers rejected the answer to "
+            raise HTTPException(422, "your school's reviewers rejected, or have not yet approved, "
                                      + ", ".join(refused[:5]) + "; choose another question")
         missing = [qid for qid in req.question_ids if qid not in bank]
         if missing:

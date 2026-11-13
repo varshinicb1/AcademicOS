@@ -27,7 +27,7 @@ from .authz import (
     require_own_school, require_own_subtopics, require_school_owns_assessment, require_school_owns_paper,
     without_answer_key,
 )
-from .auth_routes import get_current_user, require_admin, require_principal, require_staff
+from .auth_routes import get_current_user, limit_costly, require_admin, require_principal, require_staff
 from .competency import CBSE_COMPETENCY_TARGET
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
@@ -435,7 +435,7 @@ def _overlap_warnings(paper: GeneratedPaper) -> list[str]:
             for label, n in paper.set_overlap.items() if n]
 
 
-@router.post("/papers/generate", response_model=GeneratedPaper)
+@router.post("/papers/generate", dependencies=[Depends(limit_costly)], response_model=GeneratedPaper)
 def generate_paper_endpoint(
     request: PaperGenerationRequest, current: User = Depends(require_staff),
 ) -> GeneratedPaper:
@@ -509,7 +509,7 @@ def generate_paper_endpoint(
     return paper
 
 
-@router.post("/papers/quick-generate", response_model=GeneratedPaper)
+@router.post("/papers/quick-generate", dependencies=[Depends(limit_costly)], response_model=GeneratedPaper)
 def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(require_staff)) -> GeneratedPaper:
     """Rapid generation of complete, sectioned papers (Examzo-style 1-click generation)."""
     # Monotonic, so a clock adjustment during generation cannot change a
@@ -682,7 +682,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     return paper
 
 
-@router.post("/papers/generate-from-ids", response_model=GeneratedPaper)
+@router.post("/papers/generate-from-ids", dependencies=[Depends(limit_costly)], response_model=GeneratedPaper)
 def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(require_staff)) -> GeneratedPaper:
     _started_ids = time.perf_counter()
     """Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation)."""
@@ -1176,6 +1176,10 @@ def update_assessment(
         assessment.metadata = {
             **{k: v for k, v in assessment.metadata.items() if k not in _SERVER_METADATA},
             **{k: v for k, v in existing.metadata.items() if k in _SERVER_METADATA}}
+        # Nor which paper it marks against: the server records that when it generates one.
+        # Taken from the client, it let a teacher point their assessment at another school's
+        # paper and read its questions back through a scan (security review 2026-10, F1).
+        assessment.generated_paper_id = existing.generated_paper_id
     elif assessment.school_id != current.school_id:
         # No pre-existing row to check ownership against (first PUT acting as
         # create) -- the body must still claim the caller's own school, same
@@ -1189,6 +1193,9 @@ def update_assessment(
         # A PUT that creates is the caller's paper, as POST makes it: a teacher
         # could otherwise plant one under a colleague's name.
         assessment.teacher_id = current.id
+        # The server records the paper when it generates one; a new assessment brings none. Checking
+        # the school was not enough: a colleague's unreleased paper is the same school's (F1).
+        assessment.generated_paper_id = None
     assessment.id = assessment_id
     assessment.school_id = current.school_id
     assessment.updated_at = _now()
@@ -1221,6 +1228,8 @@ def update_status(assessment_id: str, body: dict, current: User = Depends(requir
     a = require_school_owns_assessment(store, assessment_id, current)
     require_may_change_paper(a, current)
     new_status = body.get("status", a.status)
+    if not isinstance(new_status, str):
+        raise HTTPException(422, "status must be a string")
     _require_status_change(a.status, new_status)
     if new_status == a.status:
         return a

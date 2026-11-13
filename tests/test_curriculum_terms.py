@@ -15,6 +15,7 @@ These run through the real HTTP routes as authenticated users.
 """
 from __future__ import annotations
 
+from store_backend import sqlite_only
 import sqlite3
 from types import SimpleNamespace
 
@@ -265,6 +266,7 @@ def test_reads_need_a_token(world):
 # An existing school's database gains the table
 # --------------------------------------------------------------------- #
 
+@sqlite_only
 def test_an_existing_database_without_the_terms_table_gains_it_on_startup(tmp_path):
     """school_1's real curriculum.sqlite was created before terms existed.
     CurriculumStore runs executescript(SCHEMA) on every open, so the table

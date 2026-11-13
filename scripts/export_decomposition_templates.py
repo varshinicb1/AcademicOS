@@ -139,8 +139,13 @@ def from_curriculum(db_path: Path, school_id: str) -> dict[tuple[str, int], dict
     whose Class 10 Science carries a single placeholder topic per chapter; keyed
     by the same syllabus slugs it silently overwrote school_1's 39 topics / 117
     subtopics with 13/13 on the first run of this script."""
-    conn = sqlite3.connect(f"file:{db_path.as_posix()}?mode=ro", uri=True)
-    conn.row_factory = sqlite3.Row
+    from academicos.storage import pg_sqlite
+    if pg_sqlite.enabled():
+        # R-A1: the store's tables are in Postgres, in the schema its path names.
+        conn = pg_sqlite.connect("curriculum", db_path)
+    else:
+        conn = sqlite3.connect(f"file:{db_path.as_posix()}?mode=ro", uri=True)
+        conn.row_factory = sqlite3.Row
     try:
         rows = conn.execute(
             "SELECT g.number AS grade, s.name AS subject, ch.id AS chapter_id, "

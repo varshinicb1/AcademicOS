@@ -560,7 +560,7 @@ class _SetupWizardPageState extends State<SetupWizardPage> {
       };
 
   List<Widget> _welcome(ThemeData theme) => [
-        Text(tr('About ten minutes, and your school will be ready to make question papers for the classes you teach, from 6 to 10.'),
+        Text(tr('About ten minutes, and your school will be ready to make question papers for the classes you teach, from 1 to 10.'),
             style: theme.textTheme.bodyLarge),
         const Gap(12),
         for (final line in const [

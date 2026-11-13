@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -34,7 +35,7 @@ from ..assessment.llm_evaluate import LLMEvaluationError
 from ..assessment.qbank_store import ReviewStateError
 from ..llm.sarvam import LLMProviderError
 from ..assessment.postgres_kv import durable_table
-from ..assessment.auth_routes import get_current_user
+from ..assessment.auth_routes import get_current_user, limit_costly
 from ..assessment.authz import require_school_owns_student
 from ..assessment.users import User
 from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_config,
@@ -166,7 +167,14 @@ class _SecurityHeaders:
         (b"x-content-type-options", b"nosniff"),
         (b"x-frame-options", b"DENY"),
         (b"referrer-policy", b"strict-origin-when-cross-origin"),
+        # Security review 2026-10 (ASVS V8.2.1): API answers carry children's records, and a
+        # shared school browser kept them in its cache. A route that may be cached says so itself.
+        (b"cache-control", b"no-store"),
     ]
+    # ASVS V14.4.3: an API answer is never a page to run. Not on the developer docs, which are a
+    # page (and are off in production).
+    CSP = (b"content-security-policy", b"default-src 'none'; frame-ancestors 'none'")
+    DOCS = ("/docs", "/redoc")
 
     def __init__(self, app_: Any) -> None:
         self.app = app_
@@ -176,18 +184,51 @@ class _SecurityHeaders:
             await self.app(scope, receive, send)
             return
 
+        wanted = self.HEADERS
+        if not str(scope.get("path", "")).startswith(self.DOCS):
+            wanted = [*wanted, self.CSP]
+
         async def with_headers(message: Any) -> None:
             if message["type"] == "http.response.start":
                 present = {k.lower() for k, _ in message.get("headers", [])}
                 message.setdefault("headers", [])
                 message["headers"] = list(message["headers"]) + [
-                    (k, v) for k, v in self.HEADERS if k not in present]
+                    (k, v) for k, v in wanted if k not in present]
             await send(message)
 
         await self.app(scope, receive, with_headers)
 
 
 app.add_middleware(_SecurityHeaders)
+
+
+class _RefusalLog:
+    """Logs every 401 and 403 the API answers: the route, who was signed in (when anyone was) and
+    the client address. Refusals are raised in many places, handlers included, so they are
+    caught here, on the way out, rather than at each one (security review 2026-10, ASVS V7.2.1
+    and V7.2.2: credential stuffing or one school probing another's ids left no trace but a
+    request line)."""
+
+    def __init__(self, app_: Any) -> None:
+        self.app = app_
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def watch(message: Any) -> None:
+            if message["type"] == "http.response.start" and message.get("status") in (401, 403):
+                route = getattr(scope.get("route"), "path", None) or "(no route)"
+                client = (scope.get("client") or ("?",))[0]
+                logger.warning("access refused: %s %s -> %d actor=%s client=%s", scope.get("method"), route,
+                               message["status"], scope.get("acos_actor") or "-", client)
+            await send(message)
+
+        await self.app(scope, receive, watch)
+
+
+app.add_middleware(_RefusalLog)
 
 
 class _AdminActionAudit:
@@ -320,7 +361,22 @@ def _on_supabase_unavailable(_request: Any, exc: SupabaseUnavailable) -> JSONRes
     incident this closes."""
     logger.error("Supabase call failed: %s", exc, exc_info=exc)
     return JSONResponse(status_code=503,
-                        content={"detail": f"storage backend unavailable: {exc}"})
+                        content={"detail": f"storage backend unavailable: {_public(exc)}"})
+
+
+def _public(exc: SupabaseUnavailable) -> str:
+    """What a client may see of a storage failure: the operation, the table and the HTTP status.
+    The backend's own message is logged, not returned: a Postgres error carries SQL, column names
+    and the values of a violated key, such as an email (security review 2026-10, ASVS V7.4.1)."""
+    status = f" (HTTP {exc.status})" if getattr(exc, "status", None) is not None else ""
+    # The backend's error code (PostgREST's PGRST205, Postgres's SQLSTATE 42P01) says why for an
+    # operator, and is a code, not data.
+    code = getattr(getattr(exc, "cause", None) or exc.__cause__, "sqlstate", None)
+    if not code:
+        found = re.search(r'"code"\s*:\s*"([A-Za-z0-9]{3,12})"', getattr(exc, "body", "") or "")
+        code = found.group(1) if found else None
+    return (f"{getattr(exc, 'op', 'call')} on {getattr(exc, 'table', '?')!r} failed{status}"
+            + (f" [{code}]" if code else ""))
 
 
 # --- domain exceptions that used to surface as bare 500s -------------------
@@ -651,7 +707,8 @@ def _probe_table(table: str) -> tuple[str, str, Optional[bool]]:
         durable_table(table).select(limit=1)
         return table, "ok", True
     except SupabaseUnavailable as exc:
-        return table, f"error: {exc}", (False if _table_missing(exc) else None)
+        logger.warning("storage probe of %s failed: %s", table, exc)
+        return table, f"error: {_public(exc)}", (False if _table_missing(exc) else None)
 
 
 def _probe_all_tables() -> tuple[dict[str, str], dict[str, Optional[bool]]]:
@@ -713,6 +770,11 @@ def _blob_backend() -> str:
     return blob_backend()
 
 
+def _school_stores() -> dict:
+    from ..storage import pg_sqlite
+    return pg_sqlite.describe()
+
+
 def _refresh_storage_probe(cfg) -> dict:
     tables, exists = _probe_all_tables()
     reachable = all(status == "ok" for status in tables.values())
@@ -734,6 +796,8 @@ def _refresh_storage_probe(cfg) -> dict:
         "supabase_reachable": reachable if backend == "supabase" else None,
         "tables": tables,
         "durable_stores": _DURABLE_STORES,
+        # R-A1: CurriculumStore and OperationsStore, SQLite files with GCS snapshots or Postgres.
+        "school_stores": _school_stores(),
     }
     _probe_cache.update(at=time.monotonic(), body=body)
     return body
@@ -797,6 +861,7 @@ def _storage_probe() -> dict:
             "supabase_reachable": None,
             "tables": {},
             "durable_stores": _DURABLE_STORES,
+            "school_stores": _school_stores(),
         }
     cached = _probe_cache["body"]
     if cached is not None and time.monotonic() - _probe_cache["at"] < _STORAGE_PROBE_TTL_S:
@@ -841,7 +906,7 @@ def search(req: SearchRequest) -> dict:
     }
 
 
-@app.post("/v1/agent/doubt", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/doubt", dependencies=[Depends(limit_costly)])
 def agent_doubt(req: DoubtRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -856,7 +921,7 @@ def agent_doubt(req: DoubtRequest) -> dict:
         return DoubtSolver(_retriever, _graph, critic=_critic).solve(req.doubt)
 
 
-@app.post("/v1/agent/score", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/score", dependencies=[Depends(limit_costly)])
 def agent_score(req: ScoreRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -864,7 +929,7 @@ def agent_score(req: ScoreRequest) -> dict:
         return ExaminerScorer(_retriever, _graph).score(req.question, req.student_answer, req.marks_available)
 
 
-@app.post("/v1/agent/analyze", dependencies=[Depends(get_current_user)])
+@app.post("/v1/agent/analyze", dependencies=[Depends(limit_costly)])
 def agent_analyze(req: AnalyzeRequest) -> dict:
     if not _retriever:
         raise HTTPException(503, "runtime not initialized")
@@ -955,7 +1020,7 @@ def study_plan(req: StudyPlanRequest, current: User = Depends(get_current_user))
     }
 
 
-@app.post("/v1/question/solve", dependencies=[Depends(get_current_user)])
+@app.post("/v1/question/solve", dependencies=[Depends(limit_costly)])
 def question_solve(req: QuestionSolveRequest) -> dict:
     """P5.2 — question-solve with evidence: map a question to graph concepts
     (LLM-assisted, verifier-checked) and persist the mapping for tracing."""

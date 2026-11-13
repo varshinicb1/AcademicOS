@@ -15,6 +15,7 @@ These run through the real HTTP routes as authenticated users.
 """
 from __future__ import annotations
 
+from store_backend import sqlite_only
 import shutil
 import sqlite3
 from types import SimpleNamespace
@@ -57,6 +58,7 @@ def _pre_sections_copy(src: CurriculumStore, tmp_path) -> "Path":
     return dst
 
 
+@sqlite_only
 def test_the_migration_gives_every_seeded_grade_one_section_and_places_its_students(tmp_path):
     store = CurriculumStore(tmp_path / "live.sqlite")
     nine = seed_cbse_grade(store, school_id="school_1", academic_year_label="2026-27",
@@ -147,6 +149,7 @@ def _tables_in(data: bytes, tmp_path) -> set[str]:
         conn.close()
 
 
+@sqlite_only
 def test_a_new_instance_migrates_without_uploading_until_a_real_edit(shared_gcs, clean_env, tmp_path):
     from test_blob_factory import _snapshot
 
@@ -172,6 +175,7 @@ def test_a_new_instance_migrates_without_uploading_until_a_real_edit(shared_gcs,
     new.close()
 
 
+@sqlite_only
 def test_a_conflict_that_reloads_an_older_releases_snapshot_migrates_it(shared_gcs, clean_env, tmp_path):
     import threading
     from academicos.storage.blobs import CurriculumNotDurable

@@ -27,7 +27,7 @@ router = APIRouter(prefix="/api/v1/auth")
 GOOGLE_CERTS = "https://www.googleapis.com/oauth2/v3/certs"
 ISSUERS = ("accounts.google.com", "https://accounts.google.com")
 
-_limiter = RateLimiter(max_requests=20, window_seconds=600)
+_limiter = RateLimiter(max_requests=20, window_seconds=600, name="google_sign_in")
 _jwks: Any = None
 
 

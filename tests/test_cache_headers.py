@@ -24,6 +24,12 @@ from _auth_helpers import invite_code
 CACHEABLE_HEADER = "public, max-age=300"
 
 
+def _not_cached(headers) -> bool:
+    """No caching allowed: no Cache-Control, or `no-store`, which every answer that does not ask
+    for caching now carries (security review 2026-10, ASVS V8.2.1)."""
+    return headers.get("Cache-Control") in (None, "no-store")
+
+
 def test_catalog_and_chapters_have_cache_control(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
@@ -57,7 +63,7 @@ def test_404_is_never_cached(tmp_path, monkeypatch):
         # load_syllabus("Physics", 10) is None -> handler raises 404 -> no header.
         missing = client.get("/api/v1/syllabus/Physics/10")
         assert missing.status_code == 404
-        assert "Cache-Control" not in missing.headers
+        assert _not_cached(missing.headers)
 
 
 def test_mutable_and_per_user_endpoints_stay_header_less(tmp_path, monkeypatch):
@@ -80,8 +86,8 @@ def test_mutable_and_per_user_endpoints_stay_header_less(tmp_path, monkeypatch):
 
         assessments = client.get("/api/v1/assessments", headers=auth)
         assert assessments.status_code == 200
-        assert "Cache-Control" not in assessments.headers
+        assert _not_cached(assessments.headers)
 
         knowledge = client.get(f"/api/v1/knowledge/{student['id']}", headers=auth)
         assert knowledge.status_code == 200
-        assert "Cache-Control" not in knowledge.headers
+        assert _not_cached(knowledge.headers)

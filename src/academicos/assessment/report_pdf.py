@@ -10,6 +10,7 @@ recent answers show the balancing-equations misconception."
 """
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -164,7 +165,8 @@ def export_progress_report_pdf(student_name: str, student_id: str, subject: str,
     pdf_export._register_unicode_font()
     output_dir.mkdir(parents=True, exist_ok=True)
     safe_id = "".join(c for c in student_id if c.isalnum() or c in "-_") or "student"
-    out_path = output_dir / f"progress_{safe_id}_{subject.lower()}.pdf"
+    safe_subject = re.sub(r"[^a-z0-9_-]", "", subject.lower()) or "subject"
+    out_path = output_dir / f"progress_{safe_id}_{safe_subject}.pdf"
     styles = _build_report_styles(template.brand_color if template and template.brand_color else "#000000")
 
     left = right = 18 * mm

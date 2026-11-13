@@ -62,7 +62,30 @@ EXAMPLES: dict[str, list[str]] = {
 }
 MAX_BYTES = 1_000_000
 MAX_ROWS = 2000
-_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+_EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+
+class _Email:
+    """The address check, refusing anything longer than an address can be before the pattern runs:
+    a megabyte cell of dots made it backtrack for minutes (security review 2026-10, ASVS V5.1.3)."""
+
+    @staticmethod
+    def match(text: str):
+        return _EMAIL_PATTERN.match(text) if len(text) <= 254 else None
+
+
+_EMAIL = _Email()
+
+
+def _cell(v):
+    """One CSV cell. Text that starts like a formula (= + - @, tab, CR) gets a leading apostrophe,
+    as the XLSX writer already does (xlsx.py), so a name such as =HYPERLINK(...) stays text when
+    the principal opens the file (security review 2026-10, ASVS V5.3.1)."""
+    if v is None:
+        return ""
+    if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r"):
+        return "'" + v
+    return v
 
 
 class _Req(Camel):
@@ -491,7 +514,7 @@ def _csv(header: list[str], rows: list[list[Any]], filename: str, fmt: str = "cs
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(header)
-    w.writerows([["" if v is None else v for v in r] for r in rows])
+    w.writerows([[_cell(v) for v in r] for r in rows])
     return PlainTextResponse(buf.getvalue(), media_type="text/csv",
                              headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 

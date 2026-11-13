@@ -776,6 +776,11 @@ def _matches(rec: dict[str, Any], *, subject, grade, marks, type_, difficulty,
         return False
     if review_state and str(rec.get("reviewState") or "") != review_state:
         return False
+    # QB-5: a model- or teacher-written question waiting for review is served by
+    # no default path; asking for `review_state=in_review` is the audit path, as
+    # `has_scheme=false` is for rule Q1.
+    if not review_state and rec.get("reviewState") == "in_review":
+        return False
     if has_scheme is not None:
         # The ONE rule, not a second one. This tested the provenance label
         # alone, which counted an official label over an empty scheme as

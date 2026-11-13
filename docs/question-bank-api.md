@@ -375,6 +375,7 @@ empty page, because that is the true answer.
 |---|---|
 | `subject`, `grade` | the record's subject (case ignored) and class |
 | `marks`, `type`, `difficulty`, `bloom`, `review_state` | the record's field, exactly |
+| (no `review_state`) | every record except those `in_review`: a question a model or a teacher wrote, new to the bank since the QB-5 review gate, is in no default page, count or facet, and `/v1/questions/{id}` answers `404` for it. `review_state=in_review` is the audit path |
 | `chapter_id` | the chapter the paper builder files the question under (a pre-2024 slug still works) |
 | `subtopic_id`, `topic_id` | one of the record's `subtopicIds` / `topicIds`, exactly |
 | `competency` | one of the record's `competencyIds`, exactly. **No record in the served bank carries one yet** (0 of 5,319 at this commit), so this answers an empty page until the bank is tagged |

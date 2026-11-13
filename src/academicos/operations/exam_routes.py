@@ -327,6 +327,9 @@ def set_invigilation(exam_id: str, req: RosterRequest, principal: User = Depends
             u = users.get(d.teacher_id)
             if u is None or u.school_id != principal.school_id or u.role not in ("teacher", "principal"):
                 raise HTTPException(422, "an invigilator must be staff of this school")
+        if d.section_id:
+            # Stored as given, then shown on the invigilator's calendar (security review 2026-10, F8).
+            cr._require_school_owns_section(d.section_id, principal)
     before = store().roster(e["id"])
     store().set_invigilators(e["id"], [(d.exam_paper_id, d.section_id, d.teacher_id) for d in req.duties],
                              assigned_by=principal.id)
