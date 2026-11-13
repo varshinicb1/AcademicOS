@@ -25,10 +25,10 @@ const _base = '/curriculum';
 
 /// How a leave request reads in a list: "full day", "periods 3, 5" (SCH-5).
 String leaveKindLabel(Map l) => switch (l['kind']) {
-      'periods' => 'periods ${((l['periods'] as List?) ?? const []).join(', ')}',
-      'first_half' => '1st half',
-      'second_half' => '2nd half',
-      _ => 'full day',
+      'periods' => trf('periods {list}', {'list': ((l['periods'] as List?) ?? const []).join(', ')}),
+      'first_half' => tr('1st half'),
+      'second_half' => tr('2nd half'),
+      _ => tr('full day'),
     };
 
 /// The content type the leave document route takes for a file's name, or
@@ -124,8 +124,8 @@ class _CoverPageState extends State<CoverPage> {
       final opened = (out['substitutions'] as List).length;
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(opened == 0
-            ? 'Attendance saved'
-            : 'Attendance saved. $opened periods need cover; substitutes have been proposed.')));
+            ? tr('Attendance saved')
+            : trf('Attendance saved. {n} periods need cover; substitutes have been proposed.', {'n': opened}))));
       }
       await _load();
     } catch (e) {
@@ -199,30 +199,30 @@ class _CoverPageState extends State<CoverPage> {
               ? const LoadingIndicator()
               : ListView(padding: const EdgeInsets.all(16), children: [
                   SectionHeader(
-                    title: 'Staff attendance',
-                    subtitle: 'Marking someone absent opens cover for their periods at once.',
+                    title: tr('Staff attendance'),
+                    subtitle: tr('Marking someone absent opens cover for their periods at once.'),
                     action: FilledButton(
                       onPressed: _pending.isEmpty || _saving ? null : _saveAttendance,
-                      child: Text(_pending.isEmpty ? 'Saved' : 'Save ${_pending.length}'),
+                      child: Text(_pending.isEmpty ? tr('Saved') : trf('Save {n}', {'n': _pending.length})),
                     ),
                   ),
                   for (final r in (_attendance!['rows'] as List).cast<Map>())
                     ListTile(
                       title: Text(r['name']),
-                      subtitle: r['status'] == 'on_leave' ? const Text('On approved leave') : null,
+                      subtitle: r['status'] == 'on_leave' ? Text(tr('On approved leave')) : null,
                       trailing: r['status'] == 'on_leave'
-                          ? const ChipTag(label: 'On leave')
+                          ? ChipTag(label: tr('On leave'))
                           : DropdownButton<String>(
                               value: _pending[r['teacherId']] ??
                                   (statuses.containsKey(r['status']) ? r['status'] as String : null),
-                              hint: const Text('Not marked'),
+                              hint: Text(tr('Not marked')),
                               items: [for (final e in statuses.entries)
-                                DropdownMenuItem(value: e.key, child: Text(e.value))],
+                                DropdownMenuItem(value: e.key, child: Text(tr(e.value)))],
                               onChanged: (v) => setState(() => _pending[r['teacherId'] as String] = v!),
                             ),
                     ),
                   if (_leave.isNotEmpty) ...[
-                    const SectionHeader(title: 'Leave waiting for you'),
+                    SectionHeader(title: tr('Leave waiting for you')),
                     // The text takes the whole row and the buttons sit under it: beside it, on a
                     // phone, they squeezed the request into a column five lines tall.
                     for (final l in _leave)
@@ -231,9 +231,10 @@ class _CoverPageState extends State<CoverPage> {
                         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                           ListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text('${_name(l['teacherId'])}: ${readableDate(l['startDate'] as String)}'
-                                '${l['endDate'] != l['startDate'] ? ' to ${readableDate(l['endDate'] as String)}' : ''}'
-                                ' (${leaveKindLabel(l)})'),
+                            title: Text('${_name(l['teacherId'])}: ${l['endDate'] != l['startDate']
+                                ? trf('{start} to {end}', {'start': readableDate(l['startDate'] as String),
+                                    'end': readableDate(l['endDate'] as String)})
+                                : readableDate(l['startDate'] as String)} (${leaveKindLabel(l)})'),
                             subtitle: Text([
                               if ((l['reason'] as String?)?.isNotEmpty == true) l['reason'] as String,
                               if (_leftOf(l['teacherId'] as String) != null) _leftOf(l['teacherId'] as String)!,
@@ -243,63 +244,69 @@ class _CoverPageState extends State<CoverPage> {
                             if (l['document'] != null)
                               IconButton(
                                 key: Key('leave-document-${l['id']}'),
-                                tooltip: 'Open ${(l['document'] as Map)['name']}',
+                                tooltip: trf('Open {name}', {'name': (l['document'] as Map)['name']}),
                                 icon: const Icon(Icons.attach_file),
                                 onPressed: () => _openDocument(l),
                               ),
-                            OutlinedButton(onPressed: () => _decide(l['id'], false), child: const Text('Reject')),
-                            FilledButton(onPressed: () => _decide(l['id'], true), child: const Text('Approve')),
+                            OutlinedButton(onPressed: () => _decide(l['id'], false), child: Text(tr('Reject'))),
+                            FilledButton(onPressed: () => _decide(l['id'], true), child: Text(tr('Approve'))),
                           ]),
                         ]),
                       ),
                   ],
-                  SectionHeader(title: 'Cover on ${readableDate(_date)}', subtitle: plural(_subs.length, 'period')),
-                  if (_subs.isEmpty) Text('No periods need cover.', style: theme.textTheme.bodySmall),
+                  SectionHeader(title: trf('Cover on {date}', {'date': readableDate(_date)}),
+                      subtitle: plural(_subs.length, 'period')),
+                  if (_subs.isEmpty) Text(tr('No periods need cover.'), style: theme.textTheme.bodySmall),
                   for (final s in _subs)
                     ListTile(
                       leading: CircleAvatar(child: Text('${s['period']}')),
                       title: Text('${_ctx?.sectionLabels[s['sectionId']] ?? s['sectionId']} · '
-                          '${_ctx?.subjectNames[s['subjectId']] ?? ''} · for ${_name(s['absentTeacherId'])}'),
+                          '${_ctx?.subjectNames[s['subjectId']] ?? ''} · '
+                          '${trf('for {name}', {'name': _name(s['absentTeacherId'])})}'),
                       subtitle: Text(switch (s['status']) {
-                        'accepted' => 'Covered by ${_name(s['substituteId'])}',
-                        'proposed' => 'Proposed: ${_name(s['substituteId'])} (not accepted yet)',
-                        'resolved' => 'Run as ${s['mode']}',
-                        'cancelled' => 'Cancelled',
-                        _ => 'No substitute yet',
+                        'accepted' => trf('Covered by {name}', {'name': _name(s['substituteId'])}),
+                        'proposed' => trf('Proposed: {name} (not accepted yet)', {'name': _name(s['substituteId'])}),
+                        'resolved' => trf('Run as {mode}', {'mode': tr(s['mode'] as String? ?? '')}),
+                        'cancelled' => tr('Cancelled'),
+                        _ => tr('No substitute yet'),
                       }),
                       trailing: s['status'] == 'cancelled' || s['status'] == 'resolved'
                           ? null
-                          : TextButton(onPressed: () => _assign(s), child: const Text('Assign')),
+                          : TextButton(onPressed: () => _assign(s), child: Text(tr('Assign'))),
                     ),
                   if (_policy != null) ...[
-                    const SectionHeader(title: 'Leave and check-in rules',
-                        subtitle: 'What happens to a request, and when a check-in is late'),
+                    SectionHeader(title: tr('Leave and check-in rules'),
+                        subtitle: tr('What happens to a request, and when a check-in is late')),
                     Card(
                       child: ListTile(
                         key: const Key('staff-rules'),
                         leading: Icon(_policy!['autoApprove'] == true ? Icons.bolt : Icons.rule,
                             color: theme.colorScheme.primary),
                         title: Text(_policy!['autoApprove'] == true
-                            ? 'Leave of up to ${_num(_policy!['maxAutoDays'])} days, asked '
-                                '${plural((_policy!['minNoticeDays'] as num).toInt(), 'day')} ahead, is approved at once'
-                            : 'You decide every leave request'),
-                        subtitle: Text('${_num(_policy!['annualAllowanceDays'])} days of leave a year. A check-in after '
-                            '${_policy!['firstBell'] ?? 'the first bell'} plus ${_policy!['checkInGraceMinutes']} minutes '
-                            'is late. ${_policy!['checkInReminder'] == true ? 'Teachers not in by 9:00 are reminded, '
-                                'and you are told.' : 'No check-in reminder.'}'),
-                        trailing: TextButton(onPressed: _editRules, child: const Text('Change')),
+                            ? trf('Leave of up to {days} days, asked {notice} ahead, is approved at once', {
+                                'days': _num(_policy!['maxAutoDays']),
+                                'notice': plural((_policy!['minNoticeDays'] as num).toInt(), 'day')})
+                            : tr('You decide every leave request')),
+                        subtitle: Text('${trf('{days} days of leave a year. A check-in after {bell} plus {minutes} minutes '
+                            'is late.', {'days': _num(_policy!['annualAllowanceDays']),
+                              'bell': _policy!['firstBell'] ?? tr('the first bell'),
+                              'minutes': _policy!['checkInGraceMinutes']})} '
+                            '${_policy!['checkInReminder'] == true
+                                ? tr('Teachers not in by 9:00 are reminded, and you are told.')
+                                : tr('No check-in reminder.')}'),
+                        trailing: TextButton(onPressed: _editRules, child: Text(tr('Change'))),
                       ),
                     ),
                   ],
                   if (_balances.isNotEmpty) ...[
-                    const SectionHeader(title: 'Leave left this year', subtitle: 'Least left first'),
+                    SectionHeader(title: tr('Leave left this year'), subtitle: tr('Least left first')),
                     for (final b in _balances)
                       ListTile(
                         dense: true,
                         title: Text(b['name'] as String),
-                        subtitle: Text('${_num(b['used'])} used'
-                            '${(b['pending'] as num) > 0 ? ' · ${_num(b['pending'])} waiting' : ''}'),
-                        trailing: Text('${_num(b['left'])} of ${_num(b['allowance'])} left',
+                        subtitle: Text(trf('{n} used', {'n': _num(b['used'])})
+                            + ((b['pending'] as num) > 0 ? ' · ${trf('{n} waiting', {'n': _num(b['pending'])})}' : '')),
+                        trailing: Text(trf('{left} of {allowance} left', {'left': _num(b['left']), 'allowance': _num(b['allowance'])}),
                             style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: (b['left'] as num) <= 0 ? theme.colorScheme.error : null)),
@@ -311,7 +318,8 @@ class _CoverPageState extends State<CoverPage> {
 
   String? _leftOf(String teacherId) {
     final b = _balances.where((b) => b['teacherId'] == teacherId);
-    return b.isEmpty ? null : '${_num(b.first['left'])} of ${_num(b.first['allowance'])} days left';
+    return b.isEmpty ? null : trf('{left} of {allowance} days left',
+        {'left': _num(b.first['left']), 'allowance': _num(b.first['allowance'])});
   }
 
   /// The principal's leave and check-in rules, in one dialog.
@@ -331,34 +339,34 @@ class _CoverPageState extends State<CoverPage> {
                 decoration: InputDecoration(labelText: label, suffixText: suffix)),
           );
       return AlertDialog(
-        title: const Text('Leave and check-in rules'),
+        title: Text(tr('Leave and check-in rules')),
         content: SizedBox(width: 440, child: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, children: [
           SwitchListTile(
             key: const Key('rule-auto'),
             contentPadding: EdgeInsets.zero,
             value: auto,
             onChanged: (v) => set(() => auto = v),
-            title: const Text('Approve short leave automatically'),
-            subtitle: const Text('Cover is proposed for every period, as when you approve, and you are told.'),
+            title: Text(tr('Approve short leave automatically')),
+            subtitle: Text(tr('Cover is proposed for every period, as when you approve, and you are told.')),
           ),
           if (auto) ...[
-            field(maxDays, 'Longest leave approved automatically', 'days'),
-            field(notice, 'Asked at least', 'days ahead'),
+            field(maxDays, tr('Longest leave approved automatically'), tr('days')),
+            field(notice, tr('Asked at least'), tr('days ahead')),
           ],
-          field(allowance, 'Leave a teacher has a year', 'days'),
-          field(grace, 'Check-in counts as late after the first bell plus', 'minutes'),
+          field(allowance, tr('Leave a teacher has a year'), tr('days')),
+          field(grace, tr('Check-in counts as late after the first bell plus'), tr('minutes')),
           SwitchListTile(
             key: const Key('rule-reminder'),
             contentPadding: EdgeInsets.zero,
             value: reminder,
             onChanged: (v) => set(() => reminder = v),
-            title: const Text('Remind teachers not in by 9:00'),
-            subtitle: const Text('And tell you who they are, once a day.'),
+            title: Text(tr('Remind teachers not in by 9:00')),
+            subtitle: Text(tr('And tell you who they are, once a day.')),
           ),
           if (error != null) Text(error!, style: TextStyle(color: Theme.of(ctx).colorScheme.error)),
         ]))),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
           FilledButton(
             key: const Key('rule-save'),
             onPressed: () async {
@@ -367,7 +375,7 @@ class _CoverPageState extends State<CoverPage> {
               final year = double.tryParse(allowance.text.trim());
               final late = int.tryParse(grace.text.trim());
               if (days == null || ahead == null || year == null || late == null) {
-                set(() => error = 'Type numbers: days may be a half, as 0.5.');
+                set(() => error = tr('Type numbers: days may be a half, as 0.5.'));
                 return;
               }
               try {
@@ -384,13 +392,13 @@ class _CoverPageState extends State<CoverPage> {
                 set(() => error = serverErrorMessage(e));
               }
             },
-            child: const Text('Save'),
+            child: Text(tr('Save')),
           ),
         ],
       );
     }));
     if (saved == true) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rules saved')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('Rules saved'))));
       _load();
     }
   }
@@ -428,7 +436,7 @@ class _AssignDialogState extends State<_AssignDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Period ${widget.sub['period']}: who covers?'),
+      title: Text(trf('Period {n}: who covers?', {'n': widget.sub['period']})),
       content: SizedBox(
         width: 520,
         child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -438,25 +446,25 @@ class _AssignDialogState extends State<_AssignDialog> {
             if (snap.hasError) return Text(serverErrorMessage(snap.error!));
             return Column(mainAxisSize: MainAxisSize.min, children: [
               if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
-              if (snap.data!.isEmpty) const Text('Nobody is free this period.'),
+              if (snap.data!.isEmpty) Text(tr('Nobody is free this period.')),
               for (final c in snap.data!.take(8))
                 ListTile(
                   title: Text(widget.name(c['teacherId'])),
                   subtitle: Text((c['reasons'] as List).join(' · ')),
-                  trailing: c['qualified'] == true ? const ChipTag(label: 'Teaches it', color: AppColors.success) : null,
+                  trailing: c['qualified'] == true ? ChipTag(label: tr('Teaches it'), color: AppColors.success) : null,
                   onTap: () => _do({'substituteId': c['teacherId']}),
                 ),
               const Divider(),
               Wrap(spacing: 8, children: [
-                OutlinedButton(onPressed: () => _do({'mode': 'supervised'}), child: const Text('Supervised')),
-                OutlinedButton(onPressed: () => _do({'mode': 'combined'}), child: const Text('Combine classes')),
-                OutlinedButton(onPressed: () => _do({'mode': 'lost'}), child: const Text('Lose the period')),
+                OutlinedButton(onPressed: () => _do({'mode': 'supervised'}), child: Text(tr('Supervised'))),
+                OutlinedButton(onPressed: () => _do({'mode': 'combined'}), child: Text(tr('Combine classes'))),
+                OutlinedButton(onPressed: () => _do({'mode': 'lost'}), child: Text(tr('Lose the period'))),
               ]),
             ]);
           },
         ),
       ),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Close')))],
     );
   }
 }
@@ -756,7 +764,7 @@ class _MyDayPageState extends State<MyDayPage> {
     }
     try {
       await Ops.send('PATCH', '$_base/scheduled-lessons/$id', body: {'status': status, if (note != null) 'note': note},
-          label: 'Lesson marked $status');
+          label: trf('Lesson marked {status}', {'status': tr(status)}));
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -786,7 +794,7 @@ class _MyDayPageState extends State<MyDayPage> {
   Future<void> _respond(String id, bool accept) async {
     try {
       await Ops.send('POST', '$_base/substitutions/$id/respond', body: {'accept': accept},
-          label: accept ? 'Accept cover' : 'Decline cover');
+          label: accept ? tr('Accept cover') : tr('Decline cover'));
       _load();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -830,7 +838,8 @@ class _MyDayPageState extends State<MyDayPage> {
                         style: phoneTapTarget(context),
                         onPressed: _checkedIn == null ? _checkIn : null,
                         icon: Icon(_checkedIn == null ? Icons.how_to_reg : Icons.check_circle_outline),
-                        label: Text(_checkedIn == null ? "I'm here" : 'Marked ${_checkedIn!.replaceAll('_', ' ')}'),
+                        label: Text(_checkedIn == null ? tr("I'm here")
+                            : trf('Marked {status}', {'status': tr(_checkedIn!.replaceAll('_', ' '))})),
                       ),
                     ]),
                   ),
@@ -847,7 +856,7 @@ class _MyDayPageState extends State<MyDayPage> {
                       // them in `trailing` left a 390 px phone a one-word-wide
                       // title (re-measure, 2026-10-01).
                       ListTile(
-                        title: Text('${d['date']} · period ${d['period']} · '
+                        title: Text('${d['date']} · ${trf('period {n}', {'n': d['period']})} · '
                             '${_ctx?.sectionLabels[d['sectionId']] ?? d['sectionId']}'),
                         subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Text([
@@ -886,18 +895,18 @@ class _MyDayPageState extends State<MyDayPage> {
                       ),
                   ],
                   SectionHeader(
-                    title: 'My leave',
+                    title: tr('My leave'),
                     action: OutlinedButton.icon(onPressed: _applyForLeave, icon: const Icon(Icons.event_busy),
                         label: Text(tr('Apply for leave'))),
                   ),
                   for (final l in _leave)
                     ListTile(
                       dense: true,
-                      title: Text('${l['startDate']}${l['endDate'] != l['startDate'] ? ' to ${l['endDate']}' : ''} · '
+                      title: Text('${l['endDate'] != l['startDate'] ? trf('{start} to {end}', {'start': l['startDate'], 'end': l['endDate']}) : l['startDate']} · '
                           '${leaveKindLabel(l)}${l['document'] != null ? ' · ${tr('document attached')}' : ''}'),
                       subtitle: Text(l['reason'] ?? ''),
                       trailing: Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
-                        ChipTag(label: l['status'] as String),
+                        ChipTag(label: tr(l['status'] as String)),
                         if (l['status'] == 'pending' || l['status'] == 'approved')
                           TextButton(onPressed: () => _cancelLeave(l['id'] as String), child: Text(tr('Cancel'))),
                       ]),
@@ -905,7 +914,7 @@ class _MyDayPageState extends State<MyDayPage> {
                   SectionHeader(
                     title: tr('Today'),
                     subtitle: [
-                      '${_rows!.length} periods',
+                      plural(_rows!.length, 'period'),
                       if (_rows!.any((r) => r['changed'] == true))
                         '${_rows!.where((r) => r['changed'] == true).length} ${tr('changed')}',
                       nextPeriodLine(_rows!.cast<Map>(), DateTime.now(),
@@ -913,7 +922,7 @@ class _MyDayPageState extends State<MyDayPage> {
                           '',
                     ].where((s) => s.isNotEmpty).join(' · '),
                   ),
-                  if (_rows!.isEmpty) const Text('No periods today.'),
+                  if (_rows!.isEmpty) Text(tr('No periods today.')),
                   for (final r in _rows!)
                     ListTile(
                       leading: CircleAvatar(child: Text('${r['period']}')),
@@ -924,7 +933,7 @@ class _MyDayPageState extends State<MyDayPage> {
                         if (r['note'] != null && r['kind'] != 'regular') r['note'] as String,
                       ].where((s) => s.isNotEmpty).join(' · ')),
                       trailing: ChipTag(
-                          label: kinds[r['kind']] ?? r['kind'],
+                          label: tr(kinds[r['kind']] ?? r['kind'] as String),
                           color: r['changed'] == true ? Theme.of(context).colorScheme.tertiary : null),
                     ),
                 ]),

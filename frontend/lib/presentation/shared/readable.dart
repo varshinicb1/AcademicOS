@@ -3,6 +3,8 @@
 /// "(classes 10)" and "1 papers".
 library;
 
+import '../workspace/strings.dart';
+
 const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 String _two(int n) => n.toString().padLeft(2, '0');
@@ -11,7 +13,7 @@ String _two(int n) => n.toString().padLeft(2, '0');
 /// a date comes back as it was.
 String readableDate(String iso) {
   final d = DateTime.tryParse(iso);
-  return d == null ? iso : '${d.day} ${_months[d.month - 1]} ${d.year}';
+  return d == null ? iso : '${d.day} ${tr(_months[d.month - 1])} ${d.year}';
 }
 
 /// A server timestamp in this device's time: "today at 21:27",
@@ -26,7 +28,7 @@ String readableDateTime(String? iso, {DateTime? now, String never = 'never'}) {
   final time = '${_two(d.hour)}:${_two(d.minute)}';
   if (days == 0) return 'today at $time';
   if (days == 1) return 'yesterday at $time';
-  return '${d.day} ${_months[d.month - 1]} ${d.year} at $time';
+  return '${d.day} ${tr(_months[d.month - 1])} ${d.year} at $time';
 }
 
 /// The clock time of a server timestamp, in this device's time: "21:27".
@@ -35,15 +37,16 @@ String readableTime(String iso) {
   return d == null ? iso : '${_two(d.hour)}:${_two(d.minute)}';
 }
 
-/// "1 paper", "2 papers"; [many] when the plural is not [one] + "s".
-String plural(int n, String one, [String? many]) => '$n ${n == 1 ? one : (many ?? '${one}s')}';
+/// "1 paper", "2 papers"; [many] when the plural is not [one] + "s". The noun
+/// goes through [tr]: Hindi counts read "3 पीरियड" (R-B5).
+String plural(int n, String one, [String? many]) => '$n ${tr(n == 1 ? one : (many ?? '${one}s'))}';
 
 /// "class 10", "classes 9 and 10", "classes 6, 7 and 8".
 String classesLabel(List<Object?> grades) {
   final g = [for (final x in grades) '$x'];
-  if (g.isEmpty) return 'every class';
-  if (g.length == 1) return 'class ${g.single}';
-  return 'classes ${g.sublist(0, g.length - 1).join(', ')} and ${g.last}';
+  if (g.isEmpty) return tr('every class');
+  if (g.length == 1) return trf('class {grade}', {'grade': g.single});
+  return trf('classes {grades} and {last}', {'grades': g.sublist(0, g.length - 1).join(', '), 'last': g.last});
 }
 
 /// "full_day" -> "Full day", "second_fourth" -> "Second fourth": the last

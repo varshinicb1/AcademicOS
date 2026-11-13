@@ -31,7 +31,7 @@ class _ExamsPageState extends State<ExamsPage> {
       appBar: destinationAppBar(context, title: Text(tr('Exams'))),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
-        label: const Text('New exam'),
+        label: Text(tr('New exam')),
         onPressed: () async {
           if (await showDialog<bool>(context: context, builder: (_) => _NewExamDialog(today: widget.today)) == true) _reload();
         },
@@ -42,8 +42,8 @@ class _ExamsPageState extends State<ExamsPage> {
           if (snap.connectionState != ConnectionState.done) return const LoadingIndicator();
           if (snap.hasError) return ErrorDisplay(message: serverErrorMessage(snap.error!), onRetry: _reload);
           if (snap.data!.isEmpty) {
-            return const EmptyState(icon: Icons.event_note, title: 'No exams yet',
-                message: 'Create an exam, place its papers on the datesheet, and fill the invigilation roster.');
+            return EmptyState(icon: Icons.event_note, title: tr('No exams yet'),
+                message: tr('Create an exam, place its papers on the datesheet, and fill the invigilation roster.'));
           }
           return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 96), children: [
             for (final e in snap.data!)
@@ -55,9 +55,9 @@ class _ExamsPageState extends State<ExamsPage> {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(e['name']),
-                  subtitle: Text('${readableDate(e['startDate'])} to ${readableDate(e['endDate'])} · '
+                  subtitle: Text('${trf('{start} to {end}', {'start': readableDate(e['startDate']), 'end': readableDate(e['endDate'])})} · '
                       '${classesLabel(e['grades'] as List)} · ${plural((e['papers'] as List).length, 'paper')}'),
-                  trailing: ChipTag(label: humanWord(e['status'] as String)),
+                  trailing: ChipTag(label: tr(humanWord(e['status'] as String))),
                 ),
               ),
           ]);
@@ -128,7 +128,7 @@ class _NewExamDialogState extends State<_NewExamDialog> {
         final loading = snap.connectionState != ConnectionState.done;
         final year = snap.data;
         return AlertDialog(
-          title: const Text('New exam'),
+          title: Text(tr('New exam')),
           content: SizedBox(
             width: 460,
             child: loading
@@ -137,7 +137,7 @@ class _NewExamDialogState extends State<_NewExamDialog> {
                     ? Text(serverErrorMessage(snap.error!), style: TextStyle(color: Theme.of(context).colorScheme.error))
                     : year == null
                         ? SchoolNotSetUp(
-                            why: 'An exam goes inside the school year, and there is none yet.',
+                            why: tr('An exam goes inside the school year, and there is none yet.'),
                             beforeOpen: () => Navigator.pop(context))
                         : _form(context, year),
           ),
@@ -155,7 +155,7 @@ class _NewExamDialogState extends State<_NewExamDialog> {
                     setState(() => _error = serverErrorMessage(e));
                   }
                 },
-                child: const Text('Create'),
+                child: Text(tr('Create')),
               ),
           ],
         );
@@ -168,12 +168,17 @@ class _NewExamDialogState extends State<_NewExamDialog> {
     final muted = theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant);
     return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
       TextField(key: const ValueKey('exam-name'), controller: _name, onChanged: (_) => setState(() {}),
-          decoration: const InputDecoration(labelText: 'Name, e.g. Half-yearly')),
+          decoration: InputDecoration(labelText: tr('Name, e.g. Half-yearly'))),
       ListTile(
         key: const ValueKey('exam-dates'),
         contentPadding: EdgeInsets.zero,
-        title: Text(_range == null ? 'Choose dates' : '${isoDate(_range!.start)} to ${isoDate(_range!.end)}'),
-        subtitle: Text('Within ${year.label}: ${isoDate(year.start)} to ${isoDate(year.end)}', style: muted),
+        title: Text(_range == null
+            ? tr('Choose dates')
+            : trf('{start} to {end}', {'start': isoDate(_range!.start), 'end': isoDate(_range!.end)})),
+        subtitle: Text(
+            trf('Within {year}: {start} to {end}',
+                {'year': year.label, 'start': isoDate(year.start), 'end': isoDate(year.end)}),
+            style: muted),
         trailing: const Icon(Icons.date_range),
         onTap: () async {
           // Only days of the year can be picked.
@@ -182,9 +187,9 @@ class _NewExamDialogState extends State<_NewExamDialog> {
           if (r != null) setState(() => _range = r);
         },
       ),
-      const Text('Classes'),
+      Text(tr('Classes')),
       if (year.grades.isEmpty)
-        Text('${year.label} has no classes yet.', style: muted)
+        Text(trf('{year} has no classes yet.', {'year': year.label}), style: muted)
       else
         Wrap(spacing: 6, children: [
           for (final g in year.grades)
@@ -250,7 +255,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
       final e = await Ops.post('/exams/${widget.examId}/publish');
       if (!mounted) return;
       setState(() => _exam = Map<String, dynamic>.from(e as Map));
-      _show('Published. Students and invigilators have been told.');
+      _show(tr('Published. Students and invigilators have been told.'));
     } catch (e) {
       _show(serverErrorMessage(e));
     }
@@ -269,21 +274,21 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
     String? subjectId;
     DateTime? day;
     final ok = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
-      title: const Text('Add a paper'),
+      title: Text(tr('Add a paper')),
       content: Column(mainAxisSize: MainAxisSize.min, children: [
         DropdownButtonFormField<int>(
-          initialValue: grade, decoration: const InputDecoration(labelText: 'Class'),
+          initialValue: grade, decoration: InputDecoration(labelText: tr('Class')),
           items: [for (final g in (exam['grades'] as List).cast<int>()) DropdownMenuItem(value: g, child: Text('$g'))],
           onChanged: (v) => set(() { grade = v; subjectId = null; }),
         ),
         DropdownButtonFormField<String>(
-          key: ValueKey(grade), initialValue: subjectId, decoration: const InputDecoration(labelText: 'Subject'),
+          key: ValueKey(grade), initialValue: subjectId, decoration: InputDecoration(labelText: tr('Subject')),
           items: [for (final e in (byGrade[grade] ?? const {}).entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
           onChanged: (v) => set(() => subjectId = v),
         ),
         ListTile(
           contentPadding: EdgeInsets.zero,
-          title: Text(day == null ? 'Date' : isoDate(day!)),
+          title: Text(day == null ? tr('Date') : isoDate(day!)),
           trailing: const Icon(Icons.event),
           onTap: () async {
             final d = await showDatePicker(context: ctx, initialDate: DateTime.parse(exam['startDate']),
@@ -295,7 +300,7 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
         FilledButton(onPressed: grade == null || subjectId == null || day == null ? null : () => Navigator.pop(ctx, true),
-            child: const Text('Add')),
+            child: Text(tr('Add'))),
       ],
     )));
     if (ok != true) return;
@@ -324,23 +329,26 @@ class _ExamDetailPageState extends State<ExamDetailPage> {
     final duties = (e['duties'] as List).cast<Map>();
     return Scaffold(
       appBar: AppBar(title: Text(e['name']), actions: [
-        if (e['status'] != 'published') TextButton(onPressed: papers.isEmpty ? null : _publish, child: const Text('Publish')),
+        if (e['status'] != 'published') TextButton(onPressed: papers.isEmpty ? null : _publish, child: Text(tr('Publish'))),
       ]),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        SectionHeader(title: 'Datesheet', subtitle: '${readableDate(e['startDate'])} to ${readableDate(e['endDate'])}',
-            action: OutlinedButton.icon(onPressed: _addPaper, icon: const Icon(Icons.add), label: const Text('Paper'))),
-        if (papers.isEmpty) Text('No papers yet.', style: theme.textTheme.bodySmall),
+        SectionHeader(title: tr('Datesheet'),
+            subtitle: trf('{start} to {end}', {'start': readableDate(e['startDate']), 'end': readableDate(e['endDate'])}),
+            action: OutlinedButton.icon(onPressed: _addPaper, icon: const Icon(Icons.add), label: Text(tr('Paper')))),
+        if (papers.isEmpty) Text(tr('No papers yet.'), style: theme.textTheme.bodySmall),
         for (final p in papers)
-          ListTile(dense: true, title: Text('Class ${p['grade']} · ${p['subjectName']}'),
+          ListTile(dense: true, title: Text(trf('Class {grade} · {subject}', {'grade': p['grade'], 'subject': p['subjectName']})),
               subtitle: Text('${p['date']} · ${p['startTime']}-${p['endTime']}')),
-        SectionHeader(title: 'Invigilation', subtitle: '${duties.where((d) => d['teacherId'] != null).length} of ${duties.length} rooms covered',
-            action: FilledButton.tonal(onPressed: papers.isEmpty ? null : _auto, child: const Text('Fill automatically'))),
+        SectionHeader(title: tr('Invigilation'),
+            subtitle: trf('{n} of {total} rooms covered',
+                {'n': duties.where((d) => d['teacherId'] != null).length, 'total': duties.length}),
+            action: FilledButton.tonal(onPressed: papers.isEmpty ? null : _auto, child: Text(tr('Fill automatically')))),
         for (final u in _unfilled)
-          Text('No one free: $u', style: TextStyle(color: theme.colorScheme.error)),
+          Text(trf('No one free: {slots}', {'slots': u}), style: TextStyle(color: theme.colorScheme.error)),
         for (final d in duties)
           ListTile(dense: true,
               title: Text('${d['date']} ${d['startTime']} · ${d['sectionName']} · ${d['subjectName']}'),
-              trailing: Text(d['teacherName'] ?? 'Nobody yet')),
+              trailing: Text(d['teacherName'] ?? tr('Nobody yet'))),
       ]),
     );
   }

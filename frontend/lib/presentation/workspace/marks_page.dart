@@ -4,6 +4,7 @@ import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'ops_api.dart';
 import 'teacher_homework.dart' show TeachingContext;
+import '../shared/readable.dart';
 import 'strings.dart';
 
 /// Marks entry for a paper sat on paper (EX-8): one section's students by
@@ -47,7 +48,7 @@ class _MarksPageState extends State<MarksPage> {
         if (mounted && grade is int) setState(() => _grade = grade);
       }, onError: (e) {
         // Every section stays on offer; say why the list is not narrowed.
-        if (mounted) setState(() => _error = "Could not read the paper's class: ${serverErrorMessage(e)}");
+        if (mounted) setState(() => _error = trf("Could not read the paper's class: {problem}", {'problem': serverErrorMessage(e)}));
       });
     }
   }
@@ -111,12 +112,12 @@ class _MarksPageState extends State<MarksPage> {
     if (_absent.contains(row['studentId'])) return null;
     final text = _cells[(row['studentId'] as String, question['questionId'] as String)]?.text.trim() ?? '';
     if (text.isEmpty) return null;
-    final where = '${question['number']} for ${row['name']}';
+    final where = trf('{question} for {student}', {'question': question['number'], 'student': row['name']});
     final v = double.tryParse(text);
-    if (v == null) return '$where: "$text" is not a number';
+    if (v == null) return trf('{where}: "{text}" is not a number', {'where': where, 'text': text});
     final max = (question['maxMarks'] as num?) ?? 0;
-    if (v < 0) return '$where: marks cannot be below 0';
-    if (v > max) return '$where: ${_number(v)} is more than ${_number(max)}';
+    if (v < 0) return trf('{where}: marks cannot be below 0', {'where': where});
+    if (v > max) return trf('{where}: {marks} is more than {max}', {'where': where, 'marks': _number(v), 'max': _number(max)});
     return null;
   }
 
@@ -164,9 +165,9 @@ class _MarksPageState extends State<MarksPage> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             duration: Duration(seconds: missing.isEmpty ? 4 : 10),
             content: Text(missing.isEmpty
-                ? 'Marks saved'
-                : 'Marks saved, except for ${missing.join(', ')}: no parental consent is on file yet. '
-                    'Record it under Classes, then enter their marks.')));
+                ? tr('Marks saved')
+                : trf('Marks saved, except for {names}: no parental consent is on file yet. '
+                    'Record it under Classes, then enter their marks.', {'names': missing.join(', ')}))));
       }
     } on OpsQueued catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
@@ -187,26 +188,28 @@ class _MarksPageState extends State<MarksPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Marks'),
+          title: Text(tr('Marks')),
           actions: [
             if (g != null)
               FilledButton(onPressed: _saving || _dirty.isEmpty && _absentChanged() == 0 ? null : _save,
                   child: Text(tr('Save'))),
             const SizedBox(width: 12),
           ],
-          bottom: const TabBar(tabs: [Tab(text: 'Enter'), Tab(text: 'Analysis')]),
+          bottom: TabBar(tabs: [Tab(text: tr('Enter')), Tab(text: tr('Analysis'))]),
         ),
         body: Column(children: [
           if (ctx != null)
             Padding(
               padding: const EdgeInsets.all(12),
               child: _sections(ctx).isEmpty
-                  ? Text('Your school has no Class $_grade section set up, so marks for this paper '
-                      'cannot be entered yet.', key: const ValueKey('no-sections'))
+                  ? Text(
+                      trf('Your school has no Class {grade} section set up, so marks for this paper '
+                          'cannot be entered yet.', {'grade': _grade}),
+                      key: const ValueKey('no-sections'))
                   : DropdownButton<String>(
                       key: const ValueKey('marks-section'),
                       value: _sections(ctx).containsKey(_section) ? _section : null,
-                      hint: const Text('Choose a section'),
+                      hint: Text(tr('Choose a section')),
                       items: [
                         for (final e in _sections(ctx).entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
                       ],
@@ -228,18 +231,20 @@ class _MarksPageState extends State<MarksPage> {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 if (_saveRefused)
-                  Text(problems.length == 1 ? 'Fix this before saving:' : 'Fix these ${problems.length} marks before saving:',
+                  Text(problems.length == 1
+                          ? tr('Fix this before saving:')
+                          : trf('Fix these {n} marks before saving:', {'n': problems.length}),
                       style: TextStyle(color: theme.colorScheme.error, fontWeight: FontWeight.w600)),
                 for (final p in problems.take(3)) Text(p, style: TextStyle(color: theme.colorScheme.error)),
                 if (problems.length > 3)
-                  Text('and ${problems.length - 3} more, outlined in the grid',
+                  Text(trf('and {n} more, outlined in the grid', {'n': problems.length - 3}),
                       style: TextStyle(color: theme.colorScheme.error)),
               ]),
             ),
           Expanded(
             child: g == null
-                ? const EmptyState(icon: Icons.grid_on, title: 'Choose a section',
-                    message: 'Its students and this paper\'s questions appear as a grid.')
+                ? EmptyState(icon: Icons.grid_on, title: tr('Choose a section'),
+                    message: tr('Its students and this paper\'s questions appear as a grid.'))
                 : TabBarView(children: [_gridView(g), _analysisView()]),
           ),
         ]),
@@ -261,17 +266,17 @@ class _MarksPageState extends State<MarksPage> {
         child: DataTable(
           columnSpacing: 12,
           columns: [
-            const DataColumn(label: Text('Student')),
-            const DataColumn(label: Text('Absent')),
+            DataColumn(label: Text(tr('Student'))),
+            DataColumn(label: Text(tr('Absent'))),
             for (final q in questions) DataColumn(label: Text('${q['number']}\n/${q['maxMarks']}')),
-            const DataColumn(label: Text('Total')),
+            DataColumn(label: Text(tr('Total'))),
           ],
           rows: [
             for (final r in rows)
               DataRow(cells: [
                 DataCell(Text(r['name'])),
                 DataCell(Semantics(
-                  label: '${r['name']} absent',
+                  label: trf('{student} absent', {'student': r['name']}),
                   child: Checkbox(
                     value: _absent.contains(r['studentId']),
                     onChanged: (on) => setState(() => on == true ? _absent.add(r['studentId']) : _absent.remove(r['studentId'])),
@@ -283,7 +288,7 @@ class _MarksPageState extends State<MarksPage> {
                     // Each cell says which question and whose mark it is: a
                     // screen reader heard 38 unnamed fields per row (QA P-28).
                     child: Semantics(
-                      label: '${q['number']} for ${r['name']}, out of ${q['maxMarks']}',
+                      label: trf('{question} for {student}, out of {max}', {'question': q['number'], 'student': r['name'], 'max': q['maxMarks']}),
                       child: TextField(
                         key: ValueKey('mark-${r['studentId']}-${q['questionId']}'),
                         controller: _cells[(r['studentId'] as String, q['questionId'] as String)],
@@ -324,28 +329,30 @@ class _MarksPageState extends State<MarksPage> {
     final theme = Theme.of(context);
     return ListView(padding: const EdgeInsets.all(16), children: [
       Wrap(spacing: 12, runSpacing: 12, children: [
-        StatCard(label: 'Class average', value: s['meanPercent'] == null ? '-' : '${s['meanPercent']}%', icon: Icons.bar_chart, color: theme.colorScheme.primary),
-        StatCard(label: 'Median', value: s['medianPercent'] == null ? '-' : '${s['medianPercent']}%', icon: Icons.align_vertical_center, color: theme.colorScheme.primary),
-        StatCard(label: 'Absent', value: '${s['absent']} of ${s['students']}', icon: Icons.person_off_outlined, color: theme.colorScheme.outline),
+        StatCard(label: tr('Class average'), value: s['meanPercent'] == null ? '-' : '${s['meanPercent']}%', icon: Icons.bar_chart, color: theme.colorScheme.primary),
+        StatCard(label: tr('Median'), value: s['medianPercent'] == null ? '-' : '${s['medianPercent']}%', icon: Icons.align_vertical_center, color: theme.colorScheme.primary),
+        StatCard(label: tr('Absent'), value: trf('{n} of {total}', {'n': s['absent'], 'total': s['students']}), icon: Icons.person_off_outlined, color: theme.colorScheme.outline),
       ]),
       if (((s['incomplete'] as num?) ?? 0) > 0)
         Padding(padding: const EdgeInsets.only(top: 8),
-            child: Text('${tr('Incomplete')}: ${s['incomplete']}, left out of the average and the grade bands '
-                'until every question has a mark', key: const ValueKey('incomplete-note'))),
+            child: Text(
+                trf('Incomplete: {n}, left out of the average and the grade bands until every question has a mark',
+                    {'n': s['incomplete']}),
+                key: const ValueKey('incomplete-note'))),
       const SizedBox(height: 12),
-      Text('Grade bands', style: theme.textTheme.titleSmall),
+      Text(tr('Grade bands'), style: theme.textTheme.titleSmall),
       Wrap(spacing: 6, children: [
         for (final e in Map<String, dynamic>.from(s['bands'] as Map).entries) Chip(label: Text('${e.key}: ${e.value}')),
       ]),
       if ((a['weakest'] as List).isNotEmpty)
         Padding(padding: const EdgeInsets.only(top: 12),
-            child: Text('Re-teach first: ${(a['weakest'] as List).join(', ')}', style: theme.textTheme.titleSmall)),
-      const SectionHeader(title: 'By question'),
+            child: Text(trf('Re-teach first: {chapters}', {'chapters': (a['weakest'] as List).join(', ')}), style: theme.textTheme.titleSmall)),
+      SectionHeader(title: tr('By question')),
       for (final q in (a['questions'] as List).cast<Map>())
         ListTile(
           dense: true,
           title: Text('${q['number']}${q['chapter'] != null ? ' · ${q['chapter']}' : ''}'),
-          subtitle: Text('${q['attempted']} marked · mean ${q['mean'] ?? '-'} of ${q['maxMarks']}'),
+          subtitle: Text(trf('{n} marked · mean {mean} of {max}', {'n': q['attempted'], 'mean': q['mean'] ?? '-', 'max': q['maxMarks']})),
           trailing: SizedBox(width: 120, child: LinearProgressIndicator(value: (q['facility'] as num?)?.toDouble() ?? 0)),
         ),
       ..._groups(tr('By chapter'), a['chapters'] as List?),
@@ -358,7 +365,7 @@ class _MarksPageState extends State<MarksPage> {
         if (groups != null && groups.isNotEmpty) ...[
           SectionHeader(title: title),
           for (final c in groups.cast<Map>())
-            ListTile(dense: true, title: Text(c['name']), subtitle: Text('${c['questions']} questions'),
+            ListTile(dense: true, title: Text(c['name']), subtitle: Text(plural((c['questions'] as num).toInt(), 'question')),
                 trailing: Text(c['facility'] == null ? '-' : '${((c['facility'] as num) * 100).round()}%')),
         ],
       ];

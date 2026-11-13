@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import '../../core/local_engine/local_store.dart';
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
+import 'strings.dart';
 
 /// Thin calls to the school-operations API (homework, progress, parents,
 /// cover, exams, notifications, admin tools). The shared Dio already carries
@@ -249,7 +250,8 @@ class Ops {
 class OpsQueued extends OpsError {
   final String label;
   OpsQueued(this.label)
-      : super(null, 'No connection: "$label" is saved on this phone and will be sent when you are back online.');
+      : super(null, trf('No connection: "{label}" is saved on this phone and will be sent when you are back online.',
+            {'label': tr(label)}));
 }
 
 class OpsError implements Exception {
@@ -275,7 +277,7 @@ class OpsError implements Exception {
     // With no sentence from the server: the connection only when nothing
     // answered; a 500 or a bare 403 says what it was (serverErrorMessage).
     String msg = e.response == null
-        ? 'Something went wrong. Check your connection and try again.'
+        ? tr('Something went wrong. Check your connection and try again.')
         : serverErrorMessage(e);
     Object? detail;
     if (data is Map && data['detail'] != null) {
@@ -345,27 +347,33 @@ class _OfflineBannerState extends State<OfflineBanner> {
           if (at != null)
             MaterialBanner(
               leading: const Icon(Icons.cloud_off),
-              content: Text('Offline: showing what was saved at $hhmm on ${at.toLocal().day}/${at.toLocal().month}. '
-                  'Changes wait on this phone until you are back online.'),
-              actions: [TextButton(onPressed: () => Ops.offlineSince.value = null, child: const Text('OK'))],
+              content: Text(trf(
+                  'Offline: showing what was saved at {time} on {date}. '
+                  'Changes wait on this phone until you are back online.',
+                  {'time': hhmm, 'date': '${at.toLocal().day}/${at.toLocal().month}'})),
+              actions: [TextButton(onPressed: () => Ops.offlineSince.value = null, child: Text(tr('OK')))],
             ),
           if (waiting > 0)
             MaterialBanner(
               leading: const Icon(Icons.cloud_upload_outlined),
-              content: Text((waiting == 1 ? '1 change is waiting to be sent.' : '$waiting changes are waiting to be sent.') +
-                  (Ops.syncProblem.value == null ? '' : ' The last try did not finish: ${Ops.syncProblem.value}')),
-              actions: const [TextButton(onPressed: Ops.syncNow, child: Text('Send now'))],
+              content: Text((waiting == 1
+                      ? tr('1 change is waiting to be sent.')
+                      : trf('{n} changes are waiting to be sent.', {'n': waiting})) +
+                  (Ops.syncProblem.value == null
+                      ? ''
+                      : ' ${trf('The last try did not finish: {problem}', {'problem': Ops.syncProblem.value})}')),
+              actions: [TextButton(onPressed: Ops.syncNow, child: Text(tr('Send now')))],
             ),
           if (refused.isNotEmpty)
             MaterialBanner(
               leading: Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
               content: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(refused.length == 1
-                    ? 'The school did not accept a change made offline:'
-                    : 'The school did not accept ${refused.length} changes made offline:'),
-                for (final r in refused) Text('• ${r['label']}: ${r['reason']}'),
+                    ? tr('The school did not accept a change made offline:')
+                    : trf('The school did not accept {n} changes made offline:', {'n': refused.length})),
+                for (final r in refused) Text('• ${tr('${r['label']}')}: ${r['reason']}'),
               ]),
-              actions: const [TextButton(onPressed: Ops.clearRefused, child: Text('Got it'))],
+              actions: [TextButton(onPressed: Ops.clearRefused, child: Text(tr('Got it')))],
             ),
         ]);
       },

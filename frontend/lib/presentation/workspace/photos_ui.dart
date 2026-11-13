@@ -42,7 +42,7 @@ class PhotoThumb extends StatelessWidget {
             child: ClipRRect(borderRadius: BorderRadius.circular(8), child: image),
           ),
           if (onDelete != null)
-            Positioned(right: 0, top: 0, child: IconButton(tooltip: 'Remove photo', 
+            Positioned(right: 0, top: 0, child: IconButton(tooltip: tr('Remove photo'),
               visualDensity: VisualDensity.compact, icon: const Icon(Icons.close, size: 18), onPressed: onDelete)),
         ]);
       },
@@ -95,7 +95,7 @@ class _MyHomeworkPhotosState extends State<MyHomeworkPhotos> {
         final photos = snap.data ?? const [];
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (photos.isNotEmpty || widget.editable)
-            Text('Written work', style: Theme.of(context).textTheme.titleSmall),
+            Text(tr('Written work'), style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 6),
           Wrap(spacing: 8, runSpacing: 8, children: [
             for (final p in photos)
@@ -117,7 +117,7 @@ class _MyHomeworkPhotosState extends State<MyHomeworkPhotos> {
           ]),
           if (widget.editable && photos.isNotEmpty)
             Padding(padding: const EdgeInsets.only(top: 4),
-                child: Text('Your teacher will mark the written work.', style: Theme.of(context).textTheme.bodySmall)),
+                child: Text(tr('Your teacher will mark the written work.'), style: Theme.of(context).textTheme.bodySmall)),
         ]);
       },
     );

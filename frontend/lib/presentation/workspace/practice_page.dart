@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import '../shared/readable.dart';
 import 'ops_api.dart';
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -70,21 +71,21 @@ class _PracticePageState extends State<PracticePage> {
   Widget build(BuildContext context) {
     final p = _set;
     if (p == null) {
-      return Scaffold(appBar: AppBar(title: const Text('Practice')),
+      return Scaffold(appBar: AppBar(title: Text(tr('Practice'))),
           body: _error != null ? ErrorDisplay(message: _error!) : const LoadingIndicator());
     }
     final theme = Theme.of(context);
     final done = p['submittedAt'] != null;
     final evals = {for (final e in (p['evaluations'] as List).cast<Map>()) e['questionId']: e};
     return Scaffold(
-      appBar: AppBar(title: Text('Practice: ${p['subject']}')),
+      appBar: AppBar(title: Text(trf('Practice: {subject}', {'subject': tr('${p['subject']}')}))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         if (done)
           AppCard(
             margin: const EdgeInsets.only(bottom: 12),
             color: AppColors.success.withValues(alpha: 0.08),
             child: Row(children: [
-              Expanded(child: Text('You got ${p['marks']} of ${p['maxMarks']}', style: theme.textTheme.titleMedium)),
+              Expanded(child: Text(trf('You got {marks} of {max}', {'marks': p['marks'], 'max': p['maxMarks']}), style: theme.textTheme.titleMedium)),
               FilledButton.tonal(onPressed: () => startPractice(context, subject: p['subject'] as String),
                   child: Text(tr('Practise again'))),
             ]),
@@ -93,7 +94,7 @@ class _PracticePageState extends State<PracticePage> {
           AppCard(
             margin: const EdgeInsets.only(bottom: 12),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Q${i + 1}. (${q['marks']} mark${q['marks'] == 1 ? '' : 's'})', style: theme.textTheme.labelLarge),
+              Text(trf('Q{n}. ({marks})', {'n': i + 1, 'marks': plural((q['marks'] as num).toInt(), 'mark')}), style: theme.textTheme.labelLarge),
               const SizedBox(height: 6),
               Text(q['stem'] ?? ''),
               const SizedBox(height: 8),
@@ -113,13 +114,13 @@ class _PracticePageState extends State<PracticePage> {
                   maxLines: 8,
                   controller: done ? TextEditingController(text: (p['answers'] as Map)[q['id']]?.toString() ?? '') : null,
                   onChanged: (v) => _answers[q['id'] as String] = v,
-                  decoration: const InputDecoration(hintText: 'Your answer'),
+                  decoration: InputDecoration(hintText: tr('Your answer')),
                 ),
               if (evals[q['id']] != null) ...[
                 const SizedBox(height: 8),
                 Text('${evals[q['id']]!['awardedMarks']} / ${evals[q['id']]!['maxMarks']}', style: theme.textTheme.titleSmall),
                 if ((evals[q['id']]!['modelAnswer'] ?? '').toString().isNotEmpty)
-                  Text('Model answer: ${evals[q['id']]!['modelAnswer']}', style: theme.textTheme.bodySmall),
+                  Text(trf('Model answer: {answer}', {'answer': evals[q['id']]!['modelAnswer']}), style: theme.textTheme.bodySmall),
               ],
             ]),
           ),

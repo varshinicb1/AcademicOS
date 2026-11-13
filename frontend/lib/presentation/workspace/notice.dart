@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme.dart';
+import 'strings.dart';
 
 enum NoticeKind { info, warning, danger, success }
 
@@ -55,4 +56,4 @@ class Notice extends StatelessWidget {
 /// The first [max] of [items], and "and N more" for the rest, so a list of
 /// sixty subtopic names does not take the screen.
 List<String> firstFew(List<String> items, {int max = 8}) =>
-    items.length <= max ? items : [...items.take(max), 'and ${items.length - max} more'];
+    items.length <= max ? items : [...items.take(max), trf('and {n} more', {'n': items.length - max})];
