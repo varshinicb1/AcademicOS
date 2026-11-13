@@ -28,6 +28,7 @@ from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 from ..api.rate_limit import RateLimiter, account_failures, rate_limit_login, rate_limit_register
+from ..api.request_logging import bind_school
 from ..config import Config
 from .schemas import Camel
 from .supabase_kv import SupabaseUnavailable
@@ -312,6 +313,7 @@ def get_current_user(
     # For api/main.py's admin audit: who made the request, and for an owner
     # in which of its schools.
     request.scope["acos_actor"] = user.id
+    bind_school(user.school_id)  # R-A4: the signed-in school on every log line
     if user.acting_owner:
         request.scope["acos_owner_school"] = user.school_id
     route_path = getattr(request.scope.get("route"), "path", None)
@@ -334,7 +336,11 @@ def get_current_user_optional(authorization: str = Header(default="")) -> Option
     if token is None or _users is None:
         return None
     user = _users.user_for_session(token)
-    return _as_seen_by_routes(user, token) if user is not None else None
+    if user is None:
+        return None
+    user = _as_seen_by_routes(user, token)
+    bind_school(user.school_id)
+    return user
 
 
 def require_owner(
@@ -354,6 +360,7 @@ def require_owner(
     if user.role != OWNER_ROLE:
         raise HTTPException(403, OWNER_DETAIL)
     request.scope["acos_actor"] = user.id
+    bind_school(user.school_id)
     return user
 
 
