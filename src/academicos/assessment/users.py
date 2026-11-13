@@ -879,6 +879,65 @@ class UserStore:
                 self._remote_invites.delete(code=inv.code)
         return len(invites)
 
+    # ---------------- retention (R-A7, operations/retention.py) ----------------
+
+    def school_ids(self) -> list[str]:
+        """Every school that has an account, local and remote rows both."""
+        with self._conn_lock:
+            ids = {r["school_id"] for r in self.conn.execute("SELECT DISTINCT school_id FROM users")}
+        if self._remote.enabled:
+            ids |= {r["school_id"] for r in self._remote.select()}
+        return sorted(i for i in ids if i)
+
+    def expired_session_tokens(self, user_ids: list[str], before: datetime) -> list[str]:
+        """The sessions of these users that expired before `before`. A session's
+        expiry is never extended, so an expired one can only be deleted."""
+        rows: list[dict] = []
+        with self._conn_lock:
+            for uid in user_ids:
+                rows += [dict(r) for r in self.conn.execute(
+                    "SELECT token, expires_at FROM sessions WHERE user_id=?", (uid,))]
+        if self._remote_sessions.enabled:
+            for uid in user_ids:
+                rows += self._remote_sessions.select(user_id=uid)
+        return sorted({r["token"] for r in rows if datetime.fromisoformat(r["expires_at"]) < before})
+
+    def delete_sessions_by_token(self, tokens: list[str]) -> None:
+        if self._remote_sessions.enabled:
+            for token in tokens:
+                self._remote_sessions.delete(token=token)
+        with self._conn_lock:
+            with secure_delete(self.conn):
+                for token in tokens:
+                    self.conn.execute("DELETE FROM sessions WHERE token=?", (token,))
+            self.conn.commit()
+            truncate_wal(self.conn)
+
+    def stale_invite_codes(self, school_id: str, before: datetime) -> list[str]:
+        """The school's invites that were never used and stopped working
+        (expired or withdrawn) before `before`. A used invite is kept: it
+        records how an account joined, and erasure finds it by `used_by`."""
+        stale = []
+        for inv in self.invites_for_school(school_id):
+            if inv.used_at:
+                continue
+            ended = inv.revoked_at or inv.expires_at
+            if datetime.fromisoformat(ended) < before:
+                stale.append(inv.code)
+        return sorted(stale)
+
+    def delete_unused_invites(self, codes: list[str]) -> None:
+        """Conditional on still unused, so a code claimed meanwhile stays."""
+        if self._remote_invites.enabled:
+            for code in codes:
+                self._remote_invites.delete(code=code, used_at="")
+        with self._conn_lock:
+            with secure_delete(self.conn):
+                for code in codes:
+                    self.conn.execute("DELETE FROM invites WHERE code=? AND used_at=''", (code,))
+            self.conn.commit()
+            truncate_wal(self.conn)
+
     def erase_account(self, user_id: str) -> None:
         """Delete the account row itself, its name and email with it, and any
         session left. The last step of an erasure: until it runs, the closed

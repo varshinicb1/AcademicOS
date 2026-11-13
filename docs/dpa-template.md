@@ -116,8 +116,10 @@ discloses them now as required:
 
    **[FILL IN — the release the School is served from: "GCP" (the web
    product) or "Render". Delete the rows that do not apply.]** The table was
-   compiled from the code on 2026-09-22 (docs/compliance.md, "New third-party
-   integration or vendor"). A row marked "only if configured" applies only
+   compiled from the code on 2026-09-22 and re-checked on 2026-11-13
+   (docs/compliance.md, "New third-party integration or vendor";
+   docs/data-flows.md lists every data category with its store, processors
+   and retention). A row marked "only if configured" applies only
    when AcademicOS has set that credential for the School's deployment.
    AcademicOS shall state in writing which of those are set.
 
@@ -129,6 +131,9 @@ discloses them now as required:
    | **Groq** (the default `llm_base_url`), or the LLM endpoint AcademicOS names instead: **[FILL IN if changed]** | Both, when an LLM key is set | Answers "doubt" questions on the corpus | The text a user types into a doubt question, which may be a student's own words. No student identifier |
    | **The School's or AcademicOS's SMTP relay**: **[FILL IN — host / provider]** | Both, only if configured | Emails exported question papers | Recipient addresses, the paper and answer-key PDFs, and the sender's note. No student data by design |
    | **Composio** (`backend.composio.dev`), relaying through the School's own Gmail/Outlook | Both, only if configured | Email and calendar actions on the School's behalf | As for SMTP. For calendar sync, an assessment's title and date |
+   | **Google Firebase Cloud Messaging** | GCP, only if push is configured | Push notifications to registered phones | The device token, and each notice's title and body (which can name a student to their own parent) |
+   | **MSG91** (`control.msg91.com`) | Both, only if configured | SMS notices | The mobile number of a parent or staff member who opted in to SMS, and the notice's title and body. Never a student's number |
+   | **WhatsApp Business Platform** (Meta, `graph.facebook.com`) | Both, only if configured | WhatsApp notices | As for MSG91, for a person who opted in to WhatsApp |
    | **Supabase** | Render (and GCP deployments made before the GCS storage change) | Database and file storage | Stored student data, scan images and audit records |
    | **Render** | Render | Backend hosting | All backend data, including student data and logs |
 
@@ -144,6 +149,15 @@ default: the academic year in which the data was collected plus one further
 year; the School may negotiate a shorter or longer period]**, after which it is
 deleted or anonymized unless a shorter period is required by law or a longer
 period is required by legal/regulatory retention obligations.
+
+   *Drafting note, delete before signing:* the platform deletes on a schedule
+   only what a written period covers (`src/academicos/operations/retention.py`,
+   daily): expired sign-in sessions and codes, and, once AcademicOS sets a
+   period for it, unused invites. The period agreed here is not yet enforced
+   automatically for student data; until it is, AcademicOS applies it with the
+   erasure tool (`docs/compliance.md`, "Erasure on request"). Audit records are
+   not deleted with student data: CERT-In requires logs be kept at least 180
+   days (Section 8 of this template and the incident-response runbook).
 
 6.2 **Deletion on request.** The School may request deletion of some or all
 student data at any time; AcademicOS shall comply within **[FILL IN — suggested

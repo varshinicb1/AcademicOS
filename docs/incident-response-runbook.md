@@ -64,16 +64,23 @@ the logging this codebase already produces:
    place to answer "what was written, by whom, when?" and to export evidence.
    The offline build has the same pattern via `LocalStore.appendAuditLog`
    (`frontend/lib/core/local_engine/local_store.dart`).
-2. **Render / hosting logs** — the backend runs on Render. Note: Render's free
+2. **GCP release (live): Cloud SQL `audit_log`, Cloud Logging and Cloud
+   Run.** The audit log is the Cloud SQL `audit_log` table (append-only,
+   hash-chained; `AuditLog.verify_chain()` reports the first entry that does
+   not fit). Every 401 and 403 is logged with route, caller and client
+   address, and goes to Cloud Logging with the request log. The daily
+   `retention_purge` audit entries show what the retention job deleted
+   (`operations/retention.py`).
+3. **Render / hosting logs** (the Render release only) — the backend runs on Render. Note: Render's free
    tier **wipes local disk on every restart**, which is why every durable store
    (including the audit log) has a Supabase-when-configured path. If a
    production deployment is not Supabase-backed, the local-SQLite audit log
    lives on ephemeral disk — that is itself a gap against the 6-month retention
    rule and a reason to treat an un-Supabase deployment as risky.
-3. **Supabase auth logs** — sign-in events, new devices, privilege changes.
+4. **Supabase auth logs** (the Render release only) — sign-in events, new devices, privilege changes.
    Anomalies here (a school admin account logging in from an unexpected
    location/IP) are a detection trigger on their own.
-4. **Errors, grouped (NFR-7, `src/academicos/api/error_tracking.py`)** — every
+5. **Errors, grouped (NFR-7, `src/academicos/api/error_tracking.py`)** — every
    exception the backend did not answer, and every error the web or phone app
    caught (`POST /api/v1/client-errors`), is written to the log as a Cloud Error
    Reporting event. On the GCP release, **Error Reporting** (Cloud Console) groups
@@ -84,7 +91,7 @@ the logging this codebase already produces:
    `X-Ops-Key` (set `ACOS_OPS_KEY`; the route answers 404 without it), and
    `/health/errors` gives the counts. Messages are scrubbed of emails and long
    numbers; no request body, query string or user id is kept.
-5. **Credential-exposure signals** — API keys appearing in logs, commit
+6. **Credential-exposure signals** — API keys appearing in logs, commit
    history, or a public repo; unexpected bursts of billable Sarvam API calls.
    Known pre-existing exposure to remediate: `config/config.toml` ships a live
    API key in plaintext (`llm_api_key`). This is a real, known risk to close,
@@ -149,8 +156,9 @@ whatever is known, and appends the rest later.
 ### T+2hr — Evidence preservation (do not wait for the investigation to finish)
 - [ ] Export the relevant `audit_log` rows for the affected assessment(s) /
       time window to a read-only file. Local SQLite file lives at
-      `<data_root>/audit/audit_log.sqlite`; in Supabase the rows are the
-      `audit_log` table. Example (SQLite):
+      `<data_root>/audit/audit_log.sqlite`; on the GCP release (and in
+      Supabase) the rows are the `audit_log` table, read with a read-only
+      database user. Example (SQLite):
       ```sql
       .open <data_root>/audit/audit_log.sqlite
       .headers on
@@ -185,20 +193,42 @@ whatever is known, and appends the rest later.
 
 ## Downstream obligations (after the T+6hr filing)
 
-- **DPDP Act 2023 — breach notification to the Data Protection Board and to
-  affected users/parents.** Every affected data subject is a minor, so the
-  school(s) must be told, and the school/processor must notify the affected
-  guardians. The Act's "without undue delay" runs on top of CERT-In's 6-hour
-  rule — do not treat the CERT-In filing as the end of notification duty.
-- **Schools first, then guardians.** The school is the data controller (see
-  `docs/dpa-template.md`); notify the school's named contact without undue
-  delay and work with them on the parent-facing notice.
-- **6-month minimum ICT log retention.** CERT-In requires logs be retained for
-  at least 6 months. `audit_log.py` satisfies the *persistence* half by writing
-  to SQLite/Supabase (not memory), but only if the deployment is actually
-  Supabase-backed in production — on Render's ephemeral free-tier disk the local
-  SQLite copy dies on restart. Confirm the production audit log is durable, and
-  keep the exported incident evidence for at least 6 months as well.
+The deadlines below come from the DPDP Rules, 2025 as published (Rule 7).
+**They need counsel to confirm** for AcademicOS's role: under the DPA the
+school is the Data Fiduciary and AcademicOS its processor, so the duty to
+notify the Board and the parents is the school's, and AcademicOS's duty is to
+tell the school at once and supply what the notice needs.
+
+- [ ] **The school, at once** (DPA §8.1). Tell the school's named
+      data-protection contact as soon as the IC declares a reportable
+      incident, in the same hour as the CERT-In filing if not before. Give:
+      what happened, when it was noticed, the categories of data (see
+      `docs/data-flows.md`), the number of students affected as far as known,
+      what has been contained, and who to call. Record the time.
+- [ ] **The Data Protection Board, without delay**: a first intimation of
+      the breach (nature, extent, timing, location, likely impact). The school
+      files it, or AcademicOS files it for the school if the school asks in
+      writing. Record who filed and when.
+- [ ] **The Data Protection Board, within 72 hours of awareness**: the
+      detailed report (facts and circumstances, cause, what was done to
+      mitigate, findings on who caused it, remedial measures, and what the
+      affected people were told). Same filer as above. The Rules let the
+      Board allow longer on request; ask in writing, never assume.
+- [ ] **Each affected parent or guardian, without delay**: every data
+      subject is a minor, so the notice goes to the guardian. The school sends
+      it; AcademicOS drafts the facts. It says what happened, what it means
+      for them, what has been done, what they can do, and who to contact.
+- [ ] Record every notice (time, channel, reference) in the incident log.
+- **6-month minimum ICT log retention.** CERT-In requires logs be kept for
+  at least 180 days. On the GCP release the application's audit log is the
+  Cloud SQL `audit_log` table, which nothing in the app deletes at any age
+  (`operations/retention.py` has no rule over it;
+  `tests/test_retention.py::test_the_audit_log_is_kept_at_every_age`).
+  **Gap, owner to act:** request and refusal logs (every 401/403 is logged)
+  go to Cloud Logging, whose default bucket keeps 30 days unless its
+  retention is raised. Raising it is an infrastructure change for the owner.
+  The DPDP Rules, 2025 as published may ask for one year of logs; **needs
+  counsel.** Keep the exported incident evidence at least as long.
 
 ## Post-incident review (run within 5 working days, however small the incident)
 

@@ -38,8 +38,18 @@ specifically, not just its general ones.
   - The deletion right the DPA template promises (its sections 6.2, 6.3 and
     9) is built since 2026-10-01: see "Erasure on request" below. The box
     stays unticked until a DPA is signed.
+  - **Needs counsel and the owner (2026-11-13).** The template matches the
+    build: its sub-processor list was re-checked against the code and now
+    names Firebase Cloud Messaging, MSG91 and the WhatsApp Business Platform,
+    and §6.1 says which periods the platform enforces. What is left is a
+    lawyer's review and a signature, which code cannot supply.
 - [ ] **Breach notification duty to the Data Protection Board** and to affected
       users — the Act's own timeline, layered under the CERT-In 6-hour rule below.
+  - **Documented; needs counsel (2026-11-13).** The runbook's "Downstream
+    obligations" now has timed steps: the school at once, the Board without
+    delay and a detailed report within 72 hours (DPDP Rules, 2025, Rule 7 as
+    published), and each affected guardian. Whether AcademicOS as processor
+    or the school as fiduciary files, and the exact periods, need counsel.
 
 Enforcement for child-data provisions phases in on an 18-month clock from the
 rules' notification — that's a runway to build this properly, not a reason to
@@ -72,12 +82,66 @@ This is the one with teeth on timing.
   - This means an **incident response runbook needs to exist before it's needed**
     — who gets paged, who has authority to notify CERT-In, where the report
     template lives. Writing it during an actual incident is too late.
+  - The runbook exists (`docs/incident-response-runbook.md`) with the T+6hr
+    filing step, its channels and the roles. The box stays unticked until the
+    runbook's own "before this is used for real" list is done: the notifier's
+    access to the CERT-In mailbox and a dry run. Both are the owner's.
 - [ ] **Retain ICT system logs for 6 months minimum**, securely. This directly
       implies: every store that doesn't currently have audit logging (which store,
       exactly, per the feature checklist below) is a gap against this rule, not
       just a nice-to-have.
+  - **The application's audit log: held (2026-11-13).** On the GCP release it
+    is the Cloud SQL `audit_log` table, append-only, and the retention job
+    holds no rule over it, so no entry of any age is deleted
+    (`tests/test_retention.py::test_the_audit_log_is_kept_at_every_age`).
+  - **Still open, owner:** request and 401/403 logs go to Cloud Logging, whose
+    default bucket keeps 30 days unless raised. Raising it to at least 180
+    days is an infrastructure change. **Needs counsel:** the DPDP Rules, 2025
+    as published may ask for one year of logs; the app deletes none, so the
+    floor only matters for Cloud Logging.
 - [ ] Maintain accurate **point-of-contact and system-inventory records** CERT-In
       can be handed on request.
+  - The system and data inventory is `docs/data-flows.md` (2026-11-13): each
+    category of personal data, its store, its processors and its retention.
+    The point of contact is in the runbook. Registering it with CERT-In is the
+    owner's.
+
+## Retention periods, enforced (R-A7, 2026-11-13)
+
+A scheduled job deletes what a written period says may go, and nothing else:
+`operations/retention.py`, one daily entry (`retention`, from 02:00 IST) in
+`operations/automations.py` `JOBS`. For each school it finds what is due,
+appends one `retention_purge` audit entry (counts per rule, no token, code or
+email), then deletes. A failed audit append deletes nothing. A second run
+finds nothing and logs nothing. It never purges on a clock ahead of the real
+one. Tests: `tests/test_retention.py`.
+
+| Data | Period | Source of the period | Enforced |
+|---|---|---|---|
+| Sign-in sessions | 30 days, then deleted | `users._SESSION_LIFETIME` | Yes, daily |
+| Emailed sign-in codes | 10 minutes, then deleted | `sign_in_codes.LIFETIME` | Yes, daily |
+| Unused invites, expired or withdrawn | `ACOS_RETENTION_INVITE_DAYS` after they stopped working | **Owner to confirm**; unset keeps them | When set |
+| Used invites | Kept | How an account joined; erasure finds them | n/a |
+| Audit log | Never deleted by the app; at least 180 days | CERT-In 2022 directions | Held by test |
+| Student work: scans, marks, homework, mastery, events, notifications | **Owner to confirm** (D6 in `docs/security-review-2026-10.md`; DPA §6.1 is `[FILL IN]`) | None written yet; the pilot protocol's 24 months is "per agreement" | No. Deleted on request by erasure |
+| Backups, Cloud Logging | **Owner to confirm** | Infrastructure settings | No (owner-only infrastructure) |
+
+### Status of the boxes above (2026-11-13)
+
+| Box | Status |
+|---|---|
+| Verifiable parental consent | Open. Needs a way to verify the guardian; product and counsel |
+| No profiling or advertising | Open. Needs counsel to confirm what counts; nothing in the code profiles for advertising |
+| No secondary use | Open. Needs counsel and the DPA |
+| DPA with the school | Template current; **needs counsel** and a signature |
+| Breach notice to the Board | Runbook steps written; **needs counsel** |
+| SPDI security programme, annual audit | Open. Owner (ISO 27001 path) |
+| SPDI consent | Open. **Needs counsel** |
+| CERT-In 6-hour report | Runbook written; dry run and mailbox access are the owner's |
+| CERT-In log retention | App audit log held; Cloud Logging retention is the owner's; **needs counsel** on one year |
+| CERT-In contact and inventory | Inventory written (`docs/data-flows.md`); registration is the owner's |
+| Retention enforced by a job | **Closed**: `operations/retention.py`, `tests/test_retention.py` |
+| Data-flow record | **Closed**: `docs/data-flows.md` |
 
 ## Certifications worth pursuing for real, once there's a paying pilot
 
