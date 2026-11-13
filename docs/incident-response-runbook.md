@@ -222,6 +222,51 @@ the blame.
   (unreachable phone numbers, a role that wasn't filled) gets fixed in this
   file.
 
+## Backups and restore (R-A2, NFR-4)
+
+What protects the data, and how to prove it restores.
+
+| Data | Where | Protection | Set up by |
+|---|---|---|---|
+| JSONB stores (users, sessions, audit log, consents, papers, marking, learner models) and, after the R-A1 cutover, the curriculum and operations stores | Cloud SQL `academicos-pg` | Daily automated backups at 19:00 UTC, point-in-time recovery (`--enable-point-in-time-recovery`) | `deploy/gcp/bootstrap.sh` |
+| Curriculum and operations stores before the cutover | SQLite snapshots in the media bucket (`curriculum-snapshots/`, `operations-snapshots/`) | Only the object versioning below. Each save overwrites the snapshot, so without versioning a bad save cannot be undone | Owner, step 2 below |
+| Uploads, scans, API keys | GCS media bucket | Object versioning, below | Owner, step 2 below |
+
+**Owner steps, once billing is active.** These are changes to production infrastructure, so only the
+owner runs them:
+
+1. Check what is on now (creates nothing):
+   `PROJECT_ID=vidyuthlabs bash scripts/restore_drill.sh --check`
+2. If it reports media versioning off, turn it on and keep 30 days of old versions:
+
+   ```bash
+   gcloud storage buckets update gs://vidyuthlabs-academicos-media --versioning
+   cat > /tmp/lifecycle.json <<'JSON'
+   {"rule": [{"action": {"type": "Delete"},
+              "condition": {"daysSinceNoncurrentTime": 30, "isLive": false}}]}
+   JSON
+   gcloud storage buckets update gs://vidyuthlabs-academicos-media --lifecycle-file=/tmp/lifecycle.json
+   ```
+
+   The same two settings belong in `deploy/gcp/bootstrap.sh` so a rebuilt project gets them; that is a
+   deploy-file change for the owner to approve.
+3. Run the drill: `PROJECT_ID=vidyuthlabs bash scripts/restore_drill.sh`. It clones `academicos-pg` to a
+   scratch instance at a point ten minutes ago, times it, prints the query for row counts, and deletes the
+   scratch instance when you say so. `MODE=backup` restores the latest automated backup instead.
+4. Paste the line it prints into the log below. Repeat after the R-A1 cutover and then every quarter.
+
+**Restoring for real.** Restore into a new instance first (step 3 with the point in time just before the
+incident), check it, then point the service at it (`ACOS_POSTGRES_HOST`) or copy the affected rows back.
+Never restore over `academicos-pg` in place: that discards everything written since the point. For a bad
+snapshot, list versions with `gcloud storage ls -a gs://vidyuthlabs-academicos-media/curriculum-snapshots/`
+and copy the good generation over the live object while the service is stopped.
+
+### Restore drill log
+
+| Date | Mode | Instance | Time to restore | Row counts | Media versioning |
+|---|---|---|---|---|---|
+| Not yet run | | | | | |
+
 ## Before this runbook is used for real
 
 - [x] All `[NAME]` / `[PHONE]` brackets filled with people who have confirmed
