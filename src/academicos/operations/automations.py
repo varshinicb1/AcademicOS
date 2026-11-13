@@ -30,6 +30,8 @@ even two overlapping runs cannot double a message.
   chosen time has passed (SA-5).
 - deliveries (every run): what quiet hours held overnight, and failed sends
   due a retry, go out without waiting for someone to open an inbox (N-8-2).
+- retention (from 02:00): deletes what a written retention period says may
+  go (R-A7; operations/retention.py).
 
 Triggered by POST /api/v1/automations/run (Cloud Scheduler, with the
 operator's cron key) and, throttled, by ordinary traffic.
@@ -40,6 +42,8 @@ import logging
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable, Optional
+
+from . import retention as _retention
 
 log = logging.getLogger(__name__)
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -530,6 +534,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("period_starting", 7, "run", None, period_starting),
     ("user_digests", 0, "run", None, user_digests),
     ("deliveries", 0, "run", None, deliveries),
+    ("retention", 2, "day", None, _retention.job),  # R-A7: operations/retention.py
 ]
 
 
