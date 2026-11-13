@@ -423,7 +423,7 @@ Confirmed open on `784b42b`. File references are where to start, not a diagnosis
 | 3,296 model-written questions served without review (718 until 14 Oct; 1,690 of them are the textbook transcriptions' topic questions, classes 1-10) | `corpus/bank_merge.py`, records with source `ai_generated` / `textbook_grounded` / `two_model_solved` | QB-5 (R-C3) |
 | The main paper builder sends no difficulty tier | `frontend/lib/data/datasources/api/paper_builder_api.dart` | EX-3 (R-C4) |
 | A school that set up classes 6-9 before #136 sees old and new chapters side by side after a re-seed (nothing is deleted, by design) | `curriculum/seed_cbse10.py` | SCH-4; needs an owner decision on a clean-up tool |
-| Rooms are empty for ordinary classes when no rooms are allocated | `curriculum/timetable_solver.py` | TA-1, SA-1 |
+| Rooms are empty for ordinary classes when no rooms are allocated. Narrowed: a period the solver moves or adds now goes to the classroom its section's week already names, when that room is free then (`tests/test_timetable_home_rooms.py`). Still open: a section none of whose periods names a classroom gets no room; a home classroom per section would need a new field and screen | `curriculum/timetable_solver.py` | TA-1, SA-1 |
 | About 2% of Exemplar answer keys misaligned (D37); CBE stacked fractions refused instead of recovered | `corpus/` importers | QB-7, QB-10 |
 | Social Science 7 has 202 book sections for about 130 periods left in a mid-year start; the plan says so, but the principal has no tool to choose what to drop | `curriculum/scheduling.py` | SCH-4 |
 
