@@ -9,6 +9,9 @@ floats.
   school. No money moves through AcademicOS: online payment waits for a
   gateway the owner chooses.
 - A concession lowers what one student owes on one head.
+- A payment recorded in error is reversed, never deleted: the receipt and
+  its number stay (a reversal row says who, when and why), and it no longer
+  counts towards what was paid.
 
 Receipt numbers come from a per-school counter claimed with one atomic
 upsert, so two payments at once (or two server instances) never share a
@@ -61,6 +64,15 @@ CREATE TABLE IF NOT EXISTS fee_concessions (
   created_at        TEXT NOT NULL,
   UNIQUE (school_id, student_id, fee_head_id)
 );
+CREATE TABLE IF NOT EXISTS fee_reversals (
+  payment_id        TEXT PRIMARY KEY,
+  school_id         TEXT NOT NULL,
+  student_id        TEXT NOT NULL,
+  reason            TEXT NOT NULL,
+  reversed_by       TEXT NOT NULL,
+  reversed_at       TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_fee_reversals_student ON fee_reversals(student_id);
 CREATE TABLE IF NOT EXISTS fee_receipt_counters (
   school_id         TEXT PRIMARY KEY,
   last_no           INTEGER NOT NULL
@@ -125,10 +137,36 @@ class FeesMixin:
             self._commit()
         return self._fetchone("SELECT * FROM fee_payments WHERE id=?", (pid,))
 
-    def payments_of(self, school_id: str, student_id: str) -> list[dict]:
-        return self._fetchall(
-            "SELECT * FROM fee_payments WHERE school_id=? AND student_id=? ORDER BY paid_on, receipt_no",
+    def payments_of(self, school_id: str, student_id: str, *, include_reversed: bool = False) -> list[dict]:
+        """The student's payments, oldest first. Reversed ones are left out
+        unless asked for, so every balance counts only money kept; with them,
+        each row carries `reversed_at`, `reversed_by` and `reversal_reason`
+        (None when it stands)."""
+        rows = self._fetchall(
+            "SELECT p.*, r.reversed_at AS reversed_at, r.reversed_by AS reversed_by, r.reason AS reversal_reason"
+            " FROM fee_payments p LEFT JOIN fee_reversals r ON r.payment_id = p.id"
+            " WHERE p.school_id=? AND p.student_id=? ORDER BY p.paid_on, p.receipt_no",
             (school_id, student_id))
+        return rows if include_reversed else [r for r in rows if r["reversed_at"] is None]
+
+    def get_fee_payment(self, payment_id: str) -> Optional[dict]:
+        return self._fetchone(
+            "SELECT p.*, r.reversed_at AS reversed_at, r.reversed_by AS reversed_by, r.reason AS reversal_reason"
+            " FROM fee_payments p LEFT JOIN fee_reversals r ON r.payment_id = p.id WHERE p.id=?", (payment_id,))
+
+    def reverse_fee_payment(self, payment_id: str, *, reason: str, reversed_by: str) -> bool:
+        """Mark a payment reversed. False if it already was: the claim is one
+        insert that a second, simultaneous reversal cannot also win."""
+        p = self.get_fee_payment(payment_id)
+        if p is None:
+            return False
+        with self._conn_lock:
+            cur = self.conn.execute(
+                "INSERT INTO fee_reversals (payment_id, school_id, student_id, reason, reversed_by, reversed_at)"
+                " VALUES (?,?,?,?,?,?) ON CONFLICT (payment_id) DO NOTHING",
+                (payment_id, p["school_id"], p["student_id"], reason, reversed_by, _now()))
+            self._commit()
+        return cur.rowcount == 1
 
     # ---- concessions ----
     def set_fee_concession(self, *, school_id: str, student_id: str, fee_head_id: str, amount_paise: int, reason: str,

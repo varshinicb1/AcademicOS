@@ -101,3 +101,69 @@ def test_erasing_a_student_removes_their_payments(w):
     counts = store().forget_student(sid, school_id="school_1", email="s1@example.com", name="Asha")
     assert counts["fee_payments"] == 1
     assert store().payments_of("school_1", sid) == []
+
+
+def test_a_payment_recorded_in_error_is_reversed_and_its_receipt_stays_marked(w):
+    sid, mum = _parent(w)
+    tuition = _head(w, "Tuition", 10_000_00, "2026-07-01")
+    p = _pay(w, sid, tuition, 10_000_00).json()
+    assert _pay(w, sid, tuition, 1_000_00).json()["receiptNo"] == 2
+
+    for who in (w.t["ana"], _h(mum), w.stu, w.p2):
+        r = w.c.post(f"/api/v1/fees/payments/{p['id']}/reverse", json={"reason": "x"}, headers=who)
+        assert r.status_code in (403, 404), r.text
+    r = w.c.post(f"/api/v1/fees/payments/{p['id']}/reverse", json={"reason": "Cheque bounced"}, headers=w.p)
+    assert r.status_code == 200, r.text
+    s = r.json()
+    assert s["paidPaise"] == 1_000_00 and s["balancePaise"] == 9_000_00, "the reversed money no longer counts"
+    first = s["receipts"][0]
+    assert first["receiptNo"] == 1 and first["reversed"] is True and first["reversalReason"] == "Cheque bounced"
+    assert s["receipts"][1]["reversed"] is False
+    [notice] = _items(w, _h(mum), "fee_payment_reversed")
+    assert notice["title"] == "Receipt cancelled: Asha"
+    assert notice["body"] == "Receipt 1 for Rs 10,000 (Tuition) was cancelled: Cheque bounced"
+    again = w.c.post(f"/api/v1/fees/payments/{p['id']}/reverse", json={"reason": "again"}, headers=w.p)
+    assert again.status_code == 409
+    assert w.c.post(f"/api/v1/fees/payments/{p['id']}/reverse", json={"reason": ""}, headers=w.p).status_code == 422
+    # the next payment still takes the next number: a reversal frees none
+    assert _pay(w, sid, tuition, 500_00).json()["receiptNo"] == 3
+
+
+def test_the_receipt_prints_for_the_school_the_parent_and_the_student_only(w):
+    sid, mum = _parent(w)
+    tuition = _head(w, "Tuition", 10_000_00, "2026-07-01")
+    p = _pay(w, sid, tuition, 4_500_50, reference="CHQ 7").json()
+    for path, who in ((f"/api/v1/fees/payments/{p['id']}/receipt", w.p),
+                      (f"/api/v1/children/{sid}/fees/receipts/{p['id']}", _h(mum)),
+                      (f"/api/v1/my-fees/receipts/{p['id']}", w.stu)):
+        r = w.c.get(path, headers=who)
+        assert r.status_code == 200, (path, r.text)
+        assert r.headers["content-type"] == "application/pdf" and r.content.startswith(b"%PDF")
+        assert 'filename="receipt-1.pdf"' in r.headers["content-disposition"]
+    assert w.c.get(f"/api/v1/fees/payments/{p['id']}/receipt", headers=w.t["ana"]).status_code == 403
+    assert w.c.get(f"/api/v1/fees/payments/{p['id']}/receipt", headers=w.p2).status_code in (403, 404)
+    assert w.c.get(f"/api/v1/children/{sid}/fees/receipts/{p['id']}", headers=w.stu).status_code == 403
+    assert w.c.get(f"/api/v1/my-fees/receipts/{p['id']}", headers=_h(mum)).status_code == 403
+    assert w.c.get("/api/v1/my-fees/receipts/nope", headers=w.stu).status_code == 404
+
+
+def test_the_receipt_says_what_it_records_and_when_it_was_cancelled():
+    import fitz
+    from academicos.operations.fee_receipt_pdf import receipt_pdf
+
+    def text_of(data: bytes) -> str:
+        with fitz.open(stream=data, filetype="pdf") as doc:
+            return " ".join(doc[0].get_text().split())
+
+    row = {"receipt_no": 12, "paid_on": "2026-06-01", "method": "cheque", "reference": "CHQ 7",
+           "recorded_at": "2026-06-01T05:00:00+00:00", "reversed_at": None, "reversal_reason": None}
+    text = text_of(receipt_pdf(receipt=row, student_name="Asha", class_name="10-B", fee_name="Tuition",
+                                            recorded_by="Priya", amount="Rs 4,500.50"))
+    for words in ("Fee receipt", "12", "01 Jun 2026", "Asha, class 10-B", "Tuition", "Cheque (CHQ 7)", "Rs 4,500.50",
+                  "Recorded by Priya"):
+        assert words in text, words
+    assert "CANCELLED" not in text
+    row.update(reversed_at="2026-06-02T05:00:00+00:00", reversal_reason="Cheque bounced")
+    text = text_of(receipt_pdf(receipt=row, student_name="Asha", class_name="10-B", fee_name="Tuition",
+                                            recorded_by="Priya", amount="Rs 4,500.50"))
+    assert "CANCELLED on 02 Jun 2026: Cheque bounced" in text
