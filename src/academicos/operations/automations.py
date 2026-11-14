@@ -8,7 +8,8 @@ inbox poll -- sends each thing once. Notifications carry dedupe keys too, so
 even two overlapping runs cannot double a message.
 
 - homework_due_tomorrow (from 16:00): students who have not submitted
-  homework due tomorrow.
+  homework due tomorrow; in classes 1-5, their linked parents too, who do
+  the homework with them (SA-7).
 - homework_overdue (from 09:00): the teacher of each homework that closed
   yesterday with students missing, once per homework.
 - substitution_escalation (every run): the principal, when a substitution
@@ -23,7 +24,8 @@ even two overlapping runs cannot double a message.
   week, homework overdue in bulk, exams within a week without a full roster or
   with a paper not set (no approved question paper) (ADM-3).
 - exam_reminders (from 17:00): students with a paper tomorrow, and invigilators
-  with duties tomorrow, in a published exam (NTF-2, SA-5).
+  with duties tomorrow, in a published exam (NTF-2, SA-5); in classes 1-5 the
+  students' linked parents too (SA-7).
 - term_report (from 15:00): on a term's last day, its principal hears the term
   report is ready (NTF-2 end-of-term reports, ADM-4).
 - user_digests (every run): each person on a daily digest gets it once their
@@ -113,6 +115,13 @@ def _subject(cs, subject_id: str) -> str:
 
 # ---------------- jobs: each returns how many were notified ----------------
 
+YOUNG_UP_TO = 5     # classes 1-5: the parent does the app with the child (SA-7)
+
+
+def _young_parents(ops, school: str, student_id: str) -> list[str]:
+    return ops.parents_of([student_id], school_id=school)
+
+
 def homework_due_tomorrow(ops, cs, users, notify, now: datetime) -> int:
     tomorrow = (now.astimezone(IST).date() + timedelta(days=1)).isoformat()
     n = 0
@@ -129,6 +138,14 @@ def homework_due_tomorrow(ops, cs, users, notify, now: datetime) -> int:
                            params={"title": hw.title, "due": "tomorrow", "due_hi": "कल"}, link=f"/my-homework/{hw.id}",
                            dedupe_key=f"hwdue:{hw.id}:{e.student_id}:{tomorrow}")
                     n += 1
+                    if hw.grade is not None and hw.grade <= YOUNG_UP_TO:
+                        parents = _young_parents(ops, school, e.student_id)
+                        if parents:
+                            child = users.get(e.student_id)
+                            notify(school_id=school, user_ids=parents, kind="child_homework_due",
+                                   params={"student": child.name if child else "", "title": hw.title},
+                                   link="/my-children", dedupe_key=f"hwdue-parent:{hw.id}:{e.student_id}:{tomorrow}")
+                            n += len(parents)
     return n
 
 
@@ -475,6 +492,17 @@ def exam_reminders(ops, cs, users, notify, now: datetime) -> int:
                                "end": p["end_time"]},
                        link="/my-exams", dedupe_key=f"examrem:{p['id']}")
                 n += len(students)
+                if p["grade"] <= YOUNG_UP_TO:
+                    for sid in students:
+                        parents = _young_parents(ops, school, sid)
+                        if not parents:
+                            continue
+                        child = users.get(sid)
+                        notify(school_id=school, user_ids=parents, kind="child_exam_reminder",
+                               params={"student": child.name if child else "", "exam": ex["name"],
+                                       "subject": p["subject_name"], "start": p["start_time"], "end": p["end_time"]},
+                               link="/my-children", dedupe_key=f"examrem-parent:{p['id']}:{sid}")
+                        n += len(parents)
             duties: dict[str, list[dict]] = {}
             for r in ops.roster(ex["id"]):
                 if r["date"] == tomorrow and r["teacher_id"]:
