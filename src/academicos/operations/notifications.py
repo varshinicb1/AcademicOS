@@ -189,6 +189,16 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("exam_reminder", "An exam tomorrow", True, False,
          ("Exam tomorrow: {subject}", "{exam}: {subject}, {start}-{end}."),
          ("कल परीक्षा: {subject}", "{exam}: {subject}, {start}-{end}।")),
+    # SA-7: in classes 1-5 the parent does the homework with the child, so
+    # the parent hears what the child would: homework due and an exam tomorrow.
+    Kind("child_homework_due", "Your young child's homework due tomorrow", True, False,
+         ("Homework due tomorrow: {student}", "{title} is due tomorrow and is not handed in yet. Open it from "
+                                              "My children to do it together."),
+         ("कल तक गृहकार्य: {student}", "{title} कल तक जमा करना है और अभी जमा नहीं हुआ है। इसे 'मेरे बच्चे' से खोलकर "
+                                       "साथ में करें।")),
+    Kind("child_exam_reminder", "Your young child's exam tomorrow", True, False,
+         ("Exam tomorrow: {student}, {subject}", "{exam}: {subject}, {start}-{end}."),
+         ("कल परीक्षा: {student}, {subject}", "{exam}: {subject}, {start}-{end}।")),
     Kind("duty_reminder", "Invigilation tomorrow", True, False,
          ("Invigilation tomorrow: {count}", "{exam}: the first is {first}."),
          ("कल निरीक्षण: {count}", "{exam}: पहली {first}।")),
