@@ -3086,6 +3086,54 @@
         "title": "ClassAnalysis",
         "type": "object"
       },
+      "ClassDues": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "overduePaise": {
+            "title": "Overduepaise",
+            "type": "integer"
+          },
+          "paidPaise": {
+            "title": "Paidpaise",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "students": {
+            "title": "Students",
+            "type": "integer"
+          },
+          "studentsOverdue": {
+            "title": "Studentsoverdue",
+            "type": "integer"
+          },
+          "totalPaise": {
+            "title": "Totalpaise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "students",
+          "totalPaise",
+          "paidPaise",
+          "balancePaise",
+          "overduePaise",
+          "studentsOverdue"
+        ],
+        "title": "ClassDues",
+        "type": "object"
+      },
       "ClassInsightsResponse": {
         "properties": {
           "assessmentId": {
@@ -4626,6 +4674,47 @@
         "title": "DecisionRequest",
         "type": "object"
       },
+      "Defaulter": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "overdueHeads": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Overdueheads",
+            "type": "array"
+          },
+          "overduePaise": {
+            "title": "Overduepaise",
+            "type": "integer"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "sectionName",
+          "overduePaise",
+          "balancePaise",
+          "overdueHeads"
+        ],
+        "title": "Defaulter",
+        "type": "object"
+      },
       "DelayedLessonResponse": {
         "properties": {
           "bookId": {
@@ -6076,6 +6165,76 @@
           "url"
         ],
         "title": "FeedResponse",
+        "type": "object"
+      },
+      "FeesOverview": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "classes": {
+            "items": {
+              "$ref": "#/components/schemas/ClassDues"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "collectedPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Collectedpercent"
+          },
+          "concessionPaise": {
+            "title": "Concessionpaise",
+            "type": "integer"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "defaulters": {
+            "items": {
+              "$ref": "#/components/schemas/Defaulter"
+            },
+            "title": "Defaulters",
+            "type": "array"
+          },
+          "defaultersTotal": {
+            "title": "Defaulterstotal",
+            "type": "integer"
+          },
+          "overduePaise": {
+            "title": "Overduepaise",
+            "type": "integer"
+          },
+          "paidPaise": {
+            "title": "Paidpaise",
+            "type": "integer"
+          },
+          "totalPaise": {
+            "title": "Totalpaise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "date",
+          "totalPaise",
+          "concessionPaise",
+          "paidPaise",
+          "balancePaise",
+          "overduePaise",
+          "classes",
+          "defaulters",
+          "defaultersTotal"
+        ],
+        "title": "FeesOverview",
         "type": "object"
       },
       "Filters": {
@@ -31674,6 +31833,54 @@
         "summary": "Set Concession"
       }
     },
+    "/api/v1/fees/defaulters/export": {
+      "get": {
+        "description": "Every student with an overdue balance, as CSV or Excel, in rupees.",
+        "operationId": "export_defaulters_api_v1_fees_defaulters_export_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "xlsx"
+              ],
+              "title": "Format",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Export Defaulters"
+      }
+    },
     "/api/v1/fees/heads": {
       "get": {
         "operationId": "list_heads_api_v1_fees_heads_get",
@@ -31805,6 +32012,30 @@
           }
         ],
         "summary": "Delete Head"
+      }
+    },
+    "/api/v1/fees/overview": {
+      "get": {
+        "description": "The year's fees across the school: totals, each class, and the\nstudents with an overdue balance, largest first.",
+        "operationId": "fees_overview_api_v1_fees_overview_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeesOverview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Fees Overview"
       }
     },
     "/api/v1/fees/payments": {

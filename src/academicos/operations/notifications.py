@@ -158,6 +158,12 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
          ("Marks: {title}", "{subject}: {marks}."),
          ("अंक: {title}", "{subject}: {marks}।")),
     # FEE-1: a parent's receipt for a payment the school recorded.
+    Kind("fee_due_soon", "A fee falling due for your child", True, True,
+         ("Fee due {date}: {student}", "{amount} for {fee} is due on {date}. Pay at the school office."),
+         ("शुल्क {date} तक देय: {student}", "{fee} के लिए {amount} {date} तक देय है। विद्यालय कार्यालय में जमा करें।")),
+    Kind("fee_overdue", "A fee overdue for your child", True, True,
+         ("Fee overdue: {student}", "{amount} for {fee} was due on {date}. Pay at the school office, or speak to it."),
+         ("शुल्क बकाया: {student}", "{fee} के लिए {amount} {date} को देय था। विद्यालय कार्यालय में जमा करें या बात करें।")),
     Kind("fee_receipt", "A fee payment received", True, True,
          ("Fee received: {student}", "{amount} for {fee}, receipt {receipt}."),
          ("शुल्क प्राप्त: {student}", "{fee} के लिए {amount}, रसीद {receipt}।")),

@@ -391,6 +391,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("PUT", "/api/v1/fees/concessions"): _p(ADMIN["fees"], "audited"),
     ("GET", "/api/v1/fees/students/{student_id}"): _p(ADMIN["fees"]),
     ("GET", "/api/v1/fees/sections/{section_id}"): _p(ADMIN["fees"], "what each student of one class owes"),
+    ("GET", "/api/v1/fees/overview"): _p(ADMIN["fees"], "the year's totals per class and the overdue list; names read are logged"),
+    ("GET", "/api/v1/fees/defaulters/export"): _p(ADMIN["fees"], "CSV or Excel of the overdue list; audited and logged"),
     ("GET", "/api/v1/children/{student_id}/fees"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/my-fees"): _p(ANY_USER, "students only, their own statement"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),

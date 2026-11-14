@@ -4040,6 +4040,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/fees/defaulters/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export Defaulters
+         * @description Every student with an overdue balance, as CSV or Excel, in rupees.
+         */
+        get: operations["export_defaulters_api_v1_fees_defaulters_export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/fees/heads": {
         parameters: {
             query?: never;
@@ -4070,6 +4090,27 @@ export interface paths {
         post?: never;
         /** Delete Head */
         delete: operations["delete_head_api_v1_fees_heads__head_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fees Overview
+         * @description The year's fees across the school: totals, each class, and the
+         *     students with an overdue balance, largest first.
+         */
+        get: operations["fees_overview_api_v1_fees_overview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -7857,6 +7898,25 @@ export interface components {
             /** Students */
             students: number;
         };
+        /** ClassDues */
+        ClassDues: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Overduepaise */
+            overduePaise: number;
+            /** Paidpaise */
+            paidPaise: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
+            /** Students */
+            students: number;
+            /** Studentsoverdue */
+            studentsOverdue: number;
+            /** Totalpaise */
+            totalPaise: number;
+        };
         /** ClassInsightsResponse */
         ClassInsightsResponse: {
             /** Assessmentid */
@@ -8440,6 +8500,21 @@ export interface components {
             /** Note */
             note?: string | null;
         };
+        /** Defaulter */
+        Defaulter: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Name */
+            name: string;
+            /** Overdueheads */
+            overdueHeads: string[];
+            /** Overduepaise */
+            overduePaise: number;
+            /** Sectionname */
+            sectionName: string;
+            /** Studentid */
+            studentId: string;
+        };
         /** DelayedLessonResponse */
         DelayedLessonResponse: {
             /**
@@ -8989,6 +9064,29 @@ export interface components {
         FeedResponse: {
             /** Url */
             url: string;
+        };
+        /** FeesOverview */
+        FeesOverview: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Classes */
+            classes: components["schemas"]["ClassDues"][];
+            /** Collectedpercent */
+            collectedPercent?: number | null;
+            /** Concessionpaise */
+            concessionPaise: number;
+            /** Date */
+            date: string;
+            /** Defaulters */
+            defaulters: components["schemas"]["Defaulter"][];
+            /** Defaulterstotal */
+            defaultersTotal: number;
+            /** Overduepaise */
+            overduePaise: number;
+            /** Paidpaise */
+            paidPaise: number;
+            /** Totalpaise */
+            totalPaise: number;
         };
         /** Filters */
         Filters: {
@@ -21672,6 +21770,37 @@ export interface operations {
             };
         };
     };
+    export_defaulters_api_v1_fees_defaulters_export_get: {
+        parameters: {
+            query?: {
+                format?: "csv" | "xlsx";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_heads_api_v1_fees_heads_get: {
         parameters: {
             query: {
@@ -21763,6 +21892,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    fees_overview_api_v1_fees_overview_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeesOverview"];
                 };
             };
         };

@@ -4,6 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'dart:typed_data';
+
+import 'package:academicos/core/download/pdf_saver.dart';
 import 'package:academicos/core/local_engine/local_store.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import 'package:academicos/presentation/workspace/fees_page.dart';
@@ -14,6 +17,13 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../responsive/responsive_harness.dart' show useAppFonts;
+
+class _Saver implements PdfSaver {
+  final List<String> saved = [];
+
+  @override
+  Future<void> save(Uint8List bytes, String filename) async => saved.add(filename);
+}
 
 class _Server implements HttpClientAdapter {
   final List<String> writes = [];
@@ -37,12 +47,31 @@ class _Server implements HttpClientAdapter {
     ],
   };
 
+  static const _overview = {
+    'date': '2026-06-01', 'totalPaise': 1700000, 'concessionPaise': 0, 'paidPaise': 1000000, 'balancePaise': 700000,
+    'overduePaise': 500000, 'collectedPercent': 58.8,
+    'classes': [
+      {'sectionId': 'sb', 'sectionName': '10-B', 'students': 1, 'totalPaise': 1700000, 'paidPaise': 1000000,
+        'balancePaise': 700000, 'overduePaise': 500000, 'studentsOverdue': 1},
+    ],
+    'defaulters': [
+      {'studentId': 's1', 'name': 'Asha', 'sectionName': '10-B', 'overduePaise': 500000, 'balancePaise': 700000,
+        'overdueHeads': ['Tuition, term 1']},
+    ],
+    'defaultersTotal': 1,
+  };
+
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
     if (o.method == 'POST') {
       writes.add('${o.path} ${jsonEncode(o.data)}');
       return ResponseBody.fromString('{"id":"p2","receiptNo":2}', 200, headers: _json);
     }
+    if (o.path == '/fees/defaulters/export') {
+      writes.add('${o.path} ${o.queryParameters['format']}');
+      return ResponseBody.fromBytes(utf8.encode('PK-fake'), 200);
+    }
+    if (o.path == '/fees/overview') return ResponseBody.fromString(jsonEncode(_overview), 200, headers: _json);
     return ResponseBody.fromString(jsonEncode(_statement), 200, headers: _json);
   }
 
@@ -125,5 +154,22 @@ void main() {
     await settle(tester);
     expect(server.writes.single,
         '/fees/payments {"studentId":"s1","feeHeadId":"h1","amountPaise":500000,"method":"cash","reference":""}');
+  });
+
+  // FEE-1 oversight: the principal's view of the whole school's fees.
+  testWidgets('the principal sees the year at a glance and downloads who is overdue', (tester) async {
+    final saver = _Saver();
+    GetIt.instance.registerSingleton<PdfSaver>(saver);
+    await pump(tester, const FeesOverviewView());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Rs 17,000'), findsOneWidget, reason: 'billed');
+    expect(find.text('Rs 10,000'), findsOneWidget, reason: 'collected');
+    expect(find.text('58.8% collected'), findsOneWidget);
+    expect(find.text('Overdue: 1 students'), findsOneWidget);
+    expect(find.text('10-B · Tuition, term 1'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('download-defaulters')));
+    await settle(tester);
+    expect(server.writes, contains('/fees/defaulters/export xlsx'));
+    expect(saver.saved, ['fee-defaulters.xlsx']);
   });
 }
