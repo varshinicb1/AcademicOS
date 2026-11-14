@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
+import 'attendance_page.dart';
 import 'dashboard_card.dart' show friendlyDate, shortDate;
 import 'ops_api.dart';
 import 'report_cards_page.dart';
@@ -73,7 +74,7 @@ class _ChildView extends StatelessWidget {
   Widget build(BuildContext context) {
     final id = child['studentId'] as String;
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Column(children: [
         ListTile(
           title: Text(child['name'] as String, style: Theme.of(context).textTheme.titleMedium),
@@ -95,7 +96,7 @@ class _ChildView extends StatelessWidget {
           isScrollable: true,
           tabAlignment: TabAlignment.start,
           tabs: [Tab(text: tr('Week')), Tab(text: tr('Today')), Tab(text: tr('Calendar')), Tab(text: tr('Homework')),
-            Tab(text: tr('Progress'))],
+            Tab(text: tr('Progress')), Tab(text: tr('Attendance'))],
         ),
         Expanded(child: TabBarView(children: [
           _Week(studentId: id),
@@ -104,6 +105,7 @@ class _ChildView extends StatelessWidget {
           _Homework(studentId: id, name: child['name'] as String,
               young: (child['grade'] as int?) != null && (child['grade'] as int) <= 5),
           LearningView(path: '/children/$id/learning'),
+          AttendanceRecordView(path: '/children/$id/attendance'),
         ])),
       ]),
     );

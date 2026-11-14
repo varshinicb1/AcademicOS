@@ -902,6 +902,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Child Attendance */
+        get: operations["child_attendance_api_v1_children__student_id__attendance_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/calendar": {
         parameters: {
             query?: never;
@@ -4452,6 +4469,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/my-attendance-record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Attendance Record
+         * @description The signed-in student's attendance this year: counts, the share
+         *     attended, and the recent days they were absent, late or excused.
+         */
+        get: operations["my_attendance_record_api_v1_my_attendance_record_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/my-calendar": {
         parameters: {
             query?: never;
@@ -5925,6 +5963,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/sections/{section_id}/attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Register
+         * @description The section's register for a day (today by default): every enrolled
+         *     student, with their status, or none when not taken yet.
+         */
+        get: operations["get_register_api_v1_sections__section_id__attendance_get"];
+        /**
+         * Put Register
+         * @description Take or correct the register. Rows for students not in the section are
+         *     refused; students without parental consent are left out and named.
+         */
+        put: operations["put_register_api_v1_sections__section_id__attendance_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/sections/{section_id}/progress": {
         parameters: {
             query?: never;
@@ -5982,6 +6046,26 @@ export interface paths {
          *     administers people.
          */
         get: operations["staff_directory_api_v1_staff_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{student_id}/attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Staff Student Attendance
+         * @description One student's attendance for the section's teachers or a reports admin.
+         */
+        get: operations["staff_student_attendance_api_v1_students__student_id__attendance_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6999,6 +7083,33 @@ export interface components {
             bookId: string;
             /** Teacherid */
             teacherId: string;
+        };
+        /** AttendanceDay */
+        AttendanceDay: {
+            /** Date */
+            date: string;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            /** Status */
+            status: string;
+        };
+        /** AttendanceEntry */
+        AttendanceEntry: {
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "present" | "late" | "absent" | "excused";
+            /** Studentid */
+            studentId: string;
         };
         /** AttendanceMark */
         AttendanceMark: {
@@ -9755,6 +9866,11 @@ export interface components {
                 };
             };
         };
+        /** MarkAttendanceRequest */
+        MarkAttendanceRequest: {
+            /** Entries */
+            entries: components["schemas"]["AttendanceEntry"][];
+        };
         /** MarkEntry */
         MarkEntry: {
             /** Marks */
@@ -11408,6 +11524,44 @@ export interface components {
             /** Schoolid */
             schoolId?: string | null;
         };
+        /** RegisterResponse */
+        RegisterResponse: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Date */
+            date: string;
+            /** Rows */
+            rows: components["schemas"]["RegisterRow"][];
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
+            /** Taken */
+            taken: boolean;
+            /**
+             * Withoutconsent
+             * @default []
+             */
+            withoutConsent: string[];
+        };
+        /** RegisterRow */
+        RegisterRow: {
+            /** Markedby */
+            markedBy?: string | null;
+            /** Name */
+            name: string;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            /** Status */
+            status?: string | null;
+            /** Studentid */
+            studentId: string;
+        };
         /** RenameRequest */
         RenameRequest: {
             /** Name */
@@ -12932,6 +13086,25 @@ export interface components {
             minNoticeDays: number;
             /** Updatedat */
             updatedAt?: string | null;
+        };
+        /** StudentAttendanceResponse */
+        StudentAttendanceResponse: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Daystaken */
+            daysTaken: number;
+            /** End */
+            end: string;
+            /** Percent */
+            percent?: number | null;
+            /** Recent */
+            recent: components["schemas"]["AttendanceDay"][];
+            /** Start */
+            start: string;
+            /** Studentid */
+            studentId: string;
         };
         /** StudentConcern */
         StudentConcern: {
@@ -15891,6 +16064,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChapterEntry"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_attendance_api_v1_children__student_id__attendance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAttendanceResponse"];
                 };
             };
             /** @description Validation Error */
@@ -22073,6 +22277,26 @@ export interface operations {
             };
         };
     };
+    my_attendance_record_api_v1_my_attendance_record_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAttendanceResponse"];
+                };
+            };
+        };
+    };
     my_calendar_api_v1_my_calendar_get: {
         parameters: {
             query?: {
@@ -24635,6 +24859,76 @@ export interface operations {
             };
         };
     };
+    get_register_api_v1_sections__section_id__attendance_get: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegisterResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    put_register_api_v1_sections__section_id__attendance_put: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MarkAttendanceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegisterResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     class_progress_api_v1_sections__section_id__progress_get: {
         parameters: {
             query?: {
@@ -24704,6 +24998,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StaffMember"][];
+                };
+            };
+        };
+    };
+    staff_student_attendance_api_v1_students__student_id__attendance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAttendanceResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

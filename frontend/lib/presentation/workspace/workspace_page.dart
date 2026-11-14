@@ -96,6 +96,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
           (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),
           (icon: Icons.grading_outlined, title: tr('My report card'), subtitle: tr('This term\'s marks by subject'), path: '/school/my-report-card'),
+          (icon: Icons.how_to_reg_outlined, title: tr('My attendance'), subtitle: tr('Days attended, and days away or late'), path: '/school/my-attendance'),
           inbox,
         ];
       case 'parent':
@@ -111,6 +112,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.restore_outlined, title: tr('Periods owed'), subtitle: tr('Make up or waive lost periods; close a day at short notice'), path: '/school/periods-owed'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
+          (icon: Icons.fact_check_outlined, title: tr('Class register'), subtitle: tr("Students' attendance for any class"), path: '/school/attendance'),
           (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('Allocations, rooms, the bell; generate and publish'), path: '/school/timetable'),
           (icon: Icons.menu_book_outlined, title: tr('Lesson plans'), subtitle: tr("Date each section's lessons from its book and timetable"), path: '/school/lesson-plans'),
           (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
@@ -143,6 +145,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           if (_caps.contains('reports'))
             (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('You manage reports'), path: '/school/term-report'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),
+          (icon: Icons.fact_check_outlined, title: tr('Class register'), subtitle: tr("Take today's attendance for your classes"), path: '/school/attendance'),
           (icon: Icons.calendar_view_week_outlined, title: tr('My week'), subtitle: tr('The timetable, with times'), path: '/school/week'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Your sections, and who needs help'), path: '/school/class-progress'),

@@ -279,7 +279,18 @@ class LearningPage extends StatelessWidget {
         appBar: AppBar(
             leading: destination ? forceShellLeading(context) : null,
             automaticallyImplyLeading: !destination,
-            title: Text(title)),
+            title: Text(title),
+            // ATT-1: the student apps have no room for another tab, so the
+            // student's attendance opens from their progress.
+            actions: [
+              if (destination)
+                TextButton.icon(
+                  key: const ValueKey('open-my-attendance'),
+                  onPressed: () => context.push('/school/my-attendance'),
+                  icon: const Icon(Icons.how_to_reg_outlined, size: 18),
+                  label: Text(tr('Attendance')),
+                ),
+            ]),
         body: LearningView(path: path));
   }
 }

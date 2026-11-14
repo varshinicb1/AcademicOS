@@ -28,6 +28,7 @@ What this supersedes:
 | PRD §0.12 "primary surface: the teacher's offline Android phone", then 2026-09-22 "web-first; phone app out" | **Three products:** the web console, a **teacher app** and a **student app** (plus a parent view inside the student app) |
 | PRD §0.1 "exam automation and calendar automation, nothing else" | Unchanged in spirit, but extended: **homework/assignments, leave and substitution, student-facing schedule and progress** are now in scope. Fees, admissions and transport stay out (not an ERP) |
 | PRD §5A Q1 "without an answer key, no question" | Kept, and strengthened: **every served question has a marking scheme with value points**, from any source |
+| PRD §0.1 "not an ERP": fees and attendance not to be built (2026-09-18) | **Reversed 2026-11-14 by the owner:** build **student attendance** (ATT-1), **fees** (FEE-1) and **teacher-parent messaging** (MSG-1), §7a. Online payment waits for a gateway the owner chooses; admissions and transport stay out |
 | Sources: CBSE/NCERT only | **Any source**, including unofficial ones, but every question carries its provenance and rights status, and unofficial or AI-assisted items are served only after review |
 
 Still binding from `docs/PRD.md` §7 and §10: not an ERP, not a chatbot, no student data in the question-bank
@@ -232,6 +233,16 @@ reference it.
 - **SA-7 (P0) Works for young children:** grades 1-5 get a simplified, picture-rich mode, read-aloud
   (TTS, P1), and a parent-operated default.
 - **SA-8 (P0) Offline and low data;** under 30 MB install; works on shared family phones (profile switch).
+
+## 7a. School operations for families (added 2026-11-14)
+
+- **ATT-1 (P0) Student attendance:** the class teacher, the section's other teachers and the principal take
+  a daily register (present, late, absent, on leave); a parent hears the same day when their child is
+  marked absent; the student and their parents see the year's record. Needs parental consent like marks.
+- **FEE-1 (P0) Fees:** the principal sets fee heads per class and term and records payments; a parent sees
+  each child's dues and receipts. No online payment until the owner chooses a gateway.
+- **MSG-1 (P0) Teacher-parent messaging:** a parent writes to their child's class teacher or subject
+  teachers and gets the reply in the app; every message stays in the school's record.
 
 ## 8. Notifications, reminders and automation
 

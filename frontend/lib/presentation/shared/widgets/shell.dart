@@ -173,6 +173,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.restore_outlined, Icons.restore, 'Periods owed', '/school/periods-owed'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
+          _item(Icons.fact_check_outlined, Icons.fact_check, 'Class register', '/school/attendance'),
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
         _group('Setup', [
@@ -217,6 +218,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           // teacher and their leave: the teacher app's first tab. It was
           // listed as "Leave", which is one card on it.
           _item(Icons.wb_sunny_outlined, Icons.wb_sunny, 'My day', '/school/my-day'),
+          _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Class register', '/school/attendance'),
           _item(Icons.calendar_view_week_outlined, Icons.calendar_view_week, 'My week', '/school/week'),
           _item(Icons.assignment_outlined, Icons.assignment, 'Papers', '/assessment'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
@@ -240,6 +242,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.assignment_outlined, Icons.assignment, 'Homework', '/school/my-homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Progress', '/school/my-learning'),
           _item(Icons.event_note_outlined, Icons.event_note, 'Exams', '/school/my-exams'),
+          _item(Icons.how_to_reg_outlined, Icons.how_to_reg, 'Attendance', '/school/my-attendance'),
           _inbox,
         ]),
       ];
