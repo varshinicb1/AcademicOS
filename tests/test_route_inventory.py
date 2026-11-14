@@ -272,6 +272,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/homework/{homework_id}/close"),
     ("GET", "/api/v1/homework/{homework_id}/submissions"),
     ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/grade"),
+    ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/read-photos"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photo-reading"),
     ("POST", "/api/v1/homework/{homework_id}/remind"),
     ("GET", "/api/v1/my-homework"),
     ("GET", "/api/v1/my-homework/{homework_id}"),
@@ -638,6 +640,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/homework/{homework_id}/close"),
     ("GET", "/api/v1/homework/{homework_id}/submissions"),
     ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/grade"),
+    ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/read-photos"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photo-reading"),
     ("POST", "/api/v1/homework/{homework_id}/remind"),
     ("GET", "/api/v1/my-homework"),
     ("GET", "/api/v1/my-homework/{homework_id}"),
@@ -1090,7 +1094,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 351: the Phase 1 pilot agreement (read, accept).
     # 352: NFR-7 per-school usage for the operator.
     # 356: staff rules and leave balances (read, set, mine, everyone's).
-    assert len(API_ROUTES) == 356
+    # 358: TA-4 AI reading of homework photos (ask for a reading, see it).
+    assert len(API_ROUTES) == 358
 
 
 def test_docs_routes_present():

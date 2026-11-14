@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -414,12 +415,124 @@ class _GradeDialogState extends State<_GradeDialog> {
   late final _feedback = TextEditingController(text: widget.row['feedback'] ?? '');
   String? _error;
 
+  /// What AI read from the photos, and the marks it suggests (TA-4). A
+  /// suggestion fills a mark box only while the work is unmarked and the
+  /// student typed nothing for that question; the teacher's save is the mark.
+  Map<String, dynamic>? _reading;
+  final Set<String> _suggested = {};
+  String? _readError;
+  Timer? _poll;
+
+  String get _readingPath =>
+      '/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}';
+
   @override
   void initState() {
     super.initState();
     for (final e in (widget.row['evaluations'] as List).cast<Map>()) {
       _marks[e['questionId']] = TextEditingController(text: '${e['awardedMarks']}');
     }
+    final r = widget.row['photoReading'];
+    if (r is Map) _useReading(Map<String, dynamic>.from(r));
+  }
+
+  @override
+  void dispose() {
+    _poll?.cancel();
+    super.dispose();
+  }
+
+  Map<String, Map> get _readByQuestion => {
+        for (final x in ((_reading?['readings'] as List?) ?? const []).cast<Map>()) x['questionId'] as String: x
+      };
+
+  void _useReading(Map<String, dynamic> r) {
+    _reading = r;
+    if (r['status'] == 'reading') {
+      _poll ??= Timer.periodic(const Duration(seconds: 5), (_) => _refreshReading());
+      return;
+    }
+    _poll?.cancel();
+    _poll = null;
+    if (r['status'] != 'done' || widget.row['status'] == 'graded') return;
+    final answers = Map<String, dynamic>.from(widget.row['answers'] as Map);
+    for (final e in _readByQuestion.entries) {
+      final typed = (answers[e.key] ?? '').toString().trim();
+      final box = _marks[e.key];
+      if (typed.isNotEmpty || box == null) continue;
+      box.text = '${e.value['awardedMarks']}';
+      _suggested.add(e.key);
+    }
+  }
+
+  Future<void> _refreshReading() async {
+    try {
+      final r = await Ops.get('$_readingPath/photo-reading');
+      if (mounted) setState(() => _useReading(Map<String, dynamic>.from(r as Map)));
+    } catch (e) {
+      _poll?.cancel();
+      _poll = null;
+      if (mounted) setState(() => _readError = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _readPhotos() async {
+    setState(() => _readError = null);
+    try {
+      final r = await Ops.post('$_readingPath/read-photos');
+      if (mounted) setState(() => _useReading(Map<String, dynamic>.from(r as Map)));
+    } catch (e) {
+      if (mounted) setState(() => _readError = serverErrorMessage(e));
+    }
+  }
+
+  Widget _photoReadingPanel(ThemeData theme) {
+    final status = _reading?['status'];
+    final reading = status == 'reading';
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 8),
+      Wrap(spacing: 12, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
+        OutlinedButton.icon(
+          key: const Key('read-photos'),
+          onPressed: reading ? null : _readPhotos,
+          icon: const Icon(Icons.document_scanner_outlined, size: 18),
+          label: Text(status == null ? tr('Read the photos for me') : tr('Read the photos again')),
+        ),
+        if (reading) ...[
+          const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+          Text(tr('Reading the photos. This takes a minute or two.'), style: theme.textTheme.bodySmall),
+        ],
+        if (status == 'done')
+          Text(tr('Read. Suggested marks are filled in below; check each one before saving.'),
+              style: theme.textTheme.bodySmall),
+      ]),
+      if (status == 'failed' && (_reading?['note'] ?? '').toString().isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(tr(_reading!['note'].toString()), style: TextStyle(color: theme.colorScheme.error)),
+        ),
+      if (_readError != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(_readError!, style: TextStyle(color: theme.colorScheme.error)),
+        ),
+    ]);
+  }
+
+  Widget _readFromPhoto(ThemeData theme, Map x) {
+    final warnings = ((x['warnings'] as List?) ?? const []).cast<String>();
+    final text = (x['answerText'] ?? '').toString().trim();
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('${tr('Read from the photo')}: ${text.isEmpty ? tr('(nothing found)') : text}',
+            style: theme.textTheme.bodySmall),
+        Text('${tr('AI suggests')} ${x['awardedMarks']}/${x['maxMarks']}: ${x['reasoning'] ?? ''}',
+            style: theme.textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
+        for (final w in warnings)
+          Text(tr(w), style: theme.textTheme.bodySmall?.copyWith(color: AppColors.warning)),
+      ]),
+    );
   }
 
   Future<void> _save() async {
@@ -459,15 +572,22 @@ class _GradeDialogState extends State<_GradeDialog> {
           for (final e in (widget.row['evaluations'] as List).cast<Map>()) ...[
             Text(questions[e['questionId']]?['stem'] ?? e['questionId'], style: theme.textTheme.bodyMedium),
             Text('Answer: ${answers[e['questionId']] ?? '(blank)'}', style: theme.textTheme.bodySmall),
+            if (_readByQuestion[e['questionId']] != null) _readFromPhoto(theme, _readByQuestion[e['questionId']]!),
             if ((e['modelAnswer'] ?? '').toString().isNotEmpty)
               Text('Model: ${e['modelAnswer']}', style: theme.textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
             Row(children: [
               SizedBox(width: 90, child: TextField(controller: _marks[e['questionId']],
                   decoration: InputDecoration(suffixText: '/${e['maxMarks']}'))),
               const SizedBox(width: 12),
-              if (e['needsReview'] == true) const ChipTag(label: 'Check this', color: AppColors.warning),
-              const SizedBox(width: 8),
-              Expanded(child: Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2)),
+              // A Wrap, not a Row: on a phone the tag and the reason did not
+              // fit beside the mark box together and overflowed.
+              Expanded(child: Wrap(spacing: 8, runSpacing: 4, crossAxisAlignment: WrapCrossAlignment.center, children: [
+                if (_suggested.contains(e['questionId']))
+                  ChipTag(label: tr('AI suggestion: check it'), color: AppColors.info)
+                else if (e['needsReview'] == true)
+                  const ChipTag(label: 'Check this', color: AppColors.warning),
+                Text(e['reasoning'] ?? '', style: theme.textTheme.bodySmall, maxLines: 2),
+              ])),
             ]),
             const Divider(),
           ],
@@ -478,6 +598,7 @@ class _GradeDialogState extends State<_GradeDialog> {
               for (final id in (widget.row['photoIds'] as List).cast<String>())
                 PhotoThumb(path: '/homework/${widget.homework['id']}/submissions/${widget.row['studentId']}/photos/$id'),
             ]),
+            _photoReadingPanel(theme),
             const Divider(),
           ],
           TextField(controller: _feedback, decoration: const InputDecoration(labelText: 'Feedback (optional)')),

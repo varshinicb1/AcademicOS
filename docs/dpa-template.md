@@ -68,8 +68,10 @@ than the Processing Purposes without the School's prior written consent.
 
    (a) **Assessment generation** — creating question papers and answer schemes
        for the School's own students;
-   (b) **OCR-based grading** — scanning and transcribing student answer sheets
-       and evaluating them against the School's marking schemes;
+   (b) **OCR-based grading** — scanning and transcribing student answer sheets,
+       and photographs of homework written on paper, and evaluating them
+       against the School's marking schemes, the result being a suggestion
+       that a teacher confirms or changes before it becomes a mark;
    (c) **Mastery and analytics reporting** — deriving mastery/analytics data
        for the School's own students and reporting it to the School.
 
@@ -104,8 +106,10 @@ The following categories of personal data are processed under this DPA:
    (b) Roll number;
    (c) Grade/class and subject;
    (d) Scanned answer sheet images (photographs or PDF scans of handwritten
-       answer scripts);
-   (e) OCR-extracted text from answer sheets;
+       answer scripts), and photographs of written homework uploaded by a
+       student or parent;
+   (e) OCR-extracted text from answer sheets and homework photographs, and
+       the marks suggested from it;
    (f) Awarded marks / grading results;
    (g) Mastery/analytics derived data.
 
@@ -125,7 +129,7 @@ discloses them now as required:
    |---------------|---------|------|------------------|
    | **Google Cloud** (Cloud Run, Cloud SQL, Cloud Storage, Secret Manager; region `asia-south1`, India) | GCP | Hosting, database, file storage | All stored student data, scan images and audit records |
    | **Google Firebase Hosting** | GCP | Serves the web application's static files | No student data. The application calls the API directly, not through Hosting |
-   | **Sarvam AI** (`api.sarvam.ai`) | Both, only if configured | Handwriting OCR (Vision) and answer scoring (`sarvam-105b`) | Scanned answer-sheet page images (including anything written on them, such as a name or roll number), and per answer the question, marking scheme and OCR-extracted answer text. No student identifier is added to the scoring prompt |
+   | **Sarvam AI** (`api.sarvam.ai`) | Both, only if configured | Handwriting OCR (Vision) and answer scoring (`sarvam-105b`) | Scanned answer-sheet page images and homework photographs (including anything written or visible on them, such as a name or roll number), and per answer the question, marking scheme and OCR-extracted answer text. No student identifier is added to the scoring prompt |
    | **Groq** (the default `llm_base_url`), or the LLM endpoint AcademicOS names instead: **[FILL IN if changed]** | Both, when an LLM key is set | Answers "doubt" questions on the corpus | The text a user types into a doubt question, which may be a student's own words. No student identifier |
    | **The School's or AcademicOS's SMTP relay**: **[FILL IN — host / provider]** | Both, only if configured | Emails exported question papers | Recipient addresses, the paper and answer-key PDFs, and the sender's note. No student data by design |
    | **Composio** (`backend.composio.dev`), relaying through the School's own Gmail/Outlook | Both, only if configured | Email and calendar actions on the School's behalf | As for SMTP. For calendar sync, an assessment's title and date |
@@ -150,8 +154,9 @@ student data at any time; AcademicOS shall comply within **[FILL IN — suggeste
 default: 30 days]** of a written, verified request, except where retention is
 required by law.
 
-6.3 Deletion includes the scanned answer sheet images, OCR-extracted text, and
-derived marks/mastery data. AcademicOS shall confirm deletion in writing, and
+6.3 Deletion includes the scanned answer sheet images, homework photographs,
+OCR-extracted text, suggested and awarded marks, and derived marks/mastery
+data. AcademicOS shall confirm deletion in writing, and
 shall instruct sub-processors to delete where the data is held by them.
 
 ### 7. Security measures

@@ -4212,6 +4212,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/photo-reading": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Photo Reading
+         * @description Where AI reading of the student's photos stands, with its suggested
+         *     marks once done. An empty status: never read.
+         */
+        get: operations["photo_reading_api_v1_homework__homework_id__submissions__student_id__photo_reading_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}": {
         parameters: {
             query?: never;
@@ -4226,6 +4247,30 @@ export interface paths {
         get: operations["student_photo_api_v1_homework__homework_id__submissions__student_id__photos__photo_id__get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/read-photos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Read Photos
+         * @description Have AI read the student's photos of written answers now (or again,
+         *     after a re-take) and suggest marks per question (TA-4). The photos go to
+         *     the school's OCR provider, so the parent's consent is required, as it was
+         *     to upload them. Answers in a minute or two: poll the GET route. 501 with
+         *     no AI key configured.
+         */
+        post: operations["read_photos_api_v1_homework__homework_id__submissions__student_id__read_photos_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -10629,6 +10674,39 @@ export interface components {
             /** Teachername */
             teacherName?: string | null;
         };
+        /** PhotoReading */
+        PhotoReading: {
+            /** Note */
+            note?: string | null;
+            /** Readings */
+            readings?: components["schemas"]["PhotoReadingItem"][];
+            /** Status */
+            status?: string | null;
+        };
+        /**
+         * PhotoReadingItem
+         * @description What AI read from the photos under one question, and the marks it
+         *     suggests (operations/homework_ai.py). A suggestion: the teacher's grade
+         *     is the mark.
+         */
+        PhotoReadingItem: {
+            /** Answertext */
+            answerText: string;
+            /** Awardedmarks */
+            awardedMarks: number;
+            /** Confidence */
+            confidence: number;
+            /** Maxmarks */
+            maxMarks: number;
+            /** Questionid */
+            questionId: string;
+            /** Reasoning */
+            reasoning: string;
+            /** Verdict */
+            verdict: string;
+            /** Warnings */
+            warnings?: string[];
+        };
         /** PhotoResponse */
         PhotoResponse: {
             /** Contenttype */
@@ -13234,6 +13312,7 @@ export interface components {
             needsReview: number;
             /** Photoids */
             photoIds?: string[];
+            photoReading?: components["schemas"]["PhotoReading"] | null;
             /** Sectionid */
             sectionId: string;
             /** Status */
@@ -21686,6 +21765,38 @@ export interface operations {
             };
         };
     };
+    photo_reading_api_v1_homework__homework_id__submissions__student_id__photo_reading_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PhotoReading"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     student_photo_api_v1_homework__homework_id__submissions__student_id__photos__photo_id__get: {
         parameters: {
             query?: never;
@@ -21706,6 +21817,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_photos_api_v1_homework__homework_id__submissions__student_id__read_photos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PhotoReading"];
                 };
             };
             /** @description Validation Error */

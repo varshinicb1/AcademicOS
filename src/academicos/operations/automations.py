@@ -28,6 +28,11 @@ even two overlapping runs cannot double a message.
   report is ready (NTF-2 end-of-term reports, ADM-4).
 - user_digests (every run): each person on a daily digest gets it once their
   chosen time has passed (SA-5).
+- homework_photo_reading (every run from 07:00): AI reads the photos of
+  written answers on submissions waiting for marks, a few per run, so the
+  teacher's marking dialog opens with suggested marks (TA-4; only with a
+  Sarvam key, and only for students with parental consent;
+  operations/homework_ai.py).
 - deliveries (every run): what quiet hours held overnight, and failed sends
   due a retry, go out without waiting for someone to open an inbox (N-8-2).
 
@@ -515,6 +520,11 @@ def deliveries(ops, cs, users, notify, now: datetime) -> int:
     return ops.deliver_due(now=now)
 
 
+def _homework_photo_reading(ops, cs, users, notify, now: datetime) -> int:
+    from .homework_ai import homework_photo_reading
+    return homework_photo_reading(ops, cs, users, notify, now)
+
+
 # (job, opens at IST hour, period: "day" | "week" | "run", weekday or None, function)
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
@@ -530,6 +540,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("period_starting", 7, "run", None, period_starting),
     ("user_digests", 0, "run", None, user_digests),
     ("deliveries", 0, "run", None, deliveries),
+    ("homework_photo_reading", 7, "run", None, _homework_photo_reading),
 ]
 
 

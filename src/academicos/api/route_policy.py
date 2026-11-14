@@ -359,6 +359,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/homework/{homework_id}/close"): _p(STAFF, "the teacher of the subject in its sections, or the principal"),
     ("GET", "/api/v1/homework/{homework_id}/submissions"): _p(STAFF, "the teacher of the subject in its sections, or the principal"),
     ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/grade"): _p(STAFF, "the teacher of the subject in its sections, or the principal; needs consent"),
+    ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/read-photos"): _p(STAFF, "the teacher of the subject in its sections, or the principal; needs consent; sends the photos to the OCR provider; audited"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions/{student_id}/photo-reading"): _p(STAFF, "the teacher of the subject in its sections, or the principal; logged"),
     ("POST", "/api/v1/homework/{homework_id}/remind"): _p(STAFF, "the teacher of the subject in its sections, or the principal"),
     ("GET", "/api/v1/my-homework"): _p(ANY_USER, "handler admits students only, their own section"),
     ("GET", "/api/v1/my-homework/{homework_id}"): _p(ANY_USER, "handler admits students only, their own section; no answers before marking"),
