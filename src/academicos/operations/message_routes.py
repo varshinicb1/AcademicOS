@@ -16,7 +16,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from ..assessment.auth_routes import get_current_user
+from ..assessment.auth_routes import get_current_user, require_staff
 from ..assessment.users import User
 from ..curriculum import routes as cr
 from ..curriculum.schemas import Camel
@@ -178,12 +178,10 @@ def child_contacts(student_id: str, current: User = Depends(get_current_user)) -
 
 
 @router.get("/message-contacts", response_model=list[ParentContact])
-def message_contacts(current: User = Depends(get_current_user)) -> list[ParentContact]:
+def message_contacts(current: User = Depends(require_staff)) -> list[ParentContact]:
     """The parents a teacher may write to: the linked parents of students in
     the sections they are class teacher of or teach (the principal: every
     section). Sorted by class, then student."""
-    if current.role not in ("teacher", "principal"):
-        raise HTTPException(403, "this is the staff's list of parents; a parent writes from My children")
     cs, users, s = cr._require(), cr._require_users(), store()
     sections = []
     for y in cs.academic_years_for_school(current.school_id):
