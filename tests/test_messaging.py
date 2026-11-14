@@ -51,7 +51,9 @@ def w(tmp_path, monkeypatch):
     # background thread on the real one.
     monkeypatch.setattr(OperationsStore, "deliver_inline", False)
     monkeypatch.setattr(OperationsStore, "_deliver_quietly", lambda self: None)
-    for var in ("ACOS_WHATSAPP_TOKEN", "ACOS_WHATSAPP_PHONE_NUMBER_ID", "ACOS_SMS_AUTHKEY", "ACOS_SMS_TEMPLATE_ID"):
+    for var in ("ACOS_WHATSAPP_TOKEN", "ACOS_WHATSAPP_PHONE_NUMBER_ID", "ACOS_SMS_AUTHKEY", "ACOS_SMS_TEMPLATE_ID",
+                "ACOS_SMS_PROVIDER", "ACOS_TWILIO_ACCOUNT_SID", "ACOS_TWILIO_AUTH_TOKEN",
+                "ACOS_TWILIO_MESSAGING_SERVICE_SID", "ACOS_TWILIO_FROM"):
         monkeypatch.delenv(var, raising=False)
     with _boot_client(tmp_path, monkeypatch) as c:
         _register(c, "school_1", "p1@example.com", "Priya", principal_key="test-bootstrap-key")
