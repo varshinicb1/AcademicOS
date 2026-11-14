@@ -64,7 +64,7 @@ MESSAGE_CHANNELS = ("sms", "whatsapp")
 # The kinds worth a message: each is about the person's next action and
 # loses its point if it waits until they open the app.
 MESSAGE_KINDS = frozenset({"substitution_proposed", "leave_decided", "homework_due", "exam_reminder",
-                           "duty_reminder", "holiday_declared"})
+                           "duty_reminder", "holiday_declared", "child_homework_due", "child_exam_tomorrow"})
 MESSAGE_ROLES = ("teacher", "principal", "parent")
 _MOBILE = re.compile(r"^[6-9]\d{9}$")
 SMS_LIMIT = 300          # characters: two SMS parts at most
