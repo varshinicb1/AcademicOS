@@ -188,16 +188,23 @@ class _StudentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The name on its own line and the four choices under it: side by side,
+    // a 375 px phone broke the choices across two lines under a cut name.
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 8, runSpacing: 4, children: [
-        SizedBox(width: 160, child: Text(name, overflow: TextOverflow.ellipsis)),
-        for (final s in attendanceStatuses)
-          ChoiceChip(
-            label: Text(attendanceLabel(s)),
-            selected: status == s,
-            onSelected: (_) => onChanged(s),
-          ),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(name, style: Theme.of(context).textTheme.titleSmall, overflow: TextOverflow.ellipsis),
+        const SizedBox(height: 4),
+        Wrap(spacing: 8, runSpacing: 4, children: [
+          for (final s in attendanceStatuses)
+            ChoiceChip(
+              // No tick: the four choices then fit one line on a phone.
+              showCheckmark: false,
+              label: Text(attendanceLabel(s)),
+              selected: status == s,
+              onSelected: (_) => onChanged(s),
+            ),
+        ]),
       ]),
     );
   }
