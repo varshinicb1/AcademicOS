@@ -10758,6 +10758,92 @@
         "title": "PeriodResponse",
         "type": "object"
       },
+      "PhotoReading": {
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "readings": {
+            "items": {
+              "$ref": "#/components/schemas/PhotoReadingItem"
+            },
+            "title": "Readings",
+            "type": "array"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "title": "PhotoReading",
+        "type": "object"
+      },
+      "PhotoReadingItem": {
+        "description": "What AI read from the photos under one question, and the marks it\nsuggests (operations/homework_ai.py). A suggestion: the teacher's grade\nis the mark.",
+        "properties": {
+          "answerText": {
+            "title": "Answertext",
+            "type": "string"
+          },
+          "awardedMarks": {
+            "title": "Awardedmarks",
+            "type": "number"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "maxMarks": {
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "reasoning": {
+            "title": "Reasoning",
+            "type": "string"
+          },
+          "verdict": {
+            "title": "Verdict",
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "questionId",
+          "answerText",
+          "awardedMarks",
+          "maxMarks",
+          "verdict",
+          "confidence",
+          "reasoning"
+        ],
+        "title": "PhotoReadingItem",
+        "type": "object"
+      },
       "PhotoResponse": {
         "properties": {
           "contentType": {
@@ -17479,6 +17565,16 @@
             },
             "title": "Photoids",
             "type": "array"
+          },
+          "photoReading": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PhotoReading"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "sectionId": {
             "title": "Sectionid",
@@ -31805,6 +31901,60 @@
         "summary": "Grade Submission"
       }
     },
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/photo-reading": {
+      "get": {
+        "description": "Where AI reading of the student's photos stands, with its suggested\nmarks once done. An empty status: never read.",
+        "operationId": "photo_reading_api_v1_homework__homework_id__submissions__student_id__photo_reading_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoReading"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Photo Reading"
+      }
+    },
     "/api/v1/homework/{homework_id}/submissions/{student_id}/photos/{photo_id}": {
       "get": {
         "description": "For the teacher marking the work (or the principal); logged.",
@@ -31864,6 +32014,60 @@
           }
         ],
         "summary": "Student Photo"
+      }
+    },
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/read-photos": {
+      "post": {
+        "description": "Have AI read the student's photos of written answers now (or again,\nafter a re-take) and suggest marks per question (TA-4). The photos go to\nthe school's OCR provider, so the parent's consent is required, as it was\nto upload them. Answers in a minute or two: poll the GET route. 501 with\nno AI key configured.",
+        "operationId": "read_photos_api_v1_homework__homework_id__submissions__student_id__read_photos_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "homework_id",
+            "required": true,
+            "schema": {
+              "title": "Homework Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoReading"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Read Photos"
       }
     },
     "/api/v1/ics/{token}.ics": {

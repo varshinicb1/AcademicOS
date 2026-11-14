@@ -288,4 +288,21 @@ const _hi = <String, String>{
   'Approve': 'स्वीकार करें',
   'Reject': 'अस्वीकार करें',
   'Answers no board published: each rests on the textbook sentences shown, or on two agreeing solutions. Approve to mark it verified for your school; reject to keep it out of your papers and homework.': 'ऐसे उत्तर जिन्हें किसी बोर्ड ने प्रकाशित नहीं किया: हर उत्तर दिखाए गए पाठ्यपुस्तक वाक्यों पर, या दो मेल खाते हलों पर आधारित है। अपने विद्यालय के लिए सत्यापित करने हेतु स्वीकार करें; अपने प्रश्नपत्रों और गृहकार्य से हटाने हेतु अस्वीकार करें।',
+  // AI reading of homework photos (TA-4)
+  'Read the photos for me': 'मेरे लिए फ़ोटो पढ़ें',
+  'Read the photos again': 'फ़ोटो फिर से पढ़ें',
+  'Reading the photos. This takes a minute or two.': 'फ़ोटो पढ़ी जा रही हैं। इसमें एक-दो मिनट लगते हैं।',
+  'Read. Suggested marks are filled in below; check each one before saving.':
+      'पढ़ ली गईं। सुझाए गए अंक नीचे भरे हैं; सहेजने से पहले हर एक जाँचें।',
+  'Read from the photo': 'फ़ोटो से पढ़ा गया',
+  '(nothing found)': '(कुछ नहीं मिला)',
+  'AI suggests': 'AI का सुझाव',
+  'AI suggestion: check it': 'AI का सुझाव: जाँच लें',
+  "no answer found under this question's number in the photos": 'फ़ोटो में इस प्रश्न की संख्या के नीचे कोई उत्तर नहीं मिला',
+  'the photo could not be straightened; it was read as taken': 'फ़ोटो सीधी नहीं की जा सकी; जैसी खींची गई वैसी ही पढ़ी गई',
+  'there are no photos to read': 'पढ़ने के लिए कोई फ़ोटो नहीं है',
+  'no parental consent on record, so the photos were not sent to be read':
+      'अभिभावक की सहमति दर्ज नहीं है, इसलिए फ़ोटो पढ़ने के लिए नहीं भेजी गईं',
+  'the photos could not be read just now; try again, or mark them by hand':
+      'फ़ोटो अभी पढ़ी नहीं जा सकीं; फिर से कोशिश करें, या स्वयं अंक दें',
 };

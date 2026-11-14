@@ -16,7 +16,7 @@ import random
 from datetime import date
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Response
 from pydantic import ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
@@ -200,8 +200,29 @@ class EvaluationItem(Camel):
     model_answer: Optional[str] = None
 
 
+class PhotoReadingItem(Camel):
+    """What AI read from the photos under one question, and the marks it
+    suggests (operations/homework_ai.py). A suggestion: the teacher's grade
+    is the mark."""
+    question_id: str
+    answer_text: str
+    awarded_marks: float
+    max_marks: int
+    verdict: str
+    confidence: float
+    reasoning: str
+    warnings: list[str] = Field(default_factory=list)
+
+
+class PhotoReading(Camel):
+    status: Optional[str] = None   # None (never read) | reading | done | failed
+    note: Optional[str] = None     # why a reading failed, worded for the teacher
+    readings: list[PhotoReadingItem] = Field(default_factory=list)
+
+
 class SubmissionRow(Camel):
     photo_ids: list[str] = Field(default_factory=list)
+    photo_reading: Optional[PhotoReading] = None
     student_id: str
     student_name: str
     section_id: str
@@ -564,8 +585,65 @@ def list_submissions(homework_id: str, current: User = Depends(require_staff)) -
             late=s.late, attempts=s.attempts, submitted_at=s.submitted_at, auto_marks=s.auto_marks, marks=s.marks,
             max_marks=s.max_marks, needs_review=sum(1 for e in s.evaluations if e["needsReview"]),
             answers=s.answers, evaluations=_evaluations(hw, s, with_answers=True), feedback=s.feedback,
-            photo_ids=[p["id"] for p in store().photos_for(hw.id, sid)]))
+            photo_ids=[p["id"] for p in store().photos_for(hw.id, sid)],
+            photo_reading=_photo_reading(hw.id, sid)))
     return rows
+
+
+def _photo_reading(homework_id: str, student_id: str) -> Optional[PhotoReading]:
+    r = store().photo_read(homework_id, student_id)
+    if r is None:
+        return None
+    return PhotoReading(status=r["status"], note=r["note"],
+                        readings=[PhotoReadingItem(**x) for x in store().photo_readings(homework_id, student_id)])
+
+
+def _readable(homework_id: str, student_id: str, current: User) -> Homework:
+    hw = _require_managed(homework_id, current)
+    if store().get_submission(hw.id, student_id) is None:
+        raise HTTPException(404, "this student has not handed this homework in")
+    return hw
+
+
+@router.post("/homework/{homework_id}/submissions/{student_id}/read-photos", response_model=PhotoReading,
+             status_code=202)
+def read_photos(homework_id: str, student_id: str, background: BackgroundTasks,
+                current: User = Depends(require_staff)) -> PhotoReading:
+    """Have AI read the student's photos of written answers now (or again,
+    after a re-take) and suggest marks per question (TA-4). The photos go to
+    the school's OCR provider, so the parent's consent is required, as it was
+    to upload them. Answers in a minute or two: poll the GET route. 501 with
+    no AI key configured."""
+    from . import homework_ai
+    from ..config import LLMNotEnabled
+    hw = _readable(homework_id, student_id, current)
+    _consent(hw.school_id, student_id)
+    if not store().photos_for(hw.id, student_id):
+        raise HTTPException(409, "this student attached no photos to read")
+    if not homework_ai.enabled():
+        raise LLMNotEnabled()
+    if not store().claim_photo_read(hw.id, student_id, by=current.id, again=True):
+        raise HTTPException(409, "these photos are being read now; their marks will be ready in a minute or two")
+    _audit("homework_photo_read_requested", current, {"homeworkId": hw.id, "studentId": student_id})
+    background.add_task(_read_in_background, hw, student_id, current.id)
+    return _photo_reading(hw.id, student_id)
+
+
+def _read_in_background(hw: Homework, student_id: str, by: str) -> None:
+    from . import homework_ai
+    try:
+        homework_ai.read_claimed(store(), hw, student_id, by=by)
+    except Exception:  # noqa: BLE001 - recorded as failed on the submission, which the teacher sees
+        logger.warning("photo reading failed for %s/%s", hw.id, student_id, exc_info=True)
+
+
+@router.get("/homework/{homework_id}/submissions/{student_id}/photo-reading", response_model=PhotoReading)
+def photo_reading(homework_id: str, student_id: str, current: User = Depends(require_staff)) -> PhotoReading:
+    """Where AI reading of the student's photos stands, with its suggested
+    marks once done. An empty status: never read."""
+    hw = _readable(homework_id, student_id, current)
+    _log_read(current, "homework_photo_reading", student_ids=[student_id], homework_id=hw.id)
+    return _photo_reading(hw.id, student_id) or PhotoReading()
 
 
 @router.post("/homework/{homework_id}/submissions/{student_id}/grade", response_model=SubmissionRow)
