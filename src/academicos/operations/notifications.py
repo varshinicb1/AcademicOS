@@ -163,6 +163,13 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("marking_due", "Work waiting for your marks", True, False,
          ("{count} waiting for your marks", "{count} homework submissions have waited over {days} days; the oldest is {title}."),
          ("{count} आपके अंकों की प्रतीक्षा में", "{count} गृहकार्य {days} दिन से अधिक से जाँच की प्रतीक्षा में; सबसे पुराना {title}।")),
+    # TA-1: a lesson nobody marks never reflows the plan; the teacher hears
+    # of the ones still to mark that afternoon.
+    Kind("lessons_unmarked", "Lessons still to mark", True, False,
+         ("Lessons to mark: {count}", "Mark them taught, partly taught or not taught so the plan stays right. "
+                                     "The oldest is {section} on {oldest}."),
+         ("चिह्नित करने के पाठ: {count}", "उन्हें पढ़ाया, आंशिक पढ़ाया या नहीं पढ़ाया चिह्नित करें ताकि योजना सही रहे। "
+                                         "सबसे पुराना {section}, {oldest} का है।")),
     Kind("daily_digest", "Tomorrow's periods and duties", True, False,
          ("Tomorrow: {periods} periods, {duties} duties", "First: {first}."),
          ("कल: {periods} पीरियड, {duties} ड्यूटी", "पहला: {first}।")),

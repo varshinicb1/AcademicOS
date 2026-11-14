@@ -17,6 +17,7 @@ action learns to ignore all of them — including the one that mattered.
 Lesson marked by someone else | ✅ | A principal overrides a lesson completion the teacher recorded | It corrects the teacher's own record; they must not be surprised by it. |
 Paper approved / returned | ✅ | A principal approves or returns the teacher's paper | Blocks the teacher's next step. |
 Lesson rescheduled onto me | ✅ | A principal reschedules onto the teacher's calendar | Changes what they teach today. |
+Lessons still to mark | ✅ at most one per teaching day | 16:00 IST, only when the teacher's own lessons from the last week are unmarked (TA-1) | An unmarked lesson never reflows the plan, so the plan and coverage go wrong in silence. Marking is the teacher's next action; My day lists them with Mark all taught. |
 Overdue summary | ✅ one per week | **Principal only**, Monday morning | A management cadence, not a nudge. |
 New feature available | ❌ | — | Product marketing inside an operations tool. |
 "Continue where you left off" | ❌ | — | Engagement-driven. |

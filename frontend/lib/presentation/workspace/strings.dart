@@ -122,6 +122,18 @@ const _hi = <String, String>{
   'Taught': 'पढ़ाया',
   'Not taught': 'नहीं पढ़ाया',
   'Partly': 'आंशिक',
+  'Still to mark': 'चिह्नित करना बाकी',
+  'Lessons from earlier days. An unmarked lesson does not move the plan.':
+      'पिछले दिनों के पाठ। बिना चिह्नित पाठ से योजना आगे नहीं बढ़ती।',
+  'Mark all taught': 'सभी को पढ़ाया चिह्नित करें',
+  'Mark all taught?': 'सभी को पढ़ाया चिह्नित करें?',
+  'lessons from earlier days will be marked taught. Mark any you did not teach one by one first, so they are planned again.':
+      'पिछले दिनों के पाठ पढ़ाया चिह्नित होंगे। जो नहीं पढ़ाए, उन्हें पहले एक-एक कर चिह्नित करें, ताकि वे फिर से योजना में आएँ।',
+  'not marked': 'चिह्नित नहीं हुए',
+  'Lessons marked taught': 'पाठ पढ़ाया चिह्नित किए',
+  'Homework set': 'गृहकार्य दिया गया',
+  'Marked taught': 'पढ़ाया चिह्नित किया',
+  'Lessons from earlier days could not be loaded': 'पिछले दिनों के पाठ लोड नहीं हो सके',
   'Partly taught': 'आंशिक रूप से पढ़ाया',
   'Why was it not taught?': 'यह क्यों नहीं पढ़ाया गया?',
   'What is left to teach?': 'क्या पढ़ाना बाकी है?',
