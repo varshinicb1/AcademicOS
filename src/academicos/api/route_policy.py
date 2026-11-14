@@ -393,6 +393,10 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/fees/sections/{section_id}"): _p(ADMIN["fees"], "what each student of one class owes"),
     ("GET", "/api/v1/children/{student_id}/fees"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/my-fees"): _p(ANY_USER, "students only, their own statement"),
+    ("POST", "/api/v1/fees/payments/{payment_id}/reverse"): _p(ADMIN["fees"], "the receipt stays, marked cancelled; audited; the childs parents are told"),
+    ("GET", "/api/v1/fees/payments/{payment_id}/receipt"): _p(ADMIN["fees"], "the receipt as a PDF"),
+    ("GET", "/api/v1/children/{student_id}/fees/receipts/{payment_id}"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/my-fees/receipts/{payment_id}"): _p(ANY_USER, "students only, their own receipt"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/export/{kind}"): _p(ADMIN["users"]),
@@ -582,6 +586,7 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
     "/api/v1/children/{student_id}/fees",
+    "/api/v1/children/{student_id}/fees/receipts/{payment_id}",
 })
 
 

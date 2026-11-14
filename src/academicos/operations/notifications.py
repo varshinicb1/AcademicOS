@@ -161,6 +161,10 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("fee_receipt", "A fee payment received", True, True,
          ("Fee received: {student}", "{amount} for {fee}, receipt {receipt}."),
          ("शुल्क प्राप्त: {student}", "{fee} के लिए {amount}, रसीद {receipt}।")),
+    # FEE-1: a payment recorded in error was reversed; the receipt no longer counts.
+    Kind("fee_payment_reversed", "A fee receipt cancelled", True, True,
+         ("Receipt cancelled: {student}", "Receipt {receipt} for {amount} ({fee}) was cancelled: {reason}"),
+         ("रसीद रद्द: {student}", "{fee} की रसीद {receipt} ({amount}) रद्द की गई: {reason}")),
     Kind("homework_overdue", "Homework with students missing", True, False,
          ("{count} not submitted: {title}", "{title} was due {due}; {count} students have not submitted."),
          ("{count} ने जमा नहीं किया: {title}", "{title} {due} तक था; {count} विद्यार्थियों ने जमा नहीं किया।")),

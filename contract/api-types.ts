@@ -990,6 +990,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/fees/receipts/{payment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Child Receipt */
+        get: operations["child_receipt_api_v1_children__student_id__fees_receipts__payment_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/homework": {
         parameters: {
             query?: never;
@@ -4096,6 +4113,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/fees/payments/{payment_id}/receipt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Payment Receipt */
+        get: operations["payment_receipt_api_v1_fees_payments__payment_id__receipt_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/payments/{payment_id}/reverse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reverse Payment
+         * @description Undo a payment recorded in error. The receipt keeps its number and is
+         *     shown as cancelled with the reason; the student owes that amount again.
+         *     The child's parents hear of it.
+         */
+        post: operations["reverse_payment_api_v1_fees_payments__payment_id__reverse_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/fees/sections/{section_id}": {
         parameters: {
             query?: never;
@@ -4652,6 +4708,23 @@ export interface paths {
         };
         /** My Fees */
         get: operations["my_fees_api_v1_my_fees_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-fees/receipts/{payment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Receipt */
+        get: operations["my_receipt_api_v1_my_fees_receipts__payment_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -11615,6 +11688,13 @@ export interface components {
              * @default
              */
             reference: string;
+            /** Reversalreason */
+            reversalReason?: string | null;
+            /**
+             * Reversed
+             * @default false
+             */
+            reversed: boolean;
         };
         /** RecordConsentRequest */
         RecordConsentRequest: {
@@ -11733,6 +11813,11 @@ export interface components {
         RespondRequest: {
             /** Accept */
             accept: boolean;
+        };
+        /** ReverseRequest */
+        ReverseRequest: {
+            /** Reason */
+            reason: string;
         };
         /** ReviewDecision */
         ReviewDecision: {
@@ -16359,6 +16444,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FeeStatement"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_receipt_api_v1_children__student_id__fees_receipts__payment_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+                payment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description the receipt as a PDF */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": unknown;
                 };
             };
             /** @description Validation Error */
@@ -21800,6 +21917,72 @@ export interface operations {
             };
         };
     };
+    payment_receipt_api_v1_fees_payments__payment_id__receipt_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                payment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description the receipt as a PDF */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reverse_payment_api_v1_fees_payments__payment_id__reverse_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                payment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReverseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeStatement"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     section_fees_api_v1_fees_sections__section_id__get: {
         parameters: {
             query?: never;
@@ -22692,6 +22875,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FeeStatement"];
+                };
+            };
+        };
+    };
+    my_receipt_api_v1_my_fees_receipts__payment_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                payment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description the receipt as a PDF */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

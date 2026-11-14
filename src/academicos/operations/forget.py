@@ -43,6 +43,7 @@ ERASED = {
     "user_progress": "the person's own Guide and setup progress",
     "fee_payments": "the student's fee payments and receipts (FEE-1)",
     "fee_concessions": "the student's fee concessions",
+    "fee_reversals": "which of the student's fee payments were reversed, and why",
 }
 
 KEPT = {
@@ -96,6 +97,7 @@ class ForgetMixin:
             ("practice_sets", "student_id=?", (student_id,)),
             ("paper_marks", "student_id=?", (student_id,)),
             ("paper_absent", "student_id=?", (student_id,)),
+            ("fee_reversals", "student_id=?", (student_id,)),
             ("fee_payments", "student_id=?", (student_id,)),
             ("fee_concessions", "student_id=?", (student_id,)),
             ("guardianships", "student_id=?", (student_id,)),

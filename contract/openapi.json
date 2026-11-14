@@ -13145,6 +13145,22 @@
             "default": "",
             "title": "Reference",
             "type": "string"
+          },
+          "reversalReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reversalreason"
+          },
+          "reversed": {
+            "default": false,
+            "title": "Reversed",
+            "type": "boolean"
           }
         },
         "required": [
@@ -13504,6 +13520,22 @@
           "accept"
         ],
         "title": "RespondRequest",
+        "type": "object"
+      },
+      "ReverseRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "title": "ReverseRequest",
         "type": "object"
       },
       "ReviewDecision": {
@@ -23359,6 +23391,55 @@
         "summary": "Child Fees"
       }
     },
+    "/api/v1/children/{student_id}/fees/receipts/{payment_id}": {
+      "get": {
+        "operationId": "child_receipt_api_v1_children__student_id__fees_receipts__payment_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "payment_id",
+            "required": true,
+            "schema": {
+              "title": "Payment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {}
+            },
+            "description": "the receipt as a PDF"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Receipt"
+      }
+    },
     "/api/v1/children/{student_id}/homework": {
       "get": {
         "description": "The child's homework and where they stand on each (not the answers).",
@@ -31851,6 +31932,101 @@
         "summary": "Record Payment"
       }
     },
+    "/api/v1/fees/payments/{payment_id}/receipt": {
+      "get": {
+        "operationId": "payment_receipt_api_v1_fees_payments__payment_id__receipt_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "payment_id",
+            "required": true,
+            "schema": {
+              "title": "Payment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {}
+            },
+            "description": "the receipt as a PDF"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Payment Receipt"
+      }
+    },
+    "/api/v1/fees/payments/{payment_id}/reverse": {
+      "post": {
+        "description": "Undo a payment recorded in error. The receipt keeps its number and is\nshown as cancelled with the reason; the student owes that amount again.\nThe child's parents hear of it.",
+        "operationId": "reverse_payment_api_v1_fees_payments__payment_id__reverse_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "payment_id",
+            "required": true,
+            "schema": {
+              "title": "Payment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReverseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeStatement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reverse Payment"
+      }
+    },
     "/api/v1/fees/sections/{section_id}": {
       "get": {
         "description": "Each student of one class with what they owe: the school's way in to\na student's statement, and its list of who is behind.",
@@ -33200,6 +33376,46 @@
           }
         ],
         "summary": "My Fees"
+      }
+    },
+    "/api/v1/my-fees/receipts/{payment_id}": {
+      "get": {
+        "operationId": "my_receipt_api_v1_my_fees_receipts__payment_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "payment_id",
+            "required": true,
+            "schema": {
+              "title": "Payment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {}
+            },
+            "description": "the receipt as a PDF"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Receipt"
       }
     },
     "/api/v1/my-grants": {

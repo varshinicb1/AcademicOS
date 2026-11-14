@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../core/download/pdf_saver.dart';
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
@@ -65,9 +67,37 @@ class _FeeStatementViewState extends State<FeeStatementView> {
         _future = Ops.map(widget.path);
       });
 
+  String? _note;
+
   Future<void> _record(Map<String, dynamic> s) async {
     final saved = await showDialog<bool>(context: context, builder: (_) => _PaymentDialog(statement: s));
     if (saved == true && mounted) _reload();
+  }
+
+  /// The school prints from its own route; a parent or student from theirs
+  /// (`/children/<id>/fees/receipts/<id>`, `/my-fees/receipts/<id>`).
+  String _receiptPath(Map p) =>
+      widget.canRecord ? '/fees/payments/${p['id']}/receipt' : '${widget.path}/receipts/${p['id']}';
+
+  Future<void> _download(Map p) async {
+    setState(() => _note = null);
+    try {
+      final bytes = await Ops.bytes(_receiptPath(p));
+      await GetIt.I<PdfSaver>().save(bytes, 'receipt-${p['receiptNo']}.pdf');
+    } catch (e) {
+      if (mounted) setState(() => _note = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _reverse(Map p) async {
+    final done = await showDialog<bool>(context: context, builder: (_) => _ReverseDialog(receipt: p));
+    if (done == true && mounted) _reload();
+  }
+
+  Future<void> _concession(Map<String, dynamic> s, Map row) async {
+    final done = await showDialog<bool>(
+        context: context, builder: (_) => _ConcessionDialog(studentId: '${s['studentId']}', row: row));
+    if (done == true && mounted) _reload();
   }
 
   @override
@@ -103,28 +133,49 @@ class _FeeStatementViewState extends State<FeeStatementView> {
             )),
           ],
           SectionHeader(title: tr('Fees')),
+          if (_note != null)
+            Padding(padding: const EdgeInsets.only(top: 8),
+                child: Text(_note!, style: TextStyle(color: theme.colorScheme.error))),
+          if (widget.canRecord && rows.isNotEmpty)
+            Text(tr('Tap a fee to give a concession.'), style: theme.textTheme.bodySmall),
           for (final r in rows)
             ListTile(
+              key: ValueKey('fee-${(r['head'] as Map)['id']}'),
               contentPadding: EdgeInsets.zero,
               title: Text('${(r['head'] as Map)['name']}'),
               subtitle: Text('${formatRupees((r['head'] as Map)['amountPaise'] as int)} · ${tr('due')} '
                   '${friendlyDate('${(r['head'] as Map)['dueDate']}')}'
+                  '${(r['concessionPaise'] as int) > 0 ? ' · ${tr('Concession')} ${formatRupees(r['concessionPaise'] as int)}' : ''}'
                   '${(r['balancePaise'] as int) > 0 ? ' · ${formatRupees(r['balancePaise'] as int)} ${tr('left')}' : ''}'),
               trailing: ChipTag(label: feeStatusLabel('${r['status']}')),
+              onTap: widget.canRecord ? () => _concession(s, r) : null,
             ),
           if (receipts.isNotEmpty) ...[
             SectionHeader(title: tr('Receipts')),
             for (final p in receipts)
               ListTile(
+                key: ValueKey('receipt-${p['receiptNo']}'),
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.receipt_outlined),
-                title: Text('${tr('Receipt')} ${p['receiptNo']} · ${formatRupees(p['amountPaise'] as int)}'),
+                leading: Icon(p['reversed'] == true ? Icons.cancel_outlined : Icons.receipt_outlined),
+                title: Text('${tr('Receipt')} ${p['receiptNo']} · ${formatRupees(p['amountPaise'] as int)}',
+                    style: p['reversed'] == true ? const TextStyle(decoration: TextDecoration.lineThrough) : null),
                 subtitle: Text([
+                  if (p['reversed'] == true) '${tr('Cancelled')}: ${p['reversalReason'] ?? ''}',
                   '${p['feeHeadName']}',
                   friendlyDate('${p['paidOn']}'),
                   _methodLabel('${p['method']}'),
                   if ('${p['reference']}'.isNotEmpty) '${p['reference']}',
                 ].join(' · ')),
+                trailing: PopupMenuButton<String>(
+                  key: ValueKey('receipt-menu-${p['receiptNo']}'),
+                  tooltip: tr('Receipt'),
+                  onSelected: (v) => v == 'pdf' ? _download(p) : _reverse(p),
+                  itemBuilder: (_) => [
+                    PopupMenuItem(value: 'pdf', child: Text(tr('Download receipt'))),
+                    if (widget.canRecord && p['reversed'] != true)
+                      PopupMenuItem(value: 'reverse', child: Text(tr('Cancel this receipt'))),
+                  ],
+                ),
               ),
           ],
         ]);
@@ -208,18 +259,21 @@ class _PaymentDialogState extends State<_PaymentDialog> {
           ],
           onChanged: (v) => v == null ? null : setState(() => _pick(v)),
         ),
+        const SizedBox(height: 12),
         TextField(
           key: const ValueKey('payment-amount'),
           controller: _amount,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(labelText: tr('Amount received (rupees)')),
         ),
+        const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: _method,
           decoration: InputDecoration(labelText: tr('Paid by')),
           items: [for (final m in _methods) DropdownMenuItem(value: m, child: Text(_methodLabel(m)))],
           onChanged: (v) => setState(() => _method = v ?? 'cash'),
         ),
+        const SizedBox(height: 12),
         TextField(
           controller: _reference,
           maxLength: 80,
@@ -230,6 +284,155 @@ class _PaymentDialogState extends State<_PaymentDialog> {
       actions: [
         TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(tr('Cancel'))),
         FilledButton(key: const ValueKey('save-payment'), onPressed: _saving ? null : _save, child: Text(tr('Save'))),
+      ],
+    );
+  }
+}
+
+/// Cancel a receipt recorded in error (a bounced cheque, the wrong student):
+/// it stays on the statement, marked, and the amount is owed again.
+class _ReverseDialog extends StatefulWidget {
+  final Map receipt;
+  const _ReverseDialog({required this.receipt});
+
+  @override
+  State<_ReverseDialog> createState() => _ReverseDialogState();
+}
+
+class _ReverseDialogState extends State<_ReverseDialog> {
+  final _reason = TextEditingController();
+  String? _error;
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _reason.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (_reason.text.trim().isEmpty) {
+      setState(() => _error = tr('Say why, for example: the cheque bounced.'));
+      return;
+    }
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    try {
+      await Ops.post('/fees/payments/${widget.receipt['id']}/reverse', body: {'reason': _reason.text.trim()});
+      if (mounted) Navigator.of(context).pop(true);
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final p = widget.receipt;
+    return AlertDialog(
+      title: Text('${tr('Cancel receipt')} ${p['receiptNo']}'),
+      content: SizedBox(width: 420, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('${formatRupees(p['amountPaise'] as int)} · ${p['feeHeadName']}. '
+            '${tr('The receipt stays on the statement, marked cancelled, and this amount is owed again. Parents are told.')}'),
+        const SizedBox(height: 12),
+        TextField(
+          key: const ValueKey('reverse-reason'),
+          controller: _reason,
+          maxLength: 200,
+          decoration: InputDecoration(labelText: tr('Reason')),
+        ),
+        if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+      ])),
+      actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(tr('Keep it'))),
+        FilledButton(key: const ValueKey('save-reverse'), onPressed: _saving ? null : _save,
+            child: Text(tr('Cancel receipt'))),
+      ],
+    );
+  }
+}
+
+/// Lower what one student owes on one fee; 0 removes the concession.
+class _ConcessionDialog extends StatefulWidget {
+  final String studentId;
+  final Map row;
+  const _ConcessionDialog({required this.studentId, required this.row});
+
+  @override
+  State<_ConcessionDialog> createState() => _ConcessionDialogState();
+}
+
+class _ConcessionDialogState extends State<_ConcessionDialog> {
+  late final _amount = TextEditingController(
+      text: (widget.row['concessionPaise'] as int) > 0 ? '${(widget.row['concessionPaise'] as int) ~/ 100}' : '');
+  final _reason = TextEditingController();
+  String? _error;
+  bool _saving = false;
+
+  Map get _head => widget.row['head'] as Map;
+
+  @override
+  void dispose() {
+    _amount.dispose();
+    _reason.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    final rupees = double.tryParse(_amount.text.trim().replaceAll(',', '').isEmpty ? '0' : _amount.text.trim().replaceAll(',', ''));
+    final paise = rupees == null ? null : (rupees * 100).round();
+    if (paise == null || paise < 0 || paise > (_head['amountPaise'] as int)) {
+      setState(() => _error = '${tr('Enter rupees from 0 up to the fee')}, ${formatRupees(_head['amountPaise'] as int)}.');
+      return;
+    }
+    if (_reason.text.trim().isEmpty) {
+      setState(() => _error = tr('Say why, for example: a staff child or a sibling.'));
+      return;
+    }
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    try {
+      await Ops.put('/fees/concessions', body: {
+        'studentId': widget.studentId, 'feeHeadId': _head['id'], 'amountPaise': paise, 'reason': _reason.text.trim(),
+      });
+      if (mounted) Navigator.of(context).pop(true);
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('${tr('Concession')}: ${_head['name']}'),
+      content: SizedBox(width: 420, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('${tr('The fee is')} ${formatRupees(_head['amountPaise'] as int)}. ${tr('Enter 0 to remove a concession.')}'),
+        const SizedBox(height: 12),
+        TextField(
+          key: const ValueKey('concession-amount'),
+          controller: _amount,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: InputDecoration(labelText: tr('Concession (rupees)')),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          key: const ValueKey('concession-reason'),
+          controller: _reason,
+          maxLength: 200,
+          decoration: InputDecoration(labelText: tr('Reason')),
+        ),
+        if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+      ])),
+      actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(tr('Cancel'))),
+        FilledButton(key: const ValueKey('save-concession'), onPressed: _saving ? null : _save, child: Text(tr('Save'))),
       ],
     );
   }
