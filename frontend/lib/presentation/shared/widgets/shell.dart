@@ -173,6 +173,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.restore_outlined, Icons.restore, 'Periods owed', '/school/periods-owed'),
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
+          _item(Icons.forum_outlined, Icons.forum, 'Messages', '/school/messages'),
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
         ]),
         _group('Setup', [
@@ -222,6 +223,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.fact_check_outlined, Icons.fact_check, 'Mark answer sheets', '/evaluation'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
+          _item(Icons.forum_outlined, Icons.forum, 'Messages', '/school/messages'),
           _inbox,
         ]),
         _group('More', [
@@ -247,6 +249,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
       return [
         _core([
           _item(Icons.family_restroom_outlined, Icons.family_restroom, 'My children', '/school/family', '/school'),
+          _item(Icons.forum_outlined, Icons.forum, 'Messages', '/school/messages'),
           _inbox,
         ]),
       ];

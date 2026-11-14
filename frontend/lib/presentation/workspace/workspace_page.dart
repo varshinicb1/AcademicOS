@@ -101,6 +101,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
       case 'parent':
         return [
           (icon: Icons.family_restroom_outlined, title: tr('My children'), subtitle: tr('Timetable, homework, progress and consent'), path: '/school/family'),
+          (icon: Icons.forum_outlined, title: tr('Messages'), subtitle: tr("Write to your child's teachers"), path: '/school/messages'),
           inbox,
         ];
       case 'principal':
@@ -111,6 +112,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.restore_outlined, title: tr('Periods owed'), subtitle: tr('Make up or waive lost periods; close a day at short notice'), path: '/school/periods-owed'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Mastery by section and chapter'), path: '/school/class-progress'),
+          (icon: Icons.forum_outlined, title: tr('Messages'), subtitle: tr('Conversations with parents'), path: '/school/messages'),
           (icon: Icons.table_chart_outlined, title: tr('Timetable'), subtitle: tr('Allocations, rooms, the bell; generate and publish'), path: '/school/timetable'),
           (icon: Icons.menu_book_outlined, title: tr('Lesson plans'), subtitle: tr("Date each section's lessons from its book and timetable"), path: '/school/lesson-plans'),
           (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
@@ -146,6 +148,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.calendar_view_week_outlined, title: tr('My week'), subtitle: tr('The timetable, with times'), path: '/school/week'),
           (icon: Icons.assignment_outlined, title: tr('Homework'), subtitle: tr('Set, mark and follow up'), path: '/school/homework'),
           (icon: Icons.insights_outlined, title: tr('Class progress'), subtitle: tr('Your sections, and who needs help'), path: '/school/class-progress'),
+          (icon: Icons.forum_outlined, title: tr('Messages'), subtitle: tr('Conversations with parents'), path: '/school/messages'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers others asked you to review'), path: '/school/reviews'),
           (icon: Icons.event_note_outlined, title: tr('My exam duties'), subtitle: tr('Invigilation roster'), path: '/school/my-exams'),
           (icon: Icons.grading_outlined, title: tr('Report cards'), subtitle: tr('For your class, as its class teacher'), path: '/school/report-cards'),

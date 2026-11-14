@@ -3858,6 +3858,29 @@
         "title": "ConsentStatusResponse",
         "type": "object"
       },
+      "Contact": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "userId": {
+            "title": "Userid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "name",
+          "role"
+        ],
+        "title": "Contact",
+        "type": "object"
+      },
       "ContactRequest": {
         "additionalProperties": false,
         "description": "phone null removes the number and withdraws both.",
@@ -3931,6 +3954,132 @@
           }
         },
         "title": "ContactResponse",
+        "type": "object"
+      },
+      "ConversationDetail": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lastAt": {
+            "title": "Lastat",
+            "type": "string"
+          },
+          "lastMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastmessage"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/MessageResponse"
+            },
+            "title": "Messages",
+            "type": "array"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "unread": {
+            "default": 0,
+            "title": "Unread",
+            "type": "integer"
+          },
+          "withId": {
+            "title": "Withid",
+            "type": "string"
+          },
+          "withName": {
+            "title": "Withname",
+            "type": "string"
+          },
+          "withRole": {
+            "title": "Withrole",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "studentId",
+          "studentName",
+          "withId",
+          "withName",
+          "withRole",
+          "lastAt",
+          "messages"
+        ],
+        "title": "ConversationDetail",
+        "type": "object"
+      },
+      "ConversationResponse": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lastAt": {
+            "title": "Lastat",
+            "type": "string"
+          },
+          "lastMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastmessage"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "unread": {
+            "default": 0,
+            "title": "Unread",
+            "type": "integer"
+          },
+          "withId": {
+            "title": "Withid",
+            "type": "string"
+          },
+          "withName": {
+            "title": "Withname",
+            "type": "string"
+          },
+          "withRole": {
+            "title": "Withrole",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "studentId",
+          "studentName",
+          "withId",
+          "withName",
+          "withRole",
+          "lastAt"
+        ],
+        "title": "ConversationResponse",
         "type": "object"
       },
       "Cover": {
@@ -8711,6 +8860,44 @@
           }
         },
         "title": "MarksRequest",
+        "type": "object"
+      },
+      "MessageResponse": {
+        "properties": {
+          "body": {
+            "title": "Body",
+            "type": "string"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "mine": {
+            "title": "Mine",
+            "type": "boolean"
+          },
+          "senderId": {
+            "title": "Senderid",
+            "type": "string"
+          },
+          "senderName": {
+            "title": "Sendername",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "senderId",
+          "senderName",
+          "mine",
+          "body",
+          "createdAt"
+        ],
+        "title": "MessageResponse",
         "type": "object"
       },
       "MissingConsentResponse": {
@@ -15882,6 +16069,22 @@
         "title": "SelectBookResponse",
         "type": "object"
       },
+      "SendMessageRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "body": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "title": "SendMessageRequest",
+        "type": "object"
+      },
       "SendPaperRequest": {
         "properties": {
           "grade": {
@@ -16648,6 +16851,32 @@
           }
         },
         "title": "StaffPolicyResponse",
+        "type": "object"
+      },
+      "StartConversationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "body": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "withId": {
+            "title": "Withid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "withId",
+          "body"
+        ],
+        "title": "StartConversationRequest",
         "type": "object"
       },
       "StudentConcern": {
@@ -22906,6 +23135,55 @@
         "summary": "Give Consent"
       }
     },
+    "/api/v1/children/{student_id}/contacts": {
+      "get": {
+        "description": "Whom a parent may write to about this child.",
+        "operationId": "child_contacts_api_v1_children__student_id__contacts_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  },
+                  "title": "Response Child Contacts Api V1 Children  Student Id  Contacts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Contacts"
+      }
+    },
     "/api/v1/children/{student_id}/day": {
       "get": {
         "description": "The child's day as it will run: substitutions, lost and make-up periods.",
@@ -23486,6 +23764,174 @@
         "tags": [
           "Parental Consent"
         ]
+      }
+    },
+    "/api/v1/conversations": {
+      "get": {
+        "operationId": "my_conversations_api_v1_conversations_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ConversationResponse"
+                  },
+                  "title": "Response My Conversations Api V1 Conversations Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Conversations"
+      },
+      "post": {
+        "description": "Write the first message (or one more, if the conversation exists).",
+        "operationId": "start_conversation_api_v1_conversations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Start Conversation"
+      }
+    },
+    "/api/v1/conversations/{conversation_id}": {
+      "get": {
+        "description": "The whole conversation; reading it marks it read for the caller.",
+        "operationId": "read_conversation_api_v1_conversations__conversation_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "required": true,
+            "schema": {
+              "title": "Conversation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Read Conversation"
+      }
+    },
+    "/api/v1/conversations/{conversation_id}/messages": {
+      "post": {
+        "operationId": "reply_api_v1_conversations__conversation_id__messages_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "required": true,
+            "schema": {
+              "title": "Conversation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reply"
       }
     },
     "/api/v1/curriculum/academic-years": {

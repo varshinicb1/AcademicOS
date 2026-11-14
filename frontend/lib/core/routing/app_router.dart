@@ -38,6 +38,7 @@ import '../../presentation/guide/guide_welcome.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
 import '../../presentation/workspace/class_progress_page.dart';
+import '../../presentation/workspace/messages_page.dart';
 import '../../presentation/workspace/question_bank_console.dart';
 import '../../presentation/workspace/term_report_page.dart';
 import '../../presentation/workspace/cover_pages.dart';
@@ -316,6 +317,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
+              // MSG-1: teacher-parent messages.
+              GoRoute(path: 'messages', builder: (context, state) => const MessagesPage()),
+              GoRoute(path: 'messages/:id',
+                  builder: (context, state) => ConversationPage(conversationId: state.pathParameters['id']!)),
               GoRoute(path: 'question-bank',
                   builder: (context, state) => QuestionBankConsolePage(canReview: state.uri.queryParameters['review'] == '1')),
               GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),

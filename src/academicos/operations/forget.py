@@ -41,6 +41,8 @@ ERASED = {
     "pending_guardian_links": "parent links waiting for the student to join",
     "pending_enrollments": "a class place waiting for the person's invite",
     "user_progress": "the person's own Guide and setup progress",
+    "conversations": "teacher-parent conversations about the student, or the parent's (MSG-1)",
+    "conversation_messages": "the messages in those conversations",
 }
 
 KEPT = {
@@ -92,6 +94,9 @@ class ForgetMixin:
             ("practice_sets", "student_id=?", (student_id,)),
             ("paper_marks", "student_id=?", (student_id,)),
             ("paper_absent", "student_id=?", (student_id,)),
+            ("conversation_messages", "conversation_id IN (SELECT id FROM conversations WHERE student_id=?)",
+             (student_id,)),
+            ("conversations", "student_id=?", (student_id,)),
             ("guardianships", "student_id=?", (student_id,)),
             ("guardian_invites", f"school_id=? AND (student_id=? OR {by_email})",
              (school_id, student_id, *((email,) if email else ()))),
@@ -108,6 +113,9 @@ class ForgetMixin:
         steps = [
             *self._own_steps(parent_id, email),
             ("guardianships", "parent_id=?", (parent_id,)),
+            ("conversation_messages", "conversation_id IN (SELECT id FROM conversations WHERE parent_id=?)",
+             (parent_id,)),
+            ("conversations", "parent_id=?", (parent_id,)),
             ("guardian_invites", f"code IN ({_marks(codes)})", tuple(codes)),
             ("pending_guardian_links", "parent_id=?", (parent_id,)),
             ("pending_enrollments", f"code IN ({_marks(codes)})", tuple(codes)),
