@@ -29,6 +29,33 @@ const hindiCoverage = 'Hindi covers the School page and its tiles, Today, My day
 String tr(String en) => uiHindi ? (_hi[en] ?? en) : en;
 
 const _hi = <String, String>{
+  // ATT-1 student attendance.
+  'Absent': 'अनुपस्थित',
+  'Attendance': 'उपस्थिति',
+  'Class register': 'कक्षा रजिस्टर',
+  'Days appear here once the class teacher takes the register.': 'कक्षा अध्यापक के रजिस्टर भरने के बाद दिन यहाँ दिखेंगे।',
+  'Days attended, and days away or late': 'उपस्थित दिन, और अनुपस्थित या देर वाले दिन',
+  'Days away or late': 'अनुपस्थित या देर वाले दिन',
+  'Late': 'देर से',
+  'Most recent first': 'सबसे हाल का पहले',
+  'My attendance': 'मेरी उपस्थिति',
+  'No attendance yet': 'अभी कोई उपस्थिति नहीं',
+  'No classes to take': 'कोई कक्षा नहीं',
+  'No students in this class yet.': 'इस कक्षा में अभी कोई विद्यार्थी नहीं है।',
+  'Not taken yet. Everyone starts as present.': 'अभी नहीं भरा गया। सभी पहले से उपस्थित हैं।',
+  'On leave': 'छुट्टी पर',
+  'Present': 'उपस्थित',
+  'Record their consent under Classes, then save again.': 'कक्षाएँ में उनकी सहमति दर्ज करें, फिर से सहेजें।',
+  'Register saved, except for students with no parental consent on file': 'रजिस्टर सहेजा गया, उन विद्यार्थियों को छोड़कर जिनकी अभिभावक सहमति दर्ज नहीं है',
+  'Register saved. Parents of absent students have been told.': 'रजिस्टर सहेजा गया। अनुपस्थित विद्यार्थियों के अभिभावकों को सूचना दी गई।',
+  'Save: everyone present': 'सहेजें: सभी उपस्थित',
+  "Students' attendance for any class": 'किसी भी कक्षा की विद्यार्थी उपस्थिति',
+  "Take today's attendance for your classes": 'अपनी कक्षाओं की आज की उपस्थिति भरें',
+  'Taken. Change any row and save again.': 'भरा गया। कोई पंक्ति बदलें और फिर से सहेजें।',
+  'You take the register for the classes you teach or are class teacher of.': 'आप उन कक्षाओं का रजिस्टर भरते हैं जिन्हें आप पढ़ाते हैं या जिनके कक्षा अध्यापक हैं।',
+  'absent': 'अनुपस्थित',
+  'days taken': 'दिन दर्ज',
+  'of school days attended': 'विद्यालय के दिनों में उपस्थित',
   // the School page and its tiles
   'School': 'विद्यालय',
   'Notifications': 'सूचनाएँ',

@@ -37,6 +37,7 @@ import '../../presentation/guide/guide_page.dart';
 import '../../presentation/guide/guide_welcome.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
+import '../../presentation/workspace/attendance_page.dart';
 import '../../presentation/workspace/class_progress_page.dart';
 import '../../presentation/workspace/question_bank_console.dart';
 import '../../presentation/workspace/term_report_page.dart';
@@ -316,6 +317,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
+              // ATT-1: a class's daily register, and a student's own record.
+              GoRoute(path: 'attendance', builder: (context, state) => const AttendanceRegisterPage()),
+              GoRoute(path: 'my-attendance', builder: (context, state) => const MyAttendancePage()),
               GoRoute(path: 'question-bank',
                   builder: (context, state) => QuestionBankConsolePage(canReview: state.uri.queryParameters['review'] == '1')),
               GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),

@@ -293,6 +293,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("GET", "/api/v1/sections/{section_id}/attendance"),
+    ("PUT", "/api/v1/sections/{section_id}/attendance"),
+    ("GET", "/api/v1/my-attendance-record"),
+    ("GET", "/api/v1/children/{student_id}/attendance"),
+    ("GET", "/api/v1/students/{student_id}/attendance"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -659,6 +664,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("GET", "/api/v1/sections/{section_id}/attendance"),
+    ("PUT", "/api/v1/sections/{section_id}/attendance"),
+    ("GET", "/api/v1/my-attendance-record"),
+    ("GET", "/api/v1/children/{student_id}/attendance"),
+    ("GET", "/api/v1/students/{student_id}/attendance"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -1090,7 +1100,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 351: the Phase 1 pilot agreement (read, accept).
     # 352: NFR-7 per-school usage for the operator.
     # 356: staff rules and leave balances (read, set, mine, everyone's).
-    assert len(API_ROUTES) == 356
+    # 361: ATT-1 student attendance: a section's register (read, take), a student's own,
+    # a parent's child's and a teacher's view of one student.
+    assert len(API_ROUTES) == 361
 
 
 def test_docs_routes_present():

@@ -1216,6 +1216,60 @@
         "title": "AssignTeacherRequest",
         "type": "object"
       },
+      "AttendanceDay": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "status"
+        ],
+        "title": "AttendanceDay",
+        "type": "object"
+      },
+      "AttendanceEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "default": "",
+            "maxLength": 200,
+            "title": "Note",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "present",
+              "late",
+              "absent",
+              "excused"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "status"
+        ],
+        "title": "AttendanceEntry",
+        "type": "object"
+      },
       "AttendanceMark": {
         "additionalProperties": false,
         "properties": {
@@ -8541,6 +8595,24 @@
         "title": "MailBackendStatus",
         "type": "object"
       },
+      "MarkAttendanceRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/AttendanceEntry"
+            },
+            "maxItems": 200,
+            "title": "Entries",
+            "type": "array"
+          }
+        },
+        "required": [
+          "entries"
+        ],
+        "title": "MarkAttendanceRequest",
+        "type": "object"
+      },
       "MarkEntry": {
         "additionalProperties": false,
         "properties": {
@@ -13004,6 +13076,103 @@
         "title": "RegisterRequest",
         "type": "object"
       },
+      "RegisterResponse": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/RegisterRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "taken": {
+            "title": "Taken",
+            "type": "boolean"
+          },
+          "withoutConsent": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Withoutconsent",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "date",
+          "taken",
+          "rows",
+          "counts"
+        ],
+        "title": "RegisterResponse",
+        "type": "object"
+      },
+      "RegisterRow": {
+        "properties": {
+          "markedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markedby"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "name"
+        ],
+        "title": "RegisterRow",
+        "type": "object"
+      },
       "RenameRequest": {
         "properties": {
           "name": {
@@ -16648,6 +16817,61 @@
           }
         },
         "title": "StaffPolicyResponse",
+        "type": "object"
+      },
+      "StudentAttendanceResponse": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "daysTaken": {
+            "title": "Daystaken",
+            "type": "integer"
+          },
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "recent": {
+            "items": {
+              "$ref": "#/components/schemas/AttendanceDay"
+            },
+            "title": "Recent",
+            "type": "array"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "start",
+          "end",
+          "daysTaken",
+          "counts",
+          "recent"
+        ],
+        "title": "StudentAttendanceResponse",
         "type": "object"
       },
       "StudentConcern": {
@@ -22713,6 +22937,50 @@
           }
         },
         "summary": "Catalog Chapters"
+      }
+    },
+    "/api/v1/children/{student_id}/attendance": {
+      "get": {
+        "operationId": "child_attendance_api_v1_children__student_id__attendance_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Attendance"
       }
     },
     "/api/v1/children/{student_id}/calendar": {
@@ -32363,6 +32631,30 @@
         "summary": "Save Progress"
       }
     },
+    "/api/v1/my-attendance-record": {
+      "get": {
+        "description": "The signed-in student's attendance this year: counts, the share\nattended, and the recent days they were absent, late or excused.",
+        "operationId": "my_attendance_record_api_v1_my_attendance_record_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Attendance Record"
+      }
+    },
     "/api/v1/my-calendar": {
       "get": {
         "description": "The caller's dated school events from today: holidays, half days,\nexam windows and compensatory working days (N-3-19), cover and\ninvigilation duties, exam papers and homework due. The ICS feed carries\nthe same; the weekly periods are the timetable's, so they are left out.",
@@ -36362,6 +36654,136 @@
         "summary": "Get Section Templates"
       }
     },
+    "/api/v1/sections/{section_id}/attendance": {
+      "get": {
+        "description": "The section's register for a day (today by default): every enrolled\nstudent, with their status, or none when not taken yet.",
+        "operationId": "get_register_api_v1_sections__section_id__attendance_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Register"
+      },
+      "put": {
+        "description": "Take or correct the register. Rows for students not in the section are\nrefused; students without parental consent are left out and named.",
+        "operationId": "put_register_api_v1_sections__section_id__attendance_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkAttendanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Register"
+      }
+    },
     "/api/v1/sections/{section_id}/progress": {
       "get": {
         "description": "Per chapter (and topic, where the bank tags one): how many of the\nsection's students are at each status and their mean mastery; then the\nstudents with chapters at \"needs work\", most first. `subject` narrows to\none bank subject (e.g. \"Science\").",
@@ -36473,6 +36895,51 @@
           }
         ],
         "summary": "Staff Directory"
+      }
+    },
+    "/api/v1/students/{student_id}/attendance": {
+      "get": {
+        "description": "One student's attendance for the section's teachers or a reports admin.",
+        "operationId": "staff_student_attendance_api_v1_students__student_id__attendance_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Staff Student Attendance"
       }
     },
     "/api/v1/students/{student_id}/guardian-invites": {

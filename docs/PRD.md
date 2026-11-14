@@ -95,7 +95,7 @@ an earlier section still says **OPEN**, this section wins.
 
 | # | Decision | Consequence |
 |---|---|---|
-| 1 | **This is not an ERP.** Scope is **examination automation** and **academic calendar creation automation** — nothing else. | §5's caveat about being *"credible on fees and attendance"* is **void**. Fees and attendance are not on the critical path, not a gap, and not to be built. Open question 5 is closed. |
+| 1 | **This is not an ERP.** _Reversed in part on 2026-11-14: the owner asked for student attendance, fees and teacher-parent messaging (REQUIREMENTS.md §7a, ATT-1, FEE-1, MSG-1)._ Scope is **examination automation** and **academic calendar creation automation** — nothing else. | §5's caveat about being *"credible on fees and attendance"* is **void**. Fees and attendance are not on the critical path, not a gap, and not to be built. Open question 5 is closed. |
 | 2 | **Examination automation is the wedge.** | It gets the polish; the calendar pillar follows. |
 | 3 | **The product is paper generation** — blueprint balancing, real questions with official marking schemes, PDF paper + answer-key export. | Not grading, not scanning, not analytics-driven mastery. Those exist in the repo and are *not* the centre. |
 | 4 | **Coverage: all grades 6–12, all subjects.** | §5A's scope note is superseded. |

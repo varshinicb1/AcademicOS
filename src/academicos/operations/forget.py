@@ -41,6 +41,7 @@ ERASED = {
     "pending_guardian_links": "parent links waiting for the student to join",
     "pending_enrollments": "a class place waiting for the person's invite",
     "user_progress": "the person's own Guide and setup progress",
+    "student_attendance": "the student's daily attendance register rows (ATT-1)",
 }
 
 KEPT = {
@@ -92,6 +93,7 @@ class ForgetMixin:
             ("practice_sets", "student_id=?", (student_id,)),
             ("paper_marks", "student_id=?", (student_id,)),
             ("paper_absent", "student_id=?", (student_id,)),
+            ("student_attendance", "student_id=?", (student_id,)),
             ("guardianships", "student_id=?", (student_id,)),
             ("guardian_invites", f"school_id=? AND (student_id=? OR {by_email})",
              (school_id, student_id, *((email,) if email else ()))),
