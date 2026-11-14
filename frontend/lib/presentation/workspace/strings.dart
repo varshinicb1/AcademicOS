@@ -68,6 +68,16 @@ const _hi = <String, String>{
   'left': 'शेष',
   'overdue': 'बकाया',
   'to pay': 'देना है',
+  // FEE-1 oversight: the school's fees at a glance.
+  'This year so far': 'इस वर्ष अब तक',
+  'Billed': 'कुल शुल्क',
+  'Collected': 'प्राप्त',
+  'To collect': 'प्राप्त करना है',
+  'collected': 'प्राप्त',
+  'students': 'विद्यार्थी',
+  'Excel': 'एक्सेल',
+  'Nobody has an overdue fee.': 'किसी का शुल्क बकाया नहीं है।',
+  'By class': 'कक्षा अनुसार',
   // the School page and its tiles
   'School': 'विद्यालय',
   'Notifications': 'सूचनाएँ',

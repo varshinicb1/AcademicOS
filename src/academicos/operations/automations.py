@@ -222,6 +222,51 @@ def staff_check_in(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+FEE_REMIND_DAYS = 3          # parents hear of a fee this many days before it is due
+
+
+def fee_reminders(ops, cs, users, notify, now: datetime) -> int:
+    """FEE-1, 10:00 each day: the parents of a student with a balance on a
+    fee due in FEE_REMIND_DAYS days hear it is coming, and once it is a day
+    overdue, that it is overdue. One notice per student, fee and kind
+    (the dedupe key), so a fee paid in between is never chased."""
+    from .fees import statement
+    from .fee_routes import rupees
+    today = now.astimezone(IST).date()
+    soon = (today + timedelta(days=FEE_REMIND_DAYS)).isoformat()
+    yesterday = (today - timedelta(days=1)).isoformat()
+    n = 0
+    for school in _schools(cs):
+        year = _year_on(cs, school, today.isoformat())
+        if year is None:
+            continue
+        grades = {g.id: g.number for g in cs.grades_for_year(year.id)}
+        for s in cs.sections_for_year(year.id):
+            heads = [h for h in ops.heads_for_grade(school, year.id, grades.get(s.grade_id))
+                     if h["due_date"] in (soon, yesterday)]
+            if not heads:
+                continue
+            for e in cs.enrollments_for_section(s.id):
+                st = statement(heads, ops.payments_of(school, e.student_id),
+                               ops.concessions_of(school, e.student_id), today.isoformat())
+                owing = [r for r in st["rows"] if r["balance_paise"] > 0]
+                if not owing:
+                    continue
+                parents = ops.parents_of([e.student_id], school_id=school)
+                if not parents:
+                    continue
+                u = users.get(e.student_id)
+                for r in owing:
+                    h = r["head"]
+                    kind = "fee_due_soon" if h["due_date"] == soon else "fee_overdue"
+                    notify(school_id=school, user_ids=parents, kind=kind,
+                           params={"student": u.name if u else "", "fee": h["name"],
+                                   "amount": rupees(r["balance_paise"]), "date": h["due_date"]},
+                           link="/my-children", dedupe_key=f"{kind}:{e.student_id}:{h['id']}")
+                    n += len(parents)
+    return n
+
+
 def teacher_daily_digest(ops, cs, users, notify, now: datetime) -> int:
     tomorrow = (now.astimezone(IST).date() + timedelta(days=1)).isoformat()
     n = 0
@@ -440,6 +485,15 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
                               + ", ".join(en),
                               f"{ex['name']} {ex['start_date']} से शुरू है: " + ", ".join(hi)
                               + " का स्वीकृत प्रश्नपत्र नहीं"))
+        if today.weekday() == 0:               # FEE-1: the week's overdue fees, once a week
+            from .fee_routes import rupees
+            from .fees_report import school_dues
+            _, dues = school_dues(ops, cs, school, today.isoformat())
+            late = [d for d in dues if d["overdue"] > 0]
+            if late:
+                owed = rupees(sum(d["overdue"] for d in late))
+                lines.append((f"{owed} in fees overdue from {len(late)} students",
+                              f"{len(late)} विद्यार्थियों का {owed} शुल्क बकाया है"))
         if not lines:
             continue
         notify(school_id=school, user_ids=principals, kind="principal_alert",
@@ -524,6 +578,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
     ("principal_alerts", 8, "day", None, principal_alerts),
     ("staff_check_in", 9, "day", None, staff_check_in),
+    ("fee_reminders", 10, "day", None, fee_reminders),
     ("marking_due", 15, "day", None, marking_due),
     ("exam_reminders", 17, "day", None, exam_reminders),
     ("term_report", 15, "day", None, term_report),

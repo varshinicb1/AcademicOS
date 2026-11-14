@@ -300,6 +300,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/fees/concessions"),
     ("GET", "/api/v1/fees/students/{student_id}"),
     ("GET", "/api/v1/fees/sections/{section_id}"),
+    ("GET", "/api/v1/fees/overview"),
+    ("GET", "/api/v1/fees/defaulters/export"),
     ("GET", "/api/v1/children/{student_id}/fees"),
     ("GET", "/api/v1/my-fees"),
     ("POST", "/api/v1/admin/import/{kind}"),
@@ -675,6 +677,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/fees/concessions"),
     ("GET", "/api/v1/fees/students/{student_id}"),
     ("GET", "/api/v1/fees/sections/{section_id}"),
+    ("GET", "/api/v1/fees/overview"),
+    ("GET", "/api/v1/fees/defaulters/export"),
     ("GET", "/api/v1/children/{student_id}/fees"),
     ("GET", "/api/v1/my-fees"),
     ("POST", "/api/v1/admin/import/{kind}"),
@@ -1110,7 +1114,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 356: staff rules and leave balances (read, set, mine, everyone's).
     # 365: FEE-1 fees: heads (list, create, delete), a payment, a concession, a student's
     # statement for the school, a class's dues, a parent's child's and a student's own.
-    assert len(API_ROUTES) == 365
+    # 367: FEE-1 oversight: the school's fees overview and the overdue list as CSV or Excel.
+    assert len(API_ROUTES) == 367
 
 
 def test_docs_routes_present():

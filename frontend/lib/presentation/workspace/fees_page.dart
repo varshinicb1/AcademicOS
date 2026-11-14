@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../core/download/pdf_saver.dart';
 import '../../core/session/current_session.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../shared/widgets/common_widgets.dart';
@@ -314,10 +316,14 @@ class _FeesAdminPageState extends State<FeesAdminPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: destinationAppBar(context, title: Text(tr('Fees')),
-            bottom: TabBar(tabs: [Tab(text: tr('Dues by class')), Tab(text: tr('Fees per class'))])),
+            bottom: TabBar(isScrollable: true, tabs: [
+              Tab(text: tr('School')),
+              Tab(text: tr('Dues by class')),
+              Tab(text: tr('Fees per class')),
+            ])),
         body: _error != null
             ? ErrorDisplay(message: _error!, onRetry: () {
                 setState(() => _error = null);
@@ -326,6 +332,7 @@ class _FeesAdminPageState extends State<FeesAdminPage> {
             : _heads == null
                 ? const LoadingIndicator()
                 : TabBarView(children: [
+                    const FeesOverviewView(),
                     ListView(padding: const EdgeInsets.all(16), children: [
                       Wrap(spacing: 8, runSpacing: 8, children: [
                         for (final e in _sections.entries)
@@ -457,5 +464,121 @@ class _HeadDialogState extends State<_HeadDialog> {
         FilledButton(key: const ValueKey('save-fee'), onPressed: _saving ? null : _save, child: Text(tr('Save'))),
       ],
     );
+  }
+}
+
+/// The year's fees across the school (FEE-1 oversight): billed, collected
+/// and owed, each class, and the students with an overdue balance, largest
+/// first, with the full list as an Excel file.
+class FeesOverviewView extends StatefulWidget {
+  const FeesOverviewView({super.key});
+
+  @override
+  State<FeesOverviewView> createState() => _FeesOverviewViewState();
+}
+
+class _FeesOverviewViewState extends State<FeesOverviewView> {
+  Map<String, dynamic>? _data;
+  String? _error;
+  bool _downloading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final d = await Ops.map('/fees/overview');
+      if (mounted) setState(() => _data = d);
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  Future<void> _download() async {
+    setState(() => _downloading = true);
+    try {
+      final bytes = await Ops.bytes('/fees/defaulters/export', query: {'format': 'xlsx'});
+      await GetIt.I<PdfSaver>().save(bytes, 'fee-defaulters.xlsx');
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(serverErrorMessage(e))));
+      }
+    } finally {
+      if (mounted) setState(() => _downloading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    if (_error != null) {
+      return ErrorDisplay(message: _error!, onRetry: () {
+        setState(() => _error = null);
+        _load();
+      });
+    }
+    final d = _data;
+    if (d == null) return const LoadingIndicator();
+    final classes = (d['classes'] as List).cast<Map>();
+    final late = (d['defaulters'] as List).cast<Map>();
+    final pct = d['collectedPercent'] as num?;
+    Widget figure(String label, int paise, {bool alert = false}) => Padding(
+          padding: const EdgeInsets.only(right: 24, bottom: 8),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+            Text(label, style: theme.textTheme.bodySmall),
+            Text(formatRupees(paise), style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600, color: alert && paise > 0 ? theme.colorScheme.error : null)),
+          ]),
+        );
+    return ListView(key: const ValueKey('fees-overview'), padding: const EdgeInsets.all(16), children: [
+      Text(tr('This year so far'), style: theme.textTheme.titleMedium),
+      const SizedBox(height: 8),
+      Wrap(children: [
+        figure(tr('Billed'), (d['totalPaise'] as int) - (d['concessionPaise'] as int)),
+        figure(tr('Collected'), d['paidPaise'] as int),
+        figure(tr('To collect'), d['balancePaise'] as int),
+        figure(tr('Overdue'), d['overduePaise'] as int, alert: true),
+      ]),
+      if (pct != null) Text('${pct.toStringAsFixed(pct % 1 == 0 ? 0 : 1)}% ${tr('collected')}'),
+      const SizedBox(height: 16),
+      Row(children: [
+        Expanded(child: Text('${tr('Overdue')}: ${d['defaultersTotal']} ${tr('students')}',
+            style: theme.textTheme.titleSmall)),
+        if ((d['defaultersTotal'] as int) > 0)
+          TextButton.icon(
+            key: const ValueKey('download-defaulters'),
+            onPressed: _downloading ? null : _download,
+            icon: const Icon(Icons.download_outlined),
+            label: Text(tr('Excel')),
+          ),
+      ]),
+      if (late.isEmpty)
+        Text(tr('Nobody has an overdue fee.'), style: theme.textTheme.bodySmall),
+      for (final x in late)
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          title: Text('${x['name']}'),
+          subtitle: Text('${x['sectionName']} · ${(x['overdueHeads'] as List).join(', ')}'),
+          trailing: Text(formatRupees(x['overduePaise'] as int),
+              style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.error)),
+        ),
+      const SizedBox(height: 16),
+      Text(tr('By class'), style: theme.textTheme.titleSmall),
+      for (final c in classes)
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          title: Text('${c['sectionName']}'),
+          subtitle: Text('${formatRupees(c['paidPaise'] as int)} ${tr('collected')} · '
+              '${formatRupees(c['balancePaise'] as int)} ${tr('to pay')}'),
+          trailing: (c['studentsOverdue'] as int) > 0
+              ? Text('${c['studentsOverdue']} ${tr('overdue')}', style: TextStyle(color: theme.colorScheme.error))
+              : null,
+        ),
+    ]);
   }
 }

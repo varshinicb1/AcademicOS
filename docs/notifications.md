@@ -17,6 +17,7 @@ action learns to ignore all of them — including the one that mattered.
 Lesson marked by someone else | ✅ | A principal overrides a lesson completion the teacher recorded | It corrects the teacher's own record; they must not be surprised by it. |
 Paper approved / returned | ✅ | A principal approves or returns the teacher's paper | Blocks the teacher's next step. |
 Lesson rescheduled onto me | ✅ | A principal reschedules onto the teacher's calendar | Changes what they teach today. |
+Fee falling due / overdue | ✅ | 10:00, to a student's parents: 3 days before a fee with a balance is due, and the day after it is missed; once per student and fee | The parent's next action is a payment at the office; a fee paid in between is never chased. Students are not told |
 Overdue summary | ✅ one per week | **Principal only**, Monday morning | A management cadence, not a nudge. |
 New feature available | ❌ | — | Product marketing inside an operations tool. |
 "Continue where you left off" | ❌ | — | Engagement-driven. |
