@@ -3773,6 +3773,39 @@
         "title": "ConceptMasteryResponse",
         "type": "object"
       },
+      "ConcessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "amountPaise": {
+            "maximum": 1000000000.0,
+            "minimum": 0.0,
+            "title": "Amountpaise",
+            "type": "integer"
+          },
+          "feeHeadId": {
+            "title": "Feeheadid",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "feeHeadId",
+          "amountPaise",
+          "reason"
+        ],
+        "title": "ConcessionRequest",
+        "type": "object"
+      },
       "ConsentResponse": {
         "properties": {
           "guardianName": {
@@ -5881,6 +5914,155 @@
           "proposals"
         ],
         "title": "ExtractionRunWithProposalsResponse",
+        "type": "object"
+      },
+      "FeeHead": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "amountPaise": {
+            "title": "Amountpaise",
+            "type": "integer"
+          },
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "name",
+          "amountPaise",
+          "dueDate"
+        ],
+        "title": "FeeHead",
+        "type": "object"
+      },
+      "FeeHeadRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "amountPaise": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1000000000.0,
+            "title": "Amountpaise",
+            "type": "integer"
+          },
+          "dueDate": {
+            "title": "Duedate",
+            "type": "string"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "maximum": 12.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "name": {
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "academicYearId",
+          "name",
+          "amountPaise",
+          "dueDate"
+        ],
+        "title": "FeeHeadRequest",
+        "type": "object"
+      },
+      "FeeStatement": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "concessionPaise": {
+            "title": "Concessionpaise",
+            "type": "integer"
+          },
+          "overduePaise": {
+            "title": "Overduepaise",
+            "type": "integer"
+          },
+          "paidPaise": {
+            "title": "Paidpaise",
+            "type": "integer"
+          },
+          "receipts": {
+            "items": {
+              "$ref": "#/components/schemas/Receipt"
+            },
+            "title": "Receipts",
+            "type": "array"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/StatementRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "totalPaise": {
+            "title": "Totalpaise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "studentId",
+          "studentName",
+          "rows",
+          "totalPaise",
+          "concessionPaise",
+          "paidPaise",
+          "balancePaise",
+          "overduePaise",
+          "receipts"
+        ],
+        "title": "FeeStatement",
         "type": "object"
       },
       "FeedResponse": {
@@ -10573,6 +10755,61 @@
         "title": "PathQuery",
         "type": "object"
       },
+      "PaymentRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "amountPaise": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1000000000.0,
+            "title": "Amountpaise",
+            "type": "integer"
+          },
+          "feeHeadId": {
+            "title": "Feeheadid",
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "cash",
+              "cheque",
+              "bank",
+              "upi",
+              "other"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "paidOn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paidon"
+          },
+          "reference": {
+            "default": "",
+            "maxLength": 80,
+            "title": "Reference",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "feeHeadId",
+          "amountPaise",
+          "method"
+        ],
+        "title": "PaymentRequest",
+        "type": "object"
+      },
       "PeriodChangeResponse": {
         "description": "One period of one section the generated week changes (N-3-6):\n`before` -> `after`. No `before` is a period added; no `after`, one\nthat becomes free.",
         "properties": {
@@ -12872,6 +13109,54 @@
           "grade"
         ],
         "title": "QuickPaperRequest",
+        "type": "object"
+      },
+      "Receipt": {
+        "properties": {
+          "amountPaise": {
+            "title": "Amountpaise",
+            "type": "integer"
+          },
+          "feeHeadId": {
+            "title": "Feeheadid",
+            "type": "string"
+          },
+          "feeHeadName": {
+            "title": "Feeheadname",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "paidOn": {
+            "title": "Paidon",
+            "type": "string"
+          },
+          "receiptNo": {
+            "title": "Receiptno",
+            "type": "integer"
+          },
+          "reference": {
+            "default": "",
+            "title": "Reference",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "receiptNo",
+          "feeHeadId",
+          "feeHeadName",
+          "amountPaise",
+          "paidOn",
+          "method"
+        ],
+        "title": "Receipt",
         "type": "object"
       },
       "RecordConsentRequest": {
@@ -15293,6 +15578,44 @@
         "title": "SectionBlueprint",
         "type": "object"
       },
+      "SectionFeeRow": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "overduePaise": {
+            "title": "Overduepaise",
+            "type": "integer"
+          },
+          "paidPaise": {
+            "title": "Paidpaise",
+            "type": "integer"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "totalPaise": {
+            "title": "Totalpaise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "totalPaise",
+          "paidPaise",
+          "balancePaise",
+          "overduePaise"
+        ],
+        "title": "SectionFeeRow",
+        "type": "object"
+      },
       "SectionFix": {
         "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap: every kind carries the value to apply, never only a\nsentence to parse.",
         "properties": {
@@ -16648,6 +16971,38 @@
           }
         },
         "title": "StaffPolicyResponse",
+        "type": "object"
+      },
+      "StatementRow": {
+        "properties": {
+          "balancePaise": {
+            "title": "Balancepaise",
+            "type": "integer"
+          },
+          "concessionPaise": {
+            "title": "Concessionpaise",
+            "type": "integer"
+          },
+          "head": {
+            "$ref": "#/components/schemas/FeeHead"
+          },
+          "paidPaise": {
+            "title": "Paidpaise",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "head",
+          "concessionPaise",
+          "paidPaise",
+          "balancePaise",
+          "status"
+        ],
+        "title": "StatementRow",
         "type": "object"
       },
       "StudentConcern": {
@@ -22958,6 +23313,50 @@
           }
         ],
         "summary": "Child Day"
+      }
+    },
+    "/api/v1/children/{student_id}/fees": {
+      "get": {
+        "operationId": "child_fees_api_v1_children__student_id__fees_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeStatement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Child Fees"
       }
     },
     "/api/v1/children/{student_id}/homework": {
@@ -31231,6 +31630,320 @@
         "summary": "Publish"
       }
     },
+    "/api/v1/fees/concessions": {
+      "put": {
+        "description": "Lower what one student owes on one fee (0 removes the concession).",
+        "operationId": "set_concession_api_v1_fees_concessions_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConcessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeStatement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Concession"
+      }
+    },
+    "/api/v1/fees/heads": {
+      "get": {
+        "operationId": "list_heads_api_v1_fees_heads_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "academicYearId",
+            "required": true,
+            "schema": {
+              "title": "Academicyearid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FeeHead"
+                  },
+                  "title": "Response List Heads Api V1 Fees Heads Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Heads"
+      },
+      "post": {
+        "operationId": "create_head_api_v1_fees_heads_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeeHeadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeHead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Head"
+      }
+    },
+    "/api/v1/fees/heads/{head_id}": {
+      "delete": {
+        "operationId": "delete_head_api_v1_fees_heads__head_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "head_id",
+            "required": true,
+            "schema": {
+              "title": "Head Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeHead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Head"
+      }
+    },
+    "/api/v1/fees/payments": {
+      "post": {
+        "description": "Record money the school received; the receipt number is the school's\nnext. The child's parents hear of it.",
+        "operationId": "record_payment_api_v1_fees_payments_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Receipt"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Record Payment"
+      }
+    },
+    "/api/v1/fees/sections/{section_id}": {
+      "get": {
+        "description": "Each student of one class with what they owe: the school's way in to\na student's statement, and its list of who is behind.",
+        "operationId": "section_fees_api_v1_fees_sections__section_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SectionFeeRow"
+                  },
+                  "title": "Response Section Fees Api V1 Fees Sections  Section Id  Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Section Fees"
+      }
+    },
+    "/api/v1/fees/students/{student_id}": {
+      "get": {
+        "operationId": "student_statement_api_v1_fees_students__student_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeStatement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Student Statement"
+      }
+    },
     "/api/v1/guardianships": {
       "post": {
         "description": "Link an existing parent account to a student, e.g. a second child.",
@@ -32464,6 +33177,29 @@
           }
         ],
         "summary": "My Exams"
+      }
+    },
+    "/api/v1/my-fees": {
+      "get": {
+        "operationId": "my_fees_api_v1_my_fees_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeStatement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Fees"
       }
     },
     "/api/v1/my-grants": {

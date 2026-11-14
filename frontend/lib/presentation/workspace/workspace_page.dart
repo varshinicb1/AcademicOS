@@ -96,6 +96,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.insights_outlined, title: tr('My progress'), subtitle: tr('Subjects, chapters and what to revise'), path: '/school/my-learning'),
           (icon: Icons.event_note_outlined, title: tr('My exams'), subtitle: tr('Your datesheet'), path: '/school/my-exams'),
           (icon: Icons.grading_outlined, title: tr('My report card'), subtitle: tr('This term\'s marks by subject'), path: '/school/my-report-card'),
+          (icon: Icons.receipt_long_outlined, title: tr('My fees'), subtitle: tr('What is paid and still to pay'), path: '/school/my-fees'),
           inbox,
         ];
       case 'parent':
@@ -115,6 +116,7 @@ class _WorkspacePageState extends State<WorkspacePage> {
           (icon: Icons.menu_book_outlined, title: tr('Lesson plans'), subtitle: tr("Date each section's lessons from its book and timetable"), path: '/school/lesson-plans'),
           (icon: Icons.badge_outlined, title: tr('School profile'), subtitle: tr('The name and logo printed on papers'), path: '/school/school-profile'),
           (icon: Icons.grading_outlined, title: tr('Report cards'), subtitle: tr('A term\'s marks for a section, as a PDF'), path: '/school/report-cards'),
+          (icon: Icons.receipt_long_outlined, title: tr('Fees'), subtitle: tr('Fees per class, payments and dues'), path: '/school/fees'),
           (icon: Icons.event_note_outlined, title: tr('Exams'), subtitle: tr('Datesheets and invigilation'), path: '/school/exams'),
           (icon: Icons.rate_review_outlined, title: tr('Paper reviews'), subtitle: tr('Papers waiting for review or approval'), path: '/school/reviews'),
           (icon: Icons.upload_file_outlined, title: tr('Import & export'), subtitle: tr('Sections, people, allocations, holidays'), path: '/school/import'),
@@ -140,6 +142,8 @@ class _WorkspacePageState extends State<WorkspacePage> {
             (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('You review its answers'), path: '/school/question-bank?review=1')
           else
             (icon: Icons.library_books_outlined, title: tr('Question bank'), subtitle: tr('Coverage by chapter and topic'), path: '/school/question-bank'),
+          if (_caps.contains('fees'))
+            (icon: Icons.receipt_long_outlined, title: tr('Fees'), subtitle: tr('You record fee payments'), path: '/school/fees'),
           if (_caps.contains('reports'))
             (icon: Icons.assessment_outlined, title: tr('Term report'), subtitle: tr('You manage reports'), path: '/school/term-report'),
           (icon: Icons.today_outlined, title: tr('My day'), subtitle: tr('Periods, duties and check-in'), path: '/school/my-day'),

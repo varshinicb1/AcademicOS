@@ -50,7 +50,8 @@ PRINCIPAL = "principal"
 OWNER = "owner"
 # Delegable principal actions (M1.4): the principal, or a teacher granted
 # that capability (auth_routes.require_admin). ADMIN["leave"] == "admin:leave".
-ADMIN = {c: f"admin:{c}" for c in ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports")}
+ADMIN = {c: f"admin:{c}" for c in ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports",
+                                     "fees")}
 
 LEVELS = (PUBLIC, API_KEY, ANY_USER, SELF_OR_STAFF, STAFF, PRINCIPAL, OWNER, *ADMIN.values())
 
@@ -382,6 +383,16 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("POST", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
+    # FEE-1 fees.
+    ("GET", "/api/v1/fees/heads"): _p(ADMIN["fees"]),
+    ("POST", "/api/v1/fees/heads"): _p(ADMIN["fees"]),
+    ("DELETE", "/api/v1/fees/heads/{head_id}"): _p(ADMIN["fees"], "only a fee nobody has paid against"),
+    ("POST", "/api/v1/fees/payments"): _p(ADMIN["fees"], "audited; the childs parents are told"),
+    ("PUT", "/api/v1/fees/concessions"): _p(ADMIN["fees"], "audited"),
+    ("GET", "/api/v1/fees/students/{student_id}"): _p(ADMIN["fees"]),
+    ("GET", "/api/v1/fees/sections/{section_id}"): _p(ADMIN["fees"], "what each student of one class owes"),
+    ("GET", "/api/v1/children/{student_id}/fees"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/my-fees"): _p(ANY_USER, "students only, their own statement"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/export/{kind}"): _p(ADMIN["users"]),
@@ -570,6 +581,7 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/homework/{homework_id}/submit",
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
+    "/api/v1/children/{student_id}/fees",
 })
 
 

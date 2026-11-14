@@ -41,6 +41,8 @@ ERASED = {
     "pending_guardian_links": "parent links waiting for the student to join",
     "pending_enrollments": "a class place waiting for the person's invite",
     "user_progress": "the person's own Guide and setup progress",
+    "fee_payments": "the student's fee payments and receipts (FEE-1)",
+    "fee_concessions": "the student's fee concessions",
 }
 
 KEPT = {
@@ -58,6 +60,8 @@ KEPT = {
     "owner_sessions": "which linked school an owner has chosen (ROLE-4); no student or parent",
     "question_facility": "a question's measured difficulty, summed over papers; aggregates, no student named (EX-3)",
     "question_facility_parts": "the same, one row per question and paper; aggregates, no student named (EX-3)",
+    "fee_heads": "the school's fees per class; no student or parent",
+    "fee_receipt_counters": "the school's last receipt number; no student or parent",
     "pilot_agreements": "the school's acceptance of the pilot agreement, a legal record; names the staff member "
                         "who accepted it, no student or parent",
 }
@@ -92,6 +96,8 @@ class ForgetMixin:
             ("practice_sets", "student_id=?", (student_id,)),
             ("paper_marks", "student_id=?", (student_id,)),
             ("paper_absent", "student_id=?", (student_id,)),
+            ("fee_payments", "student_id=?", (student_id,)),
+            ("fee_concessions", "student_id=?", (student_id,)),
             ("guardianships", "student_id=?", (student_id,)),
             ("guardian_invites", f"school_id=? AND (student_id=? OR {by_email})",
              (school_id, student_id, *((email,) if email else ()))),

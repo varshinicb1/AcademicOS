@@ -973,6 +973,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/fees": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Child Fees */
+        get: operations["child_fees_api_v1_children__student_id__fees_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/homework": {
         parameters: {
             query?: never;
@@ -4003,6 +4020,120 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/fees/concessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Concession
+         * @description Lower what one student owes on one fee (0 removes the concession).
+         */
+        put: operations["set_concession_api_v1_fees_concessions_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/heads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Heads */
+        get: operations["list_heads_api_v1_fees_heads_get"];
+        put?: never;
+        /** Create Head */
+        post: operations["create_head_api_v1_fees_heads_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/heads/{head_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Head */
+        delete: operations["delete_head_api_v1_fees_heads__head_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Record Payment
+         * @description Record money the school received; the receipt number is the school's
+         *     next. The child's parents hear of it.
+         */
+        post: operations["record_payment_api_v1_fees_payments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/sections/{section_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Section Fees
+         * @description Each student of one class with what they owe: the school's way in to
+         *     a student's statement, and its list of who is behind.
+         */
+        get: operations["section_fees_api_v1_fees_sections__section_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fees/students/{student_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Student Statement */
+        get: operations["student_statement_api_v1_fees_students__student_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/guardianships": {
         parameters: {
             query?: never;
@@ -4504,6 +4635,23 @@ export interface paths {
          * @description Published exams: a student's class's papers; a teacher's duties.
          */
         get: operations["my_exams_api_v1_my_exams_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-fees": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Fees */
+        get: operations["my_fees_api_v1_my_fees_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7986,6 +8134,17 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** ConcessionRequest */
+        ConcessionRequest: {
+            /** Amountpaise */
+            amountPaise: number;
+            /** Feeheadid */
+            feeHeadId: string;
+            /** Reason */
+            reason: string;
+            /** Studentid */
+            studentId: string;
+        };
         /** ConsentResponse */
         ConsentResponse: {
             /** Guardianname */
@@ -8776,6 +8935,55 @@ export interface components {
             /** Proposals */
             proposals: components["schemas"]["ProposalResponse"][];
             run: components["schemas"]["ExtractionRunResponse"];
+        };
+        /** FeeHead */
+        FeeHead: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Amountpaise */
+            amountPaise: number;
+            /** Duedate */
+            dueDate: string;
+            /** Grade */
+            grade?: number | null;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+        };
+        /** FeeHeadRequest */
+        FeeHeadRequest: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Amountpaise */
+            amountPaise: number;
+            /** Duedate */
+            dueDate: string;
+            /** Grade */
+            grade?: number | null;
+            /** Name */
+            name: string;
+        };
+        /** FeeStatement */
+        FeeStatement: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Concessionpaise */
+            concessionPaise: number;
+            /** Overduepaise */
+            overduePaise: number;
+            /** Paidpaise */
+            paidPaise: number;
+            /** Receipts */
+            receipts: components["schemas"]["Receipt"][];
+            /** Rows */
+            rows: components["schemas"]["StatementRow"][];
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /** Totalpaise */
+            totalPaise: number;
         };
         /** FeedResponse */
         FeedResponse: {
@@ -10575,6 +10783,27 @@ export interface components {
             /** Target */
             target: string;
         };
+        /** PaymentRequest */
+        PaymentRequest: {
+            /** Amountpaise */
+            amountPaise: number;
+            /** Feeheadid */
+            feeHeadId: string;
+            /**
+             * Method
+             * @enum {string}
+             */
+            method: "cash" | "cheque" | "bank" | "upi" | "other";
+            /** Paidon */
+            paidOn?: string | null;
+            /**
+             * Reference
+             * @default
+             */
+            reference: string;
+            /** Studentid */
+            studentId: string;
+        };
         /**
          * PeriodChangeResponse
          * @description One period of one section the generated week changes (N-3-6):
@@ -11364,6 +11593,28 @@ export interface components {
              * @default 80
              */
             totalMarks: number;
+        };
+        /** Receipt */
+        Receipt: {
+            /** Amountpaise */
+            amountPaise: number;
+            /** Feeheadid */
+            feeHeadId: string;
+            /** Feeheadname */
+            feeHeadName: string;
+            /** Id */
+            id: string;
+            /** Method */
+            method: string;
+            /** Paidon */
+            paidOn: string;
+            /** Receiptno */
+            receiptNo: number;
+            /**
+             * Reference
+             * @default
+             */
+            reference: string;
         };
         /** RecordConsentRequest */
         RecordConsentRequest: {
@@ -12307,6 +12558,21 @@ export interface components {
             /** Totalmarks */
             totalMarks: number;
         };
+        /** SectionFeeRow */
+        SectionFeeRow: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Name */
+            name: string;
+            /** Overduepaise */
+            overduePaise: number;
+            /** Paidpaise */
+            paidPaise: number;
+            /** Studentid */
+            studentId: string;
+            /** Totalpaise */
+            totalPaise: number;
+        };
         /**
          * SectionFix
          * @description One change the teacher can make to a short section, with what it buys.
@@ -12932,6 +13198,18 @@ export interface components {
             minNoticeDays: number;
             /** Updatedat */
             updatedAt?: string | null;
+        };
+        /** StatementRow */
+        StatementRow: {
+            /** Balancepaise */
+            balancePaise: number;
+            /** Concessionpaise */
+            concessionPaise: number;
+            head: components["schemas"]["FeeHead"];
+            /** Paidpaise */
+            paidPaise: number;
+            /** Status */
+            status: string;
         };
         /** StudentConcern */
         StudentConcern: {
@@ -16050,6 +16328,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChildDayResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    child_fees_api_v1_children__student_id__fees_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeStatement"];
                 };
             };
             /** @description Validation Error */
@@ -21330,6 +21639,229 @@ export interface operations {
             };
         };
     };
+    set_concession_api_v1_fees_concessions_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConcessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeStatement"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_heads_api_v1_fees_heads_get: {
+        parameters: {
+            query: {
+                academicYearId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeHead"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_head_api_v1_fees_heads_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FeeHeadRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeHead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_head_api_v1_fees_heads__head_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                head_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeHead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    record_payment_api_v1_fees_payments_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Receipt"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    section_fees_api_v1_fees_sections__section_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SectionFeeRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    student_statement_api_v1_fees_students__student_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeStatement"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     link_api_v1_guardianships_post: {
         parameters: {
             query?: never;
@@ -22140,6 +22672,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MyExams"];
+                };
+            };
+        };
+    };
+    my_fees_api_v1_my_fees_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeStatement"];
                 };
             };
         };

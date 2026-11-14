@@ -151,7 +151,7 @@ void main() {
   testWidgets('at 375 px every tab label is whole', (tester) async {
     await pumpFamily(tester);
     expect(tester.takeException(), isNull);
-    for (final label in ['Week', 'Today', 'Calendar', 'Homework', 'Progress']) {
+    for (final label in ['Week', 'Today', 'Calendar', 'Homework', 'Progress', 'Fees']) {
       final text = tester.renderObject<RenderParagraph>(
           find.descendant(of: find.byKey(const ValueKey('child-tabs')), matching: find.text(label)));
       expect(text.didExceedMaxLines, isFalse, reason: label);

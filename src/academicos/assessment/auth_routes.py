@@ -385,7 +385,7 @@ def require_principal(current: User = Depends(get_current_user)) -> User:
 # store lives in the operations package, which imports this module, so it
 # plugs its check in at start-up (set_grant_checker) instead of importing.
 
-ADMIN_CAPABILITIES = ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports")
+ADMIN_CAPABILITIES = ("users", "calendar", "timetable", "leave", "exams", "qbank_review", "reports", "fees")
 ADMIN_DETAIL = "this action needs the principal, or a teacher the principal has made an admin for it"
 _grant_checker = None
 _ADMIN_DEPS: dict = {}

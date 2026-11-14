@@ -38,6 +38,7 @@ import '../../presentation/guide/guide_welcome.dart';
 import '../../presentation/workspace/admin_pages.dart';
 import '../../presentation/workspace/app_mode.dart';
 import '../../presentation/workspace/class_progress_page.dart';
+import '../../presentation/workspace/fees_page.dart';
 import '../../presentation/workspace/question_bank_console.dart';
 import '../../presentation/workspace/term_report_page.dart';
 import '../../presentation/workspace/cover_pages.dart';
@@ -316,6 +317,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(path: 'today', builder: (context, state) => const StudentTodayPage()),
               GoRoute(path: 'week', builder: (context, state) => const WeekPage()),
               GoRoute(path: 'class-progress', builder: (context, state) => const ClassProgressPage()),
+              // FEE-1: the school's fees, and a student's own.
+              GoRoute(path: 'fees', builder: (context, state) => const FeesAdminPage()),
+              GoRoute(path: 'my-fees', builder: (context, state) => const MyFeesPage()),
               GoRoute(path: 'question-bank',
                   builder: (context, state) => QuestionBankConsolePage(canReview: state.uri.queryParameters['review'] == '1')),
               GoRoute(path: 'term-report', builder: (context, state) => const TermReportPage()),
