@@ -206,6 +206,27 @@ def record_server_error(request: Request, exc: BaseException) -> ErrorGroup:
     return group
 
 
+def record_job_error(job: str, exc: BaseException, school_id: Optional[str] = None) -> ErrorGroup:
+    """A scheduled job that failed (operations/automations.py): grouped and emitted like a 500, so
+    the operator sees it on /api/v1/ops/errors and Error Reporting can alert on it. A job has no
+    request; its route is `automation <job>`, and the school it failed for is counted, not named."""
+    where = _raised_at(exc)
+    kind = type(exc).__name__
+    route = f"automation {job}"
+    group = ERRORS.record(fingerprint=_fingerprint("job", job, kind, where), source="server", kind=kind,
+                          route=route, message=scrub(str(exc), 300), school_id=school_id)
+    _emit({
+        "severity": "ERROR",
+        "@type": "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent",
+        "message": scrub("".join(traceback.format_exception(type(exc), exc, exc.__traceback__)), 8000),
+        "serviceContext": {"service": SERVICE, "version": _release()},
+        "context": {"reportLocation": {"filePath": where.split(":")[0], "functionName": where.split(":")[-1]}},
+        "fingerprint": group.fingerprint,
+        "job": job,
+    })
+    return group
+
+
 async def _on_unhandled(request: Request, exc: Exception) -> JSONResponse:
     """The last handler: a 500 that says which report it was, never the
     exception's text (which may carry data the caller should not see)."""

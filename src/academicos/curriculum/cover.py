@@ -471,8 +471,12 @@ class CoverMixin:
                 raise CoverError(f"this leave is already {leave.status}")
             status = "approved" if approve else "rejected"
             decided_at = _now()
-            self._exec("UPDATE leave_requests SET status=?, decided_by=?, decided_at=? WHERE id=?",
-                       (status, decided_by, decided_at, leave_id))
+            # Decided only while still pending, in the one statement: two principals (or one on two
+            # instances) deciding at once both read "pending", and both decided (#143).
+            if self.conn.execute("UPDATE leave_requests SET status=?, decided_by=?, decided_at=? "
+                                 "WHERE id=? AND status='pending'",
+                                 (status, decided_by, decided_at, leave_id)).rowcount != 1:
+                raise CoverError("this leave was decided a moment ago; reload to see the decision")
             leave.status, leave.decided_by, leave.decided_at = status, decided_by, decided_at
             subs: list[Substitution] = []
             if approve:
@@ -912,11 +916,19 @@ class CoverMixin:
                 raise KeyError(sub_id)
             if sub.substitute_id != teacher_id or sub.status != "proposed":
                 raise CoverError("this is not a substitution waiting for your answer")
+            # The answer holds only if the duty is still proposed to this teacher when it is written:
+            # the principal may have given it to someone else meanwhile, or the teacher answered twice
+            # on two instances, and each answer re-proposed or overwrote the other (#143).
+            still = "WHERE id=? AND substitute_id=? AND status='proposed'"
             if accept:
-                self._exec("UPDATE substitutions SET status='accepted', updated_at=? WHERE id=?", (_now(), sub_id))
+                cur = self.conn.execute(f"UPDATE substitutions SET status='accepted', updated_at=? {still}",
+                                        (_now(), sub_id, teacher_id))
             else:
-                self._exec("UPDATE substitutions SET status='declined', substitute_id=NULL, mode='substitute', "
-                           "updated_at=? WHERE id=?", (_now(), sub_id))
+                cur = self.conn.execute("UPDATE substitutions SET status='declined', substitute_id=NULL, "
+                                        f"mode='substitute', updated_at=? {still}", (_now(), sub_id, teacher_id))
+            if cur.rowcount != 1:
+                raise CoverError("this is not a substitution waiting for your answer")
+            if not accept:
                 nxt = [c for c in self.substitute_candidates(sub_id) if c.teacher_id != teacher_id]
                 self._propose(sub, nxt[0] if nxt else None)
         self._commit()

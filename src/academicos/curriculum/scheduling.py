@@ -187,6 +187,26 @@ def schedule_book(
     periods_per_week: int, force: bool = False, from_date: Optional[str] = None,
     section_id: Optional[str] = None, fit_to_periods_left: bool = False,
 ) -> ScheduleResult:
+    """One plan is made by one caller at a time (_schedule_book has the details). Making a plan reads
+    its lessons, deletes what is still to teach and writes the new ones: two at once (a double click,
+    or "Make the plans" on two instances) both deleted, then both wrote, and the plan had every lesson
+    twice (#143). The second caller is told to wait (a ValueError, as for a plan that exists) rather
+    than queued, since the first is making the same plan. Across instances this holds on Postgres
+    (an advisory lock, pg_sqlite.exclusive); a SQLite store is one instance by design."""
+    from ..storage.pg_sqlite import exclusive
+    with exclusive(store.conn, f"plan:{academic_year_id}:{book_id}:{section_id or '*'}") as mine:
+        if not mine:
+            raise ValueError("this plan is being made right now; wait a moment and reload it")
+        return _schedule_book(store, school_id=school_id, academic_year_id=academic_year_id, book_id=book_id,
+                              periods_per_week=periods_per_week, force=force, from_date=from_date,
+                              section_id=section_id, fit_to_periods_left=fit_to_periods_left)
+
+
+def _schedule_book(
+    store: CurriculumStore, *, school_id: str, academic_year_id: str, book_id: str,
+    periods_per_week: int, force: bool = False, from_date: Optional[str] = None,
+    section_id: Optional[str] = None, fit_to_periods_left: bool = False,
+) -> ScheduleResult:
     """Schedules every real, approved Subtopic in a book's real delivery
     order (Unit.seq -> Chapter.seq -> Topic.seq -> Subtopic.seq -- §13's
     independently-reorderable sequence, already respected by store.py's own
