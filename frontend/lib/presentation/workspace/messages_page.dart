@@ -30,7 +30,9 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPageState extends State<MessagesPage> {
   late Future<List<Map<String, dynamic>>> _future = Ops.list('/conversations');
 
-  void _reload() => setState(() => _future = Ops.list('/conversations'));
+  void _reload() => setState(() {
+        _future = Ops.list('/conversations');
+      });
 
   Future<void> _new() async {
     final id = await showDialog<String>(context: context, builder: (_) => const _NewMessageDialog());

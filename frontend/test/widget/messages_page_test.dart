@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../responsive/responsive_harness.dart' show useAppFonts;
@@ -108,6 +109,22 @@ void main() {
     await settle(tester);
   }
 
+  // The list opens a new conversation through the app's router, so this
+  // test needs one: the page at '/', the conversation at its own path.
+  Future<void> pumpRouted(WidgetTester tester, Widget page) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final router = GoRouter(routes: [
+      GoRoute(path: '/', builder: (_, __) => page),
+      GoRoute(path: '/school/messages/:id',
+          builder: (_, s) => Scaffold(body: Text('opened ${s.pathParameters['id']}'))),
+    ]);
+    addTearDown(router.dispose);
+    await tester.pumpWidget(MaterialApp.router(theme: AppTheme.darkTheme, routerConfig: router));
+    await settle(tester);
+  }
+
   testWidgets('a parent sees the conversation, unread, with whom and about which child', (tester) async {
     await pump(tester, const MessagesPage());
     expect(find.text('Ana · about Asha'), findsOneWidget);
@@ -116,7 +133,7 @@ void main() {
   });
 
   testWidgets("New message writes to one of the child's teachers", (tester) async {
-    await pump(tester, const MessagesPage());
+    await pumpRouted(tester, const MessagesPage());
     await tester.tap(find.byKey(const ValueKey('new-message')));
     await settle(tester);
     await tester.tap(find.byKey(const ValueKey('message-to')));
@@ -127,6 +144,8 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('send-message')));
     await settle(tester);
     expect(server.writes, ['/conversations {"studentId":"s1","withId":"t1","body":"Asha was unwell today."}']);
+    expect(find.textContaining('opened '), findsOneWidget, reason: 'the new conversation opens');
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('a reply is sent and shown in the conversation', (tester) async {
