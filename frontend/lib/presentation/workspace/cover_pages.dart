@@ -15,7 +15,7 @@ import '../shared/readable.dart';
 import '../shared/widgets/common_widgets.dart';
 import 'calendar_day_notice.dart';
 import 'ops_api.dart';
-import 'teacher_homework.dart' show TeachingContext;
+import 'teacher_homework.dart' show TeachingContext, showSetHomework;
 import 'strings.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 import '../shared/widgets/shell.dart';
@@ -475,6 +475,13 @@ class _MyDayPageState extends State<MyDayPage> {
   List<Map<String, dynamic>> _duties = [];
   List<Map<String, dynamic>> _leave = [];
   List<Map<String, dynamic>> _lessons = [];
+  // TA-1: lessons from the last week still unmarked. An unmarked lesson
+  // never reflows the plan, and My day showed only today's, so a mark
+  // forgotten yesterday could not be made here at all.
+  List<Map<String, dynamic>> _earlier = [];
+  // Earlier days failing to load (offline, never cached) does not blank the
+  // day: today still shows, with this note.
+  String? _earlierError;
   // The calendar's word on today: a holiday, a half day, an exam window.
   List<Map<String, dynamic>> _calendarDay = [];
   TeachingContext? _ctx;
@@ -509,6 +516,17 @@ class _MyDayPageState extends State<MyDayPage> {
         'to': isoDate(DateTime.now().add(const Duration(days: 7)))});
       final leave = await Ops.list('$_base/leave-requests');
       final lessons = await Ops.list('$_base/my-schedule', query: {'start_date': _today, 'end_date': _today});
+      final now = DateTime.now();
+      List<Map<String, dynamic>> earlier = const [];
+      String? earlierError;
+      try {
+        earlier = await Ops.list('$_base/my-schedule', query: {
+          'start_date': isoDate(now.subtract(const Duration(days: 7))),
+          'end_date': isoDate(now.subtract(const Duration(days: 1))),
+        });
+      } catch (e) {
+        earlierError = '${tr('Lessons from earlier days could not be loaded')}: ${serverErrorMessage(e)}';
+      }
       final calendar = await Ops.list('/my-calendar', query: {'days': 1});
       final mine = await Ops.map('$_base/my-attendance');
       final mark = mine['status'] as String?;
@@ -522,6 +540,8 @@ class _MyDayPageState extends State<MyDayPage> {
         _calendarDay = calendarDayItems(calendar, _today);
         _duties = duties;
         _lessons = lessons;
+        _earlier = earlier.where((l) => l['status'] == 'scheduled').toList();
+        _earlierError = earlierError;
         _leave = leave.where((l) => l['teacherId'] == CurrentSession.userId &&
             (l['endDate'] as String).compareTo(_today) >= 0).toList();
       });
@@ -763,6 +783,91 @@ class _MyDayPageState extends State<MyDayPage> {
     }
   }
 
+  /// Every lesson still to mark from earlier days, as taught, in one tap and
+  /// a confirmation. Each goes as its own mark, so one refused (a lesson the
+  /// principal moved meanwhile) does not stop the rest, and offline they are
+  /// queued like any other mark.
+  Future<void> _markAllTaught() async {
+    final todo = [for (final l in _earlier) l['lessonId'] as String];
+    final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+      title: Text(tr('Mark all taught?')),
+      content: Text('${todo.length} ${tr('lessons from earlier days will be marked taught. '
+          'Mark any you did not teach one by one first, so they are planned again.')}'),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Cancel'))),
+        FilledButton(key: const Key('mark-all-confirm'), onPressed: () => Navigator.pop(ctx, true),
+            child: Text(tr('Mark all taught'))),
+      ],
+    ));
+    if (ok != true) return;
+    final failed = <String>[];
+    String? queued;
+    for (final id in todo) {
+      try {
+        await Ops.send('PATCH', '$_base/scheduled-lessons/$id', body: {'status': 'completed'},
+            label: tr('Lessons marked taught'));
+      } on OpsQueued catch (e) {
+        // Not a failure: the mark waits on this phone and is sent later; the
+        // one message says so for all of them.
+        queued = serverErrorMessage(e);
+      } catch (e) {
+        failed.add(serverErrorMessage(e));
+      }
+    }
+    if (mounted) {
+      final said = failed.isNotEmpty
+          ? '${failed.length} ${tr('not marked')}: ${failed.first}'
+          : queued ?? tr('Marked taught');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(said)));
+    }
+    _load();
+  }
+
+  Widget _lessonTile(Map<String, dynamic> l, {bool withDate = false}) => ListTile(
+        title: Text('${withDate ? '${l['date']} · ' : ''}'
+            '${l['sectionName'] ?? ''} ${l['subjectName']}: ${l['subtopicName']}'),
+        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('${l['chapterName']} · ${l['topicName']}'),
+          const SizedBox(height: 8),
+          l['status'] == 'scheduled'
+              ? Wrap(spacing: 6, runSpacing: 6, children: [
+                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
+                      child: Text(tr('Not taught'))),
+                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
+                      child: Text(tr('Partly'))),
+                  FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
+                      child: Text(tr('Taught'))),
+                ])
+              : Wrap(spacing: 8, runSpacing: 6, crossAxisAlignment: WrapCrossAlignment.center, children: [
+                  ChipTag(label: l['status'] == 'skipped'
+                      ? tr('Not taught')
+                      : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
+                  if (l['status'] == 'completed' && l['sectionId'] != null)
+                    TextButton.icon(
+                      key: Key('lesson-homework-${l['lessonId']}'),
+                      style: phoneTapTarget(context),
+                      onPressed: () => _setHomework(l),
+                      icon: const Icon(Icons.assignment_outlined, size: 18),
+                      label: Text(tr('Set homework')),
+                    ),
+                ]),
+        ]),
+      );
+
+  /// TA-4: homework on a lesson just taught, suggested from that lesson. The
+  /// lesson names its subject, and the teacher's allocation for the lesson's
+  /// section gives the subject's id; with none the dialog opens unfilled.
+  Future<void> _setHomework(Map<String, dynamic> l) async {
+    final ctx = _ctx;
+    final alloc = ctx?.allocations.where((a) =>
+        a['sectionId'] == l['sectionId'] && ctx.subjectNames[a['subjectId']] == l['subjectName']).firstOrNull;
+    final made = await showSetHomework(context, subjectId: alloc?['subjectId'] as String?,
+        sectionId: l['sectionId'] as String?, lessonDate: l['date'] as String?);
+    if (made == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('Homework set'))));
+    }
+  }
+
   Future<void> _cancelLeave(String id) async {
     try {
       await Ops.post('$_base/leave-requests/$id/cancel');
@@ -862,28 +967,25 @@ class _MyDayPageState extends State<MyDayPage> {
                         ]),
                       ),
                   ],
+                  if (_earlierError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(_earlierError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                    ),
+                  if (_earlier.isNotEmpty) ...[
+                    SectionHeader(
+                      title: tr('Still to mark'),
+                      subtitle: tr('Lessons from earlier days. An unmarked lesson does not move the plan.'),
+                      action: _earlier.length > 1
+                          ? FilledButton.tonal(key: const Key('mark-all-taught'), style: phoneTapTarget(context),
+                              onPressed: _markAllTaught, child: Text(tr('Mark all taught')))
+                          : null,
+                    ),
+                    for (final l in _earlier) _lessonTile(l, withDate: true),
+                  ],
                   if (_lessons.isNotEmpty) ...[
                     SectionHeader(title: tr("Today's lessons")),
-                    for (final l in _lessons)
-                      ListTile(
-                        title: Text('${l['sectionName'] ?? ''} ${l['subjectName']}: ${l['subtopicName']}'),
-                        subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('${l['chapterName']} · ${l['topicName']}'),
-                          const SizedBox(height: 8),
-                          l['status'] == 'scheduled'
-                              ? Wrap(spacing: 6, runSpacing: 6, children: [
-                                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'skipped'),
-                                      child: Text(tr('Not taught'))),
-                                  OutlinedButton(onPressed: () => _markLesson(l['lessonId'] as String, 'partly'),
-                                      child: Text(tr('Partly'))),
-                                  FilledButton(onPressed: () => _markLesson(l['lessonId'] as String, 'completed'),
-                                      child: Text(tr('Taught'))),
-                                ])
-                              : ChipTag(label: l['status'] == 'skipped'
-                                  ? tr('Not taught')
-                                  : (l['note'] as String? ?? '').startsWith('Partly') ? tr('Partly taught') : tr('Taught')),
-                        ]),
-                      ),
+                    for (final l in _lessons) _lessonTile(l),
                   ],
                   SectionHeader(
                     title: 'My leave',

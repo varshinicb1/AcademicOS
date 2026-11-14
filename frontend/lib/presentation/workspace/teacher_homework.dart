@@ -63,7 +63,7 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
       appBar: destinationAppBar(context, title: Text(tr('Homework'))),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final made = await showDialog<bool>(context: context, builder: (_) => const _CreateHomeworkDialog());
+          final made = await showSetHomework(context);
           if (made == true) _reload();
         },
         icon: const Icon(Icons.add),
@@ -103,8 +103,18 @@ class _TeacherHomeworkPageState extends State<TeacherHomeworkPage> {
   }
 }
 
+/// The Set homework dialog. From a lesson (My day, TA-4) it opens on that
+/// lesson's class and subject and suggests from that lesson's day at once,
+/// so homework on what was just taught is two taps: Set homework, then Set.
+Future<bool?> showSetHomework(BuildContext context, {String? subjectId, String? sectionId, String? lessonDate}) =>
+    showDialog<bool>(context: context, builder: (_) =>
+        _CreateHomeworkDialog(subjectId: subjectId, sectionId: sectionId, lessonDate: lessonDate));
+
 class _CreateHomeworkDialog extends StatefulWidget {
-  const _CreateHomeworkDialog();
+  final String? subjectId;
+  final String? sectionId;
+  final String? lessonDate;
+  const _CreateHomeworkDialog({this.subjectId, this.sectionId, this.lessonDate});
 
   @override
   State<_CreateHomeworkDialog> createState() => _CreateHomeworkDialogState();
@@ -129,7 +139,21 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
   @override
   void initState() {
     super.initState();
-    TeachingContext.load().then((c) => setState(() => _ctx = c), onError: (e) => setState(() => _error = serverErrorMessage(e)));
+    TeachingContext.load().then((c) {
+      if (!mounted) return;
+      setState(() => _ctx = c);
+      final subject = widget.subjectId, section = widget.sectionId;
+      if (subject != null && section != null &&
+          c.allocations.any((a) => a['subjectId'] == subject && a['sectionId'] == section)) {
+        setState(() {
+          _subjectId = subject;
+          _sections.add(section);
+        });
+        _suggest();
+      }
+    }, onError: (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    });
   }
 
   List<Map<String, dynamic>> get _mine =>
@@ -139,7 +163,9 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
     if (_subjectId == null || _sections.isEmpty) return;
     setState(() => _busy = true);
     try {
-      final s = await Ops.map('/homework/suggestion', query: {'sectionId': _sections.first, 'subjectId': _subjectId});
+      final s = await Ops.map('/homework/suggestion', query: {'sectionId': _sections.first, 'subjectId': _subjectId,
+        if (widget.lessonDate != null) 'date': widget.lessonDate});
+      if (!mounted) return;
       setState(() {
         _suggestion = s;
         _chapters
@@ -153,9 +179,9 @@ class _CreateHomeworkDialogState extends State<_CreateHomeworkDialog> {
         if (_title.text.isEmpty && s['subtopicName'] != null) _title.text = 'Practice: ${s['subtopicName']}';
       });
     } catch (e) {
-      setState(() => _error = serverErrorMessage(e));
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     } finally {
-      setState(() => _busy = false);
+      if (mounted) setState(() => _busy = false);
     }
   }
 

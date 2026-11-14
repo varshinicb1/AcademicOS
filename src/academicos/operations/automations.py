@@ -19,6 +19,10 @@ even two overlapping runs cannot double a message.
 - principal_weekly_digest (Monday from 07:00): last week's cover and homework.
 - marking_due (from 15:00): teachers with submissions waiting over two days
   for their marks (TA-7).
+- lessons_unmarked (from 16:00, on a teaching day): each teacher with lessons
+  from the last week, today's included, not yet marked taught, partly taught
+  or not taught (TA-1). An unmarked lesson never reflows the plan, so a
+  forgotten mark leaves the plan and the coverage figures wrong in silence.
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
   week, homework overdue in bulk, exams within a week without a full roster or
   with a paper not set (no approved question paper) (ADM-3).
@@ -330,6 +334,61 @@ def marking_due(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+UNMARKED_LOOKBACK_DAYS = 7  # lessons this many days back still count as "to mark"
+
+
+def _lesson_owner(cs, lesson, subject_of_book: dict) -> Optional[str]:
+    """Who marks a section's lesson: its allocated teacher, or, for the dates
+    of their approved leave, the temporary replacement (as
+    curriculum.routes._teaches_lesson decides). None where nobody does: a
+    school-wide plan (no section), no allocation, or leave with no
+    replacement -- nobody is nudged for a class nobody taught."""
+    if lesson.section_id is None:
+        return None
+    if lesson.book_id not in subject_of_book:
+        book = cs.get_book(lesson.book_id)
+        subject_of_book[lesson.book_id] = book.subject_id if book else None
+    subject_id = subject_of_book[lesson.book_id]
+    alloc = cs.allocation_for(lesson.section_id, subject_id) if subject_id else None
+    if alloc is None or not alloc.teacher_id:
+        return None
+    for leave in cs.leave_for_teacher(alloc.teacher_id):
+        if leave.status == "approved" and leave.start_date <= lesson.date <= leave.end_date:
+            return leave.replacement_id or None
+    return alloc.teacher_id
+
+
+def lessons_unmarked(ops, cs, users, notify, now: datetime) -> int:
+    """TA-1, once a teaching day's afternoon: each teacher hears how many of
+    their lessons from the last UNMARKED_LOOKBACK_DAYS days, today's
+    included, are still unmarked, and the oldest. Only on a day the school's
+    plans teach (some lesson is dated today), so a Sunday or a holiday sends
+    nothing. My day lists them, to mark in one tap."""
+    today = now.astimezone(IST).date()
+    since = (today - timedelta(days=UNMARKED_LOOKBACK_DAYS)).isoformat()
+    n = 0
+    for school in _schools(cs):
+        lessons = cs.scheduled_lessons_for_date_range(school, since, today.isoformat())
+        if not any(l.date == today.isoformat() for l in lessons):
+            continue
+        subject_of_book: dict = {}
+        waiting: dict[str, list] = {}
+        for l in lessons:
+            if l.status != "scheduled":
+                continue
+            owner = _lesson_owner(cs, l, subject_of_book)
+            if owner:
+                waiting.setdefault(owner, []).append(l)
+        for teacher, items in waiting.items():
+            oldest = min(items, key=lambda l: l.date)
+            notify(school_id=school, user_ids=[teacher], kind="lessons_unmarked",
+                   params={"count": len(items), "oldest": oldest.date,
+                           "section": _label(cs, oldest.section_id)},
+                   link="/school/my-day", dedupe_key=f"unmarked:{teacher}:{today.isoformat()}")
+            n += 1
+    return n
+
+
 BEHIND_LESSONS = 5          # a section this many lessons behind its plan is "falling behind"
 OWED_AFTER_DAYS = 7         # a lost period owed this long is flagged
 # A generated question paper the principal has approved, or one already past
@@ -525,6 +584,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("principal_alerts", 8, "day", None, principal_alerts),
     ("staff_check_in", 9, "day", None, staff_check_in),
     ("marking_due", 15, "day", None, marking_due),
+    ("lessons_unmarked", 16, "day", None, lessons_unmarked),
     ("exam_reminders", 17, "day", None, exam_reminders),
     ("term_report", 15, "day", None, term_report),
     ("period_starting", 7, "run", None, period_starting),

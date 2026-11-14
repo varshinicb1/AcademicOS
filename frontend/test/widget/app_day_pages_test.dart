@@ -27,6 +27,11 @@ const _day = '[{"sectionId":"s10a","period":1,"subjectId":"sci","teacherId":"u1"
 
 class _Server implements HttpClientAdapter {
   final List<RequestOptions> posted = [];
+  final List<RequestOptions> patched = [];
+  final List<RequestOptions> got = [];
+  // My day asks my-schedule twice: today, and the week before (TA-1's lessons
+  // still to mark). The second answers from this key.
+  String earlier = '[]';
   final Map<String, String> answers = {
     '/curriculum/my-day': _day,
     '/curriculum/my-attendance': '{"teacherId":"u1","name":"Tara Teacher","status":"unmarked"}',
@@ -53,10 +58,15 @@ class _Server implements HttpClientAdapter {
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
     if (o.method == 'POST') posted.add(o);
+    if (o.method == 'PATCH') patched.add(o);
+    if (o.method == 'GET') got.add(o);
+    if (o.path == '/curriculum/my-schedule' && o.queryParameters['start_date'] != o.queryParameters['end_date']) {
+      return ResponseBody.fromString(earlier, 200, headers: {Headers.contentTypeHeader: ['application/json']});
+    }
     final post = o.path == '/curriculum/my-attendance'
         ? '{"teacherId":"u1","name":"Tara Teacher","status":"present"}'
         : '{}';
-    return ResponseBody.fromString(o.method == 'POST' ? post : (answers[o.path] ?? '[]'), 200,
+    return ResponseBody.fromString(o.method == 'POST' || o.method == 'PATCH' ? post : (answers[o.path] ?? '[]'), 200,
         headers: {Headers.contentTypeHeader: ['application/json']});
   }
 
@@ -123,6 +133,64 @@ void main() {
     // row's width instead of wrapping one word a line beside three buttons.
     final title = tester.getSize(find.textContaining('Concave mirrors').first);
     expect(title.width, greaterThan(250));
+  });
+
+  testWidgets('My day: lessons left unmarked on earlier days, marked all taught in one tap (TA-1)', (tester) async {
+    server.earlier = '[{"lessonId":"e1","date":"2026-09-29","status":"scheduled","sectionName":"10-A",'
+        '"subjectName":"Science","chapterName":"Light","topicName":"Mirrors","subtopicName":"Plane mirrors"},'
+        '{"lessonId":"e2","date":"2026-09-30","status":"scheduled","sectionName":"10-A",'
+        '"subjectName":"Science","chapterName":"Light","topicName":"Mirrors","subtopicName":"Images"},'
+        '{"lessonId":"e3","date":"2026-09-30","status":"completed","sectionName":"10-B",'
+        '"subjectName":"Science","chapterName":"Light","topicName":"Mirrors","subtopicName":"Marked already"}]';
+    await pump(tester, const MyDayPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Still to mark'), findsOneWidget);
+    expect(find.textContaining('2026-09-29 · 10-A Science: Plane mirrors'), findsOneWidget);
+    expect(find.textContaining('Marked already'), findsNothing, reason: 'a marked lesson is not still to mark');
+    expect(find.text('Taught'), findsNWidgets(3), reason: 'each earlier lesson can still be marked on its own');
+
+    await tester.tap(find.byKey(const Key('mark-all-taught')));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('2 lessons from earlier days will be marked taught'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('mark-all-confirm')));
+    await tester.pump();
+    for (var i = 0; i < 6; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(server.patched.map((o) => o.path),
+        ['/curriculum/scheduled-lessons/e1', '/curriculum/scheduled-lessons/e2']);
+    expect(server.patched.every((o) => (o.data as Map)['status'] == 'completed'), isTrue);
+  });
+
+  testWidgets('My day: homework on a lesson just taught opens on its class and suggests from it (TA-4)',
+      (tester) async {
+    server.answers.addAll({
+      '/curriculum/my-schedule': '[{"lessonId":"l1","date":"2026-10-01","status":"completed","sectionId":"s10a",'
+          '"sectionName":"10-A","subjectName":"Science","chapterName":"Light","topicName":"Mirrors",'
+          '"subtopicName":"Concave mirrors"}]',
+      '/curriculum/academic-years': '[{"id":"y1","startDate":"2026-04-01"}]',
+      '/curriculum/academic-years/y1/sections': '[{"id":"s10a","gradeId":"g10","gradeNumber":10,"name":"A"}]',
+      '/curriculum/grades/g10/subjects': '[{"id":"sci","name":"Science"}]',
+      '/curriculum/academic-years/y1/allocations': '[{"sectionId":"s10a","subjectId":"sci","teacherId":"u1"}]',
+      '/homework/suggestion': '{"date":"2026-10-01","lessonFound":true,"chapterName":"Light",'
+          '"subtopicName":"Concave mirrors","bankChapters":[{"chapterId":"light","chapterName":"Light",'
+          '"questionCount":12}],"questions":[{"id":"q1","type":"mcq","stem":"A concave mirror...","marks":1}]}',
+    });
+    await pump(tester, const MyDayPage());
+    expect(tester.takeException(), isNull);
+    final button = find.byKey(const Key('lesson-homework-l1'));
+    await tester.scrollUntilVisible(button, 200);
+    await tester.tap(button);
+    for (var i = 0; i < 4; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    final asked = server.got.where((o) => o.path == '/homework/suggestion').toList();
+    expect(asked, hasLength(1), reason: 'the suggestion is made without a tap');
+    expect(asked.single.queryParameters, {'sectionId': 's10a', 'subjectId': 'sci', 'date': '2026-10-01'});
+    expect(find.textContaining('Lesson on 2026-10-01: Light · Concave mirrors'), findsOneWidget);
+    expect(find.text('Practice: Concave mirrors'), findsOneWidget, reason: 'the title comes from the lesson');
   });
 
   testWidgets('Leave for today in three taps (TA-3)', (tester) async {
