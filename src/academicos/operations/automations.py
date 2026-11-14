@@ -10,6 +10,11 @@ instances at once cannot both run it (#143). A job that fails gives its claim
 back for the next run to retry. Notifications carry dedupe keys too, so a
 retry does not repeat what the failed run already sent.
 
+A job that walks the schools runs once per school (PER_SCHOOL_JOBS): one school's bad record fails
+that school alone, is recorded as an error group for the operator (GET /api/v1/ops/errors, Cloud
+Error Reporting), and gives the claim back so the next tick retries; the other schools' notices go
+out on time.
+
 - homework_due_tomorrow (from 16:00): students who have not submitted
   homework due tomorrow.
 - homework_overdue (from 09:00): the teacher of each homework that closed
@@ -41,6 +46,7 @@ from __future__ import annotations
 
 import logging
 from collections import Counter
+from contextvars import ContextVar
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable, Optional
 
@@ -143,8 +149,18 @@ class AutomationsMixin:
             "ORDER BY r.ran_at DESC LIMIT ?", (school_id, limit))
 
 
-def _schools(cs) -> list[str]:
+def _all_schools(cs) -> list[str]:
     return [r["school_id"] for r in cs._fetchall("SELECT DISTINCT school_id FROM academic_years")]
+
+
+# The one school a per-school job is running for (see _run_due); None outside one.
+_ONLY_SCHOOL: ContextVar[Optional[str]] = ContextVar("automation_school", default=None)
+
+
+def _schools(cs) -> list[str]:
+    """The schools a job walks: every school, or only the one its per-school run is for."""
+    only = _ONLY_SCHOOL.get()
+    return [only] if only is not None else _all_schools(cs)
 
 
 def _year_on(cs, school_id: str, on: str):
@@ -583,6 +599,34 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
 ]
 
 
+# Jobs that walk the schools one by one (every _schools(cs) loop above). Each runs once per school, so
+# one school's bad record fails that school alone and the others still get their notices (NTF-2).
+PER_SCHOOL_JOBS = frozenset({
+    "homework_due_tomorrow", "homework_overdue", "substitution_escalation", "teacher_daily_digest",
+    "principal_weekly_digest", "principal_alerts", "staff_check_in", "marking_due", "exam_reminders",
+    "term_report", "period_starting",
+})
+
+
+def _per_school(job, fn, ops, cs, users, notify, now) -> tuple[int, dict[str, str], int]:
+    """Run `fn` once for each school: (notified, {school: error} for those that failed, schools).
+    A failure is logged and recorded as an error group for the operator, never raised."""
+    from ..api import error_tracking
+    schools = _all_schools(cs)
+    n, failed = 0, {}
+    for school in schools:
+        token = _ONLY_SCHOOL.set(school)
+        try:
+            n += fn(ops, cs, users, notify, now)
+        except Exception as e:  # noqa: BLE001
+            log.warning("automation %s failed for school %s", job, school, exc_info=True)
+            error_tracking.record_job_error(job, e, school_id=school)
+            failed[school] = str(e)
+        finally:
+            _ONLY_SCHOOL.reset(token)
+    return n, failed, len(schools)
+
+
 def run_due(ops, cs, users, notify, now: Optional[datetime] = None) -> dict[str, Any]:
     """Run every job whose window is open and whose period is not done.
     A failing job is logged and reported, and does not stop the others.
@@ -598,6 +642,7 @@ def run_due(ops, cs, users, notify, now: Optional[datetime] = None) -> dict[str,
 
 
 def _run_due(ops, cs, users, notify, now: Optional[datetime]) -> dict[str, Any]:
+    from ..api import error_tracking
     now = now or datetime.now(timezone.utc)
     local = now.astimezone(IST)
     out: dict[str, Any] = {}
@@ -622,12 +667,24 @@ def _run_due(ops, cs, users, notify, now: Optional[datetime]) -> dict[str, Any]:
             continue
         made.clear()
         try:
-            n = fn(ops, cs, users, counted, now)
+            if job in PER_SCHOOL_JOBS:
+                n, failed, total = _per_school(job, fn, ops, cs, users, counted, now)
+            else:
+                n, failed, total = fn(ops, cs, users, counted, now), {}, 0
         except Exception as e:  # noqa: BLE001
             log.warning("automation %s failed", job, exc_info=True)
+            error_tracking.record_job_error(job, e)
             if claim is not None:
                 ops.release_automation(job, key, claim)
             out[job] = f"failed: {e}"
+            continue
+        if failed:
+            # The healthy schools' notices went out; the claim goes back so the next tick retries the
+            # rest, and those notices' dedupe keys keep the retry from repeating them.
+            if claim is not None:
+                ops.release_automation(job, key, claim)
+            first = next(iter(failed.items()))
+            out[job] = f"failed for {len(failed)} of {total} schools ({n} notified): {first[0]}: {first[1]}"
             continue
         if key is not None:
             ops.record_automation(job, key, n, {s: c for s, c in made.items() if s})
