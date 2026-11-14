@@ -222,6 +222,50 @@ def staff_check_in(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+def attendance_not_taken(ops, cs, users, notify, now: datetime) -> int:
+    """ATT-1, 11:00 on a school day: each section with students and no
+    register yet -- its class teacher is reminded, and the principal hears
+    once which classes have none. A section with no class teacher is named
+    to the principal only."""
+    from ..curriculum import calendar as calendar_mod
+    today = now.astimezone(IST).date().isoformat()
+    n = 0
+    for school in _schools(cs):
+        year = _year_on(cs, school, today)
+        if year is None:
+            continue
+        try:
+            if today not in set(calendar_mod.school_days(cs, year.id).dates):
+                continue                       # a weekly off, a holiday or a closure
+        except ValueError:
+            continue                           # no calendar yet
+        taken = ops.sections_with_attendance(school, today)
+        missing = [s for s in cs.sections_for_year(year.id)
+                   if s.id not in taken and cs.enrollments_for_section(s.id)]
+        if not missing:
+            continue
+        for s in missing:
+            if s.class_teacher_id:
+                notify(school_id=school, user_ids=[s.class_teacher_id], kind="register_not_taken",
+                       params={"section": cs._section_label(s)}, link="/school/attendance",
+                       dedupe_key=f"register:{s.id}:{today}")
+                n += 1
+        principals = [u.id for u in users.users_for_school(school, role="principal")]
+        labels = [cs._section_label(s) for s in missing]
+        shown = ", ".join(labels[:8]) + (f" and {len(labels) - 8} more" if len(labels) > 8 else "")
+        orphans = sum(1 for s in missing if not s.class_teacher_id)
+        note, note_hi = (("Their class teachers have been reminded.", "उनके कक्षा-अध्यापकों को याद दिलाया गया है।")
+                         if not orphans else
+                         (f"{orphans} of them have no class teacher, so nobody was reminded; take it or name one.",
+                          f"इनमें से {orphans} का कोई कक्षा-अध्यापक नहीं है; उपस्थिति दर्ज करें या अध्यापक तय करें।"))
+        notify(school_id=school, user_ids=principals, kind="registers_missing",
+               params={"count": len(labels), "sections": shown, "note": note, "note_hi": note_hi,
+                       "sections_hi": ", ".join(labels[:8]) + (f" और {len(labels) - 8}" if len(labels) > 8 else "")},
+               link="/school/attendance", dedupe_key=f"registers:{school}:{today}")
+        n += len(principals)
+    return n
+
+
 def teacher_daily_digest(ops, cs, users, notify, now: datetime) -> int:
     tomorrow = (now.astimezone(IST).date() + timedelta(days=1)).isoformat()
     n = 0
@@ -440,6 +484,12 @@ def principal_alerts(ops, cs, users, notify, now: datetime) -> int:
                               + ", ".join(en),
                               f"{ex['name']} {ex['start_date']} से शुरू है: " + ", ".join(hi)
                               + " का स्वीकृत प्रश्नपत्र नहीं"))
+        if today.weekday() == 0:               # ATT-1: once a week is enough for a year-long share
+            from .attendance_report import ATTENDANCE_FLOOR, below_floor
+            low = below_floor(ops, cs, school, year.start_date, today.isoformat())
+            if low:
+                lines.append((f"{len(low)} students below {ATTENDANCE_FLOOR:g}% attendance this year",
+                              f"{len(low)} विद्यार्थियों की इस वर्ष उपस्थिति {ATTENDANCE_FLOOR:g}% से कम है"))
         if not lines:
             continue
         notify(school_id=school, user_ids=principals, kind="principal_alert",
@@ -524,6 +574,7 @@ JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
     ("principal_alerts", 8, "day", None, principal_alerts),
     ("staff_check_in", 9, "day", None, staff_check_in),
+    ("attendance_not_taken", 11, "day", None, attendance_not_taken),
     ("marking_due", 15, "day", None, marking_due),
     ("exam_reminders", 17, "day", None, exam_reminders),
     ("term_report", 15, "day", None, term_report),
