@@ -13004,6 +13004,160 @@
         "title": "RegisterRequest",
         "type": "object"
       },
+      "RemarkEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "remark": {
+            "default": "",
+            "maxLength": 600,
+            "title": "Remark",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId"
+        ],
+        "title": "RemarkEntry",
+        "type": "object"
+      },
+      "RemarkRow": {
+        "properties": {
+          "band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band"
+          },
+          "draft": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Draft"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "remark": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remark"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          },
+          "writtenBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Writtenby"
+          }
+        },
+        "required": [
+          "studentId",
+          "studentName"
+        ],
+        "title": "RemarkRow",
+        "type": "object"
+      },
+      "RemarksRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "remarks": {
+            "items": {
+              "$ref": "#/components/schemas/RemarkEntry"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Remarks",
+            "type": "array"
+          }
+        },
+        "required": [
+          "remarks"
+        ],
+        "title": "RemarksRequest",
+        "type": "object"
+      },
+      "RemarksResponse": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/RemarkRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "section": {
+            "title": "Section",
+            "type": "string"
+          },
+          "termId": {
+            "title": "Termid",
+            "type": "string"
+          },
+          "termName": {
+            "title": "Termname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "termId",
+          "termName",
+          "section",
+          "rows"
+        ],
+        "title": "RemarksResponse",
+        "type": "object"
+      },
       "RenameRequest": {
         "properties": {
           "name": {
@@ -13054,7 +13208,7 @@
             "type": "integer"
           },
           "note": {
-            "default": "Marks entered in AcademicOS for papers set this term. Co-scholastic areas, attendance and teachers' remarks are not recorded here.",
+            "default": "Marks entered in AcademicOS for papers set this term, and the class teacher's remark. Co-scholastic areas and attendance are not recorded here.",
             "title": "Note",
             "type": "string"
           },
@@ -13072,6 +13226,17 @@
               }
             ],
             "title": "Percent"
+          },
+          "remark": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remark"
           },
           "section": {
             "title": "Section",
@@ -35016,6 +35181,136 @@
           }
         ],
         "summary": "Section Report Cards Pdf"
+      }
+    },
+    "/api/v1/report-cards/sections/{section_id}/remarks": {
+      "get": {
+        "description": "Each student's remark for the term, saved or not yet, with a draft from\ntheir marks. For whoever may print the section's cards.",
+        "operationId": "section_remarks_api_v1_report_cards_sections__section_id__remarks_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemarksResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Section Remarks"
+      },
+      "put": {
+        "description": "Save remarks for students of the section (an empty one removes it).\nThe whole batch is refused if a student is not in the section, or has no\nparental consent on record for a remark being written; it is audited.",
+        "operationId": "save_section_remarks_api_v1_report_cards_sections__section_id__remarks_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemarksRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemarksResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Save Section Remarks"
       }
     },
     "/api/v1/report-cards/students/{student_id}": {

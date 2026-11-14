@@ -122,6 +122,17 @@ const _hi = <String, String>{
   'Taught': 'पढ़ाया',
   'Not taught': 'नहीं पढ़ाया',
   'Partly': 'आंशिक',
+  // report-card remarks (EX-8)
+  "Class teacher's remark": 'कक्षा अध्यापक की टिप्पणी',
+  'Write the remarks': 'टिप्पणियाँ लिखें',
+  'Remarks': 'टिप्पणियाँ',
+  'Remarks saved': 'टिप्पणियाँ सहेजी गईं',
+  'Save remarks': 'टिप्पणियाँ सहेजें',
+  'Saved': 'सहेजी गई',
+  'Draft from the marks: not saved yet': 'अंकों से बना मसौदा: अभी सहेजा नहीं गया',
+  'No marks this term yet: write one, or leave it empty': 'इस सत्र में अभी अंक नहीं: टिप्पणी लिखें या खाली छोड़ें',
+  "A remark not yet saved is drafted from the student's marks. Read it, change what you would say differently, and save. Only saved remarks are printed on the cards.":
+      'जो टिप्पणी अभी सहेजी नहीं गई, वह विद्यार्थी के अंकों से बनाई गई है। उसे पढ़ें, जो अलग कहना हो वह बदलें, और सहेजें। कार्ड पर केवल सहेजी गई टिप्पणियाँ छपती हैं।',
   'Partly taught': 'आंशिक रूप से पढ़ाया',
   'Why was it not taught?': 'यह क्यों नहीं पढ़ाया गया?',
   'What is left to teach?': 'क्या पढ़ाना बाकी है?',

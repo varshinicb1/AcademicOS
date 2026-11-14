@@ -410,6 +410,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/report-cards/students/{student_id}"),
     ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
     ("GET", "/api/v1/report-cards/sections/{section_id}/pdf"),
+    ("GET", "/api/v1/report-cards/sections/{section_id}/remarks"),
+    ("PUT", "/api/v1/report-cards/sections/{section_id}/remarks"),
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
@@ -442,6 +444,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/report-cards/students/{student_id}"),
     ("GET", "/api/v1/report-cards/students/{student_id}/pdf"),
     ("GET", "/api/v1/report-cards/sections/{section_id}/pdf"),
+    ("GET", "/api/v1/report-cards/sections/{section_id}/remarks"),
+    ("PUT", "/api/v1/report-cards/sections/{section_id}/remarks"),
     # paper-timing authenticates first, like the other paper routes.
     ("GET", "/api/v1/paper-timing"),
     # --- routes.py (assessment designer) ---
@@ -1090,7 +1094,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 351: the Phase 1 pilot agreement (read, accept).
     # 352: NFR-7 per-school usage for the operator.
     # 356: staff rules and leave balances (read, set, mine, everyone's).
-    assert len(API_ROUTES) == 356
+    # 358: EX-8 the class teacher's report-card remarks (read with drafts, save).
+    assert len(API_ROUTES) == 358
 
 
 def test_docs_routes_present():

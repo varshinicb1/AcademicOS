@@ -40,6 +40,17 @@ final _card = {
 
 class _Backend implements HttpClientAdapter {
   final List<String> gets = [];
+  final List<Object?> puts = [];
+  Map<String, dynamic> remarks = {
+    'termId': 'term_1', 'termName': 'Term 1', 'section': '10-A',
+    'rows': [
+      {'studentId': 'stu_1', 'studentName': 'Asha', 'percent': 80.0, 'band': 'B1', 'remark': null,
+        'draft': 'Asha scored 80% overall this term (grade B1).'},
+      {'studentId': 'stu_2', 'studentName': 'Bhavna', 'percent': 67.0, 'band': 'B2', 'remark': 'Works hard.',
+        'draft': 'Bhavna scored 67% overall this term (grade B2).'},
+      {'studentId': 'stu_3', 'studentName': 'Charu', 'percent': null, 'band': null, 'remark': null, 'draft': null},
+    ],
+  };
   int? sectionPdfStatus;
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
@@ -51,6 +62,16 @@ class _Backend implements HttpClientAdapter {
     switch (o.path) {
       case '/report-cards/students/stu_1':
         return _ok(_card);
+      case '/report-cards/sections/sec_a/remarks':
+        if (o.method == 'PUT') {
+          puts.add(o.data);
+          final rows = (remarks['rows'] as List).cast<Map<String, dynamic>>();
+          for (final e in ((o.data as Map)['remarks'] as List).cast<Map>()) {
+            final row = rows.firstWhere((r) => r['studentId'] == e['studentId']);
+            row['remark'] = (e['remark'] as String).isEmpty ? null : e['remark'];
+          }
+        }
+        return _ok(remarks);
       case '/report-cards/students/stu_1/pdf':
       case '/report-cards/sections/sec_a/pdf':
         if (o.path.startsWith('/report-cards/sections') && sectionPdfStatus != null) {
@@ -148,6 +169,33 @@ void main() {
     expect(backend.gets, contains('/report-cards/sections/sec_a/pdf?termId=term_1'));
     expect(saver.saved.single.$2, 'report-cards.pdf');
     expect(find.text('Downloaded.'), findsOneWidget);
+  });
+
+  testWidgets("a student's card shows the class teacher's remark once one is saved", (tester) async {
+    _card['remark'] = 'Asha works steadily.';
+    addTearDown(() => _card.remove('remark'));
+    await pump(tester, const StudentReportCardPage(studentId: 'stu_1', name: 'Asha'));
+    expect(find.text("Class teacher's remark"), findsOneWidget);
+    expect(find.text('Asha works steadily.'), findsOneWidget);
+  });
+
+  testWidgets('remarks open on the saved one or a draft from the marks, and save what changed', (tester) async {
+    await pump(tester, const ReportRemarksPage(sectionId: 'sec_a', termId: 'term_1'));
+    expect(tester.takeException(), isNull, reason: 'fits a phone');
+    expect(backend.gets, contains('/report-cards/sections/sec_a/remarks?termId=term_1'));
+    expect(find.text('Asha scored 80% overall this term (grade B1).'), findsOneWidget, reason: 'the draft');
+    expect(find.text('Works hard.'), findsOneWidget, reason: 'the saved remark, not the draft');
+    expect(find.text('Draft from the marks: not saved yet'), findsOneWidget);
+    expect(find.text('No marks this term yet: write one, or leave it empty'), findsOneWidget);
+    await tester.enterText(find.byKey(const ValueKey('remark-stu_2')), 'Works hard; more reading.');
+    await tester.tap(find.byKey(const ValueKey('remarks-save')));
+    await tester.pumpAndSettle();
+    expect(backend.puts.single, {'remarks': [
+      {'studentId': 'stu_1', 'remark': 'Asha scored 80% overall this term (grade B1).'},
+      {'studentId': 'stu_2', 'remark': 'Works hard; more reading.'},
+    ]}, reason: 'the kept draft and the edit; the empty box with nothing saved is not sent');
+    expect(find.text('Remarks saved'), findsOneWidget);
+    expect(find.text('Saved'), findsNWidgets(2));
   });
 
   testWidgets("a teacher who is not the class teacher is told why", (tester) async {
