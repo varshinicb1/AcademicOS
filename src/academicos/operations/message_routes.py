@@ -68,6 +68,16 @@ class ConversationDetail(ConversationResponse):
     messages: list[MessageResponse]
 
 
+class ParentContact(Camel):
+    """A parent a member of staff may write to, and the child it is about."""
+    student_id: str
+    student_name: str
+    class_name: str           # "10-B"
+    parent_id: str
+    parent_name: str
+    relation: str             # mother, father, guardian, grandparent, other
+
+
 class Contact(Camel):
     user_id: str
     name: str
@@ -165,6 +175,44 @@ def child_contacts(student_id: str, current: User = Depends(get_current_user)) -
     from .guardian_routes import _my_child
     child = _my_child(student_id, current)
     return teachers_of(child.id, child.school_id)
+
+
+@router.get("/message-contacts", response_model=list[ParentContact])
+def message_contacts(current: User = Depends(get_current_user)) -> list[ParentContact]:
+    """The parents a teacher may write to: the linked parents of students in
+    the sections they are class teacher of or teach (the principal: every
+    section). Sorted by class, then student."""
+    if current.role not in ("teacher", "principal"):
+        raise HTTPException(403, "this is the staff's list of parents; a parent writes from My children")
+    cs, users, s = cr._require(), cr._require_users(), store()
+    sections = []
+    for y in cs.academic_years_for_school(current.school_id):
+        mine = None
+        if current.role == "teacher":
+            mine = {a.section_id for a in cs.allocations_for_year(y.id) if a.teacher_id == current.id}
+        for sec in cs.sections_for_year(y.id):
+            if mine is None or sec.class_teacher_id == current.id or sec.id in mine:
+                sections.append(sec)
+    out: list[ParentContact] = []
+    seen: set[tuple[str, str]] = set()
+    for sec in sections:
+        g = cs.get_grade(sec.grade_id)
+        label = f"{g.number}-{sec.name}" if g else sec.name
+        for e in cs.enrollments_for_section(sec.id):
+            current_section = _section_of(e.student_id)
+            if current_section is None or current_section.id != sec.id:
+                continue          # last year's class: not theirs to write about now
+            child = users.get(e.student_id)
+            if child is None or child.school_id != current.school_id:
+                continue
+            for link in s.guardians_of(child.id):
+                parent = users.get(link.parent_id)
+                if parent is None or link.school_id != current.school_id or (child.id, parent.id) in seen:
+                    continue
+                seen.add((child.id, parent.id))
+                out.append(ParentContact(student_id=child.id, student_name=child.name, class_name=label,
+                                         parent_id=parent.id, parent_name=parent.name, relation=link.relation))
+    return sorted(out, key=lambda c: (c.class_name, c.student_name.lower(), c.parent_name.lower()))
 
 
 @router.get("/conversations", response_model=list[ConversationResponse])

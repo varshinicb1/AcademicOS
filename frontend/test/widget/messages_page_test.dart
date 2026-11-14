@@ -46,6 +46,12 @@ class _Server implements HttpClientAdapter {
       '/my-children' => [
           {'studentId': 's1', 'name': 'Asha', 'grade': 10, 'consent': 'granted'},
         ],
+      '/message-contacts' => [
+          {'studentId': 's1', 'studentName': 'Asha', 'className': '10-B', 'parentId': 'p1', 'parentName': 'Meena',
+            'relation': 'mother'},
+          {'studentId': 's2', 'studentName': 'Ravi', 'className': '10-B', 'parentId': 'p2', 'parentName': 'Kiran',
+            'relation': 'father'},
+        ],
       '/children/s1/contacts' => [
           {'userId': 't1', 'name': 'Ana', 'role': 'Science teacher'},
           {'userId': 'pr', 'name': 'Priya', 'role': 'principal'},
@@ -156,6 +162,25 @@ void main() {
     await settle(tester);
     expect(find.text('Thank you'), findsOneWidget);
     expect(server.writes.single, '/conversations/c1/messages {"body":"Thank you"}');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a teacher finds a parent and writes to them', (tester) async {
+    LocalStore.instance.authUser = {'id': 't1', 'schoolId': 'school_1', 'role': 'teacher', 'name': 'Ana'};
+    await pumpRouted(tester, const MessagesPage());
+    await tester.tap(find.byKey(const ValueKey('new-message')));
+    await settle(tester);
+    expect(find.text('Meena (Mother)'), findsOneWidget);
+    await tester.enterText(find.byKey(const ValueKey('find-parent')), 'ravi');
+    await tester.pump();
+    expect(find.text('Meena (Mother)'), findsNothing, reason: 'the search narrows the list');
+    await tester.tap(find.byKey(const ValueKey('parent-s2-p2')));
+    await tester.pump();
+    await tester.enterText(find.byKey(const ValueKey('message-body')), 'Ravi did well in the test.');
+    await tester.tap(find.byKey(const ValueKey('send-message')));
+    await settle(tester);
+    expect(server.writes, ['/conversations {"studentId":"s2","withId":"p2","body":"Ravi did well in the test."}']);
+    expect(find.textContaining('opened '), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

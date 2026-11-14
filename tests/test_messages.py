@@ -73,6 +73,21 @@ def test_staff_write_only_to_parents_of_students_they_teach(w):
     assert _start(w, w.p2, sid, parent_id).status_code in (403, 404), "not another school's principal"
 
 
+def test_staff_see_the_parents_they_may_write_to(w):
+    sid, mum = _parent(w)
+    r = w.c.get("/api/v1/message-contacts", headers=w.t["bala"])
+    assert r.status_code == 200, r.text
+    [row] = [c for c in r.json() if c["studentId"] == sid]
+    assert row == {"studentId": sid, "studentName": "Asha", "className": "10-B", "parentId": mum["user"]["id"],
+                   "parentName": "Meena", "relation": row["relation"]}
+    assert all(c["studentId"] != sid for c in w.c.get("/api/v1/message-contacts", headers=w.t["chitra"]).json()), \
+        "Chitra teaches 9-A only"
+    assert any(c["studentId"] == sid for c in w.c.get("/api/v1/message-contacts", headers=w.p).json())
+    assert all(c["studentId"] != sid for c in w.c.get("/api/v1/message-contacts", headers=w.p2).json())
+    for who in (_h(mum), w.stu):
+        assert w.c.get("/api/v1/message-contacts", headers=who).status_code == 403
+
+
 def test_a_parent_whose_link_ended_reads_but_cannot_write(w):
     sid, mum = _parent(w)
     conv = _start(w, _h(mum), sid, w.uid["ana"]).json()

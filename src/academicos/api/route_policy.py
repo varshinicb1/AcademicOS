@@ -388,6 +388,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("POST", "/api/v1/conversations"): _p(ANY_USER, "a linked parent to the childs teachers, or staff to a parent of a student they teach; audited"),
     ("GET", "/api/v1/conversations/{conversation_id}"): _p(ANY_USER, "the two people in the conversation only"),
     ("POST", "/api/v1/conversations/{conversation_id}/messages"): _p(ANY_USER, "the two people in the conversation only; audited"),
+    ("GET", "/api/v1/message-contacts"): _p(STAFF, "the linked parents of students the caller teaches (principal: the school)"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/export/{kind}"): _p(ADMIN["users"]),

@@ -35,7 +35,9 @@ class _MessagesPageState extends State<MessagesPage> {
       });
 
   Future<void> _new() async {
-    final id = await showDialog<String>(context: context, builder: (_) => const _NewMessageDialog());
+    final parent = CurrentSession.role == 'parent';
+    final id = await showDialog<String>(
+        context: context, builder: (_) => parent ? const _NewMessageDialog() : const _StaffMessageDialog());
     if (!mounted) return;
     _reload();
     if (id != null) context.push('/school/messages/$id');
@@ -47,13 +49,11 @@ class _MessagesPageState extends State<MessagesPage> {
     final parent = CurrentSession.role == 'parent';
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('Messages'))),
-      floatingActionButton: parent
-          ? FloatingActionButton.extended(
-              key: const ValueKey('new-message'),
-              onPressed: _new,
-              icon: const Icon(Icons.edit_outlined),
-              label: Text(tr('New message')))
-          : null,
+      floatingActionButton: FloatingActionButton.extended(
+          key: const ValueKey('new-message'),
+          onPressed: _new,
+          icon: const Icon(Icons.edit_outlined),
+          label: Text(tr('New message'))),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _future,
         builder: (context, snap) {
@@ -64,7 +64,7 @@ class _MessagesPageState extends State<MessagesPage> {
             return EmptyState(icon: Icons.forum_outlined, title: tr('No messages yet'),
                 message: parent
                     ? tr("Write to your child's class teacher or subject teachers with New message.")
-                    : tr('Messages from parents of the students you teach appear here.'));
+                    : tr('Write to a parent of a student you teach with New message. Their messages appear here too.'));
           }
           return RefreshIndicator(
             onRefresh: () async => _reload(),
@@ -211,6 +211,144 @@ class _NewMessageDialogState extends State<_NewMessageDialog> {
       actions: [
         TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(tr('Cancel'))),
         FilledButton(key: const ValueKey('send-message'), onPressed: _sending ? null : _send, child: Text(tr('Send'))),
+      ],
+    );
+  }
+}
+
+/// A teacher (or the principal) finds a student or parent among the parents
+/// they may write to (the students they teach), then writes. Returns the
+/// conversation's id once sent.
+class _StaffMessageDialog extends StatefulWidget {
+  const _StaffMessageDialog();
+
+  @override
+  State<_StaffMessageDialog> createState() => _StaffMessageDialogState();
+}
+
+class _StaffMessageDialogState extends State<_StaffMessageDialog> {
+  List<Map<String, dynamic>>? _contacts;
+  Map<String, dynamic>? _to;
+  String _query = '';
+  String? _error;
+  final _body = TextEditingController();
+  bool _sending = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Ops.list('/message-contacts').then((c) {
+      if (mounted) setState(() => _contacts = c);
+    }, onError: (Object e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    });
+  }
+
+  @override
+  void dispose() {
+    _body.dispose();
+    super.dispose();
+  }
+
+  Future<void> _send() async {
+    final to = _to;
+    if (to == null || _body.text.trim().isEmpty) {
+      setState(() => _error = tr('Choose a parent and write your message.'));
+      return;
+    }
+    setState(() {
+      _sending = true;
+      _error = null;
+    });
+    try {
+      final r = await Ops.post('/conversations',
+          body: {'studentId': to['studentId'], 'withId': to['parentId'], 'body': _body.text.trim()});
+      if (mounted) Navigator.of(context).pop((r as Map)['id'] as String);
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
+  }
+
+  String _label(Map<String, dynamic> c) => '${c['parentName']} (${_relation('${c['relation']}')})';
+
+  static String _relation(String r) => switch (r) {
+        'mother' => tr('Mother'),
+        'father' => tr('Father'),
+        'guardian' => tr('Guardian'),
+        'grandparent' => tr('Grandparent'),
+        _ => tr('Parent'),
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final all = _contacts;
+    final q = _query.trim().toLowerCase();
+    final shown = all == null
+        ? const <Map<String, dynamic>>[]
+        : [
+            for (final c in all)
+              if (q.isEmpty ||
+                  '${c['studentName']} ${c['parentName']} ${c['className']}'.toLowerCase().contains(q))
+                c,
+          ];
+    final to = _to;
+    return AlertDialog(
+      title: Text(tr('New message')),
+      content: SizedBox(
+        width: 420,
+        child: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          if (all == null && _error == null) const SizedBox(height: 80, child: LoadingIndicator()),
+          if (all != null && all.isEmpty)
+            Text(tr('No parent of a student you teach has an account yet. The school links parents to their children.')),
+          if (all != null && all.isNotEmpty && to == null) ...[
+            TextField(
+              key: const ValueKey('find-parent'),
+              decoration: InputDecoration(labelText: tr('Find a student or parent'), prefixIcon: const Icon(Icons.search)),
+              onChanged: (v) => setState(() => _query = v),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 240,
+              child: ListView(children: [
+                for (final c in shown.take(50))
+                  ListTile(
+                    key: ValueKey('parent-${c['studentId']}-${c['parentId']}'),
+                    dense: true,
+                    title: Text('${c['studentName']} · ${c['className']}'),
+                    subtitle: Text(_label(c)),
+                    onTap: () => setState(() => _to = c),
+                  ),
+                if (shown.isEmpty) Padding(padding: const EdgeInsets.all(8), child: Text(tr('Nobody matches.'))),
+              ]),
+            ),
+          ],
+          if (to != null) ...[
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text('${tr('To')}: ${_label(to)}'),
+              subtitle: Text('${to['studentName']} · ${to['className']}'),
+              trailing: TextButton(onPressed: () => setState(() => _to = null), child: Text(tr('Change'))),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const ValueKey('message-body'),
+              controller: _body,
+              minLines: 3,
+              maxLines: 6,
+              maxLength: 2000,
+              decoration: InputDecoration(labelText: tr('Message'), border: const OutlineInputBorder()),
+            ),
+          ],
+          if (_error != null)
+            Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+        ])),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(tr('Cancel'))),
+        if (to != null)
+          FilledButton(key: const ValueKey('send-message'), onPressed: _sending ? null : _send, child: Text(tr('Send'))),
       ],
     );
   }

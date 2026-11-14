@@ -10598,6 +10598,45 @@
         "title": "PaperTemplateDraft",
         "type": "object"
       },
+      "ParentContact": {
+        "description": "A parent a member of staff may write to, and the child it is about.",
+        "properties": {
+          "className": {
+            "title": "Classname",
+            "type": "string"
+          },
+          "parentId": {
+            "title": "Parentid",
+            "type": "string"
+          },
+          "parentName": {
+            "title": "Parentname",
+            "type": "string"
+          },
+          "relation": {
+            "title": "Relation",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "studentName": {
+            "title": "Studentname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "studentName",
+          "className",
+          "parentId",
+          "parentName",
+          "relation"
+        ],
+        "title": "ParentContact",
+        "type": "object"
+      },
       "ParentalConsentRecord": {
         "properties": {
           "guardianName": {
@@ -32807,6 +32846,34 @@
           }
         ],
         "summary": "Save Progress"
+      }
+    },
+    "/api/v1/message-contacts": {
+      "get": {
+        "description": "The parents a teacher may write to: the linked parents of students in\nthe sections they are class teacher of or teach (the principal: every\nsection). Sorted by class, then student.",
+        "operationId": "message_contacts_api_v1_message_contacts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ParentContact"
+                  },
+                  "title": "Response Message Contacts Api V1 Message Contacts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Message Contacts"
       }
     },
     "/api/v1/my-calendar": {

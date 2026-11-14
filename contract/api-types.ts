@@ -4530,6 +4530,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/message-contacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Message Contacts
+         * @description The parents a teacher may write to: the linked parents of students in
+         *     the sections they are class teacher of or teach (the principal: every
+         *     section). Sorted by class, then student.
+         */
+        get: operations["message_contacts_api_v1_message_contacts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/my-calendar": {
         parameters: {
             query?: never;
@@ -10660,6 +10682,24 @@ export interface components {
             subject: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /**
+         * ParentContact
+         * @description A parent a member of staff may write to, and the child it is about.
+         */
+        ParentContact: {
+            /** Classname */
+            className: string;
+            /** Parentid */
+            parentId: string;
+            /** Parentname */
+            parentName: string;
+            /** Relation */
+            relation: string;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
         };
         /** ParentalConsentRecord */
         ParentalConsentRecord: {
@@ -22385,6 +22425,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    message_contacts_api_v1_message_contacts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParentContact"][];
                 };
             };
         };

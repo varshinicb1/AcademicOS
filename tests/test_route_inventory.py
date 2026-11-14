@@ -298,6 +298,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/conversations"),
     ("GET", "/api/v1/conversations/{conversation_id}"),
     ("POST", "/api/v1/conversations/{conversation_id}/messages"),
+    ("GET", "/api/v1/message-contacts"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -669,6 +670,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/conversations"),
     ("GET", "/api/v1/conversations/{conversation_id}"),
     ("POST", "/api/v1/conversations/{conversation_id}/messages"),
+    ("GET", "/api/v1/message-contacts"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -1102,7 +1104,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 356: staff rules and leave balances (read, set, mine, everyone's).
     # 361: MSG-1 teacher-parent messaging: a child's contacts, conversations (list, start,
     # read, reply).
-    assert len(API_ROUTES) == 361
+    # 362: MSG-1 staff start a conversation: the parents a teacher may write to (message-contacts).
+    assert len(API_ROUTES) == 362
 
 
 def test_docs_routes_present():
