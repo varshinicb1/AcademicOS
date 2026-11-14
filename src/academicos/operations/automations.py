@@ -8,7 +8,7 @@ inbox poll -- sends each thing once. Notifications carry dedupe keys too, so
 even two overlapping runs cannot double a message.
 
 - homework_due_tomorrow (from 16:00): students who have not submitted
-  homework due tomorrow.
+  homework due tomorrow, and their linked parents (child_homework_due).
 - homework_overdue (from 09:00): the teacher of each homework that closed
   yesterday with students missing, once per homework.
 - substitution_escalation (every run): the principal, when a substitution
@@ -22,7 +22,8 @@ even two overlapping runs cannot double a message.
 - principal_alerts (from 08:00): sections behind plan, lost periods owed over a
   week, homework overdue in bulk, exams within a week without a full roster or
   with a paper not set (no approved question paper) (ADM-3).
-- exam_reminders (from 17:00): students with a paper tomorrow, and invigilators
+- exam_reminders (from 17:00): students with a paper tomorrow (and their linked
+  parents, child_exam_tomorrow), and invigilators
   with duties tomorrow, in a published exam (NTF-2, SA-5).
 - term_report (from 15:00): on a term's last day, its principal hears the term
   report is ready (NTF-2 end-of-term reports, ADM-4).
@@ -111,6 +112,21 @@ def _subject(cs, subject_id: str) -> str:
     return s.name if s else subject_id
 
 
+def _tell_parents(ops, users, notify, school: str, student_id: str, kind: str, params: dict[str, Any],
+                  dedupe_key: str) -> int:
+    """SA-6: the child's linked parents at this school get their own notice, naming the child, at
+    their children page. A student is never sent an SMS or WhatsApp; this copy is the one that may
+    be. Returns how many parents were addressed."""
+    parents = ops.parents_of([student_id], school_id=school)
+    if not parents:
+        return 0
+    child = users.get(student_id) if users is not None else None
+    notify(school_id=school, user_ids=parents, kind=kind,
+           params={**params, "student": child.name if child else "Your child"},
+           link="/my-children", dedupe_key=dedupe_key)
+    return len(parents)
+
+
 # ---------------- jobs: each returns how many were notified ----------------
 
 def homework_due_tomorrow(ops, cs, users, notify, now: datetime) -> int:
@@ -129,6 +145,9 @@ def homework_due_tomorrow(ops, cs, users, notify, now: datetime) -> int:
                            params={"title": hw.title, "due": "tomorrow", "due_hi": "कल"}, link=f"/my-homework/{hw.id}",
                            dedupe_key=f"hwdue:{hw.id}:{e.student_id}:{tomorrow}")
                     n += 1
+                    n += _tell_parents(ops, users, notify, school, e.student_id, "child_homework_due",
+                                       {"title": hw.title, "subject": hw.subject_name, "due": tomorrow},
+                                       f"hwdue-child:{hw.id}:{e.student_id}:{tomorrow}")
     return n
 
 
@@ -470,11 +489,14 @@ def exam_reminders(ops, cs, users, notify, now: datetime) -> int:
                             for e in cs.enrollments_for_section(sec.id)]
                 if not students:
                     continue
-                notify(school_id=school, user_ids=students, kind="exam_reminder",
-                       params={"exam": ex["name"], "subject": p["subject_name"], "start": p["start_time"],
-                               "end": p["end_time"]},
+                params = {"exam": ex["name"], "subject": p["subject_name"], "start": p["start_time"],
+                          "end": p["end_time"]}
+                notify(school_id=school, user_ids=students, kind="exam_reminder", params=params,
                        link="/my-exams", dedupe_key=f"examrem:{p['id']}")
                 n += len(students)
+                for sid in students:
+                    n += _tell_parents(ops, users, notify, school, sid, "child_exam_tomorrow", params,
+                                       f"examrem-child:{p['id']}:{sid}")
             duties: dict[str, list[dict]] = {}
             for r in ops.roster(ex["id"]):
                 if r["date"] == tomorrow and r["teacher_id"]:

@@ -142,6 +142,15 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("homework_due", "Homework due soon", True, False,
          ("Homework due {due}", "{title} is due {due} and is not submitted yet."),
          ("गृहकार्य {due} तक", "{title} {due} तक जमा करना है।")),
+    # SA-6, INT-2: the parent's own copy of the two evening-before reminders, naming the child. A
+    # student is never sent an SMS or WhatsApp (messaging.MESSAGE_ROLES), so without these the parent
+    # who said yes to SMS heard of neither.
+    Kind("child_homework_due", "Your child's homework due soon", True, False,
+         ("{student}: homework due {due}", "{title} ({subject}) is due {due} and is not handed in yet."),
+         ("{student}: गृहकार्य {due} तक", "{title} ({subject}) {due} तक जमा करना है, अभी जमा नहीं हुआ।")),
+    Kind("child_exam_tomorrow", "Your child's exam tomorrow", True, False,
+         ("{student}: exam tomorrow, {subject}", "{exam}: {subject}, {start}-{end}."),
+         ("{student}: कल परीक्षा, {subject}", "{exam}: {subject}, {start}-{end}।")),
     Kind("homework_graded", "Homework marked", True, False,
          ("Homework marked: {subject}", "{title}: {marks}."),
          ("गृहकार्य जाँचा गया: {subject}", "{title}: {marks}।")),
