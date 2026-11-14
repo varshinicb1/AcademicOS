@@ -101,17 +101,17 @@ def _cred(name: str) -> Optional[str]:
 
 
 def sms_provider() -> str:
-    """Which SMS gateway sends: ACOS_SMS_PROVIDER when set; else Twilio when its account is set (the
-    owner's choice, 2026-11-14), else MSG91 when its key is, else Twilio (so "not configured" names
-    Twilio's settings)."""
+    """Which SMS gateway sends: ACOS_SMS_PROVIDER when set; else MSG91 when its key is set (the
+    owner's choice, 2026-11-14), else Twilio when its account is, else MSG91 (so "not configured"
+    names MSG91's settings)."""
     chosen = (os.environ.get("ACOS_SMS_PROVIDER") or "").strip().lower()
     if chosen:
         return chosen
-    if _cred("ACOS_TWILIO_ACCOUNT_SID"):
-        return "twilio"
     if _cred("ACOS_SMS_AUTHKEY"):
         return "msg91"
-    return "twilio"
+    if _cred("ACOS_TWILIO_ACCOUNT_SID"):
+        return "twilio"
+    return "msg91"
 
 
 def _configured(channel: str) -> Optional[str]:

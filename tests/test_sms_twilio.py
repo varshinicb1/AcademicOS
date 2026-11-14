@@ -1,4 +1,4 @@
-"""INT-2: SMS goes out through Twilio (the owner's choice, 2026-11-14), with MSG91 kept as the other
+"""INT-2: SMS goes out through MSG91 (the owner's choice, 2026-11-14), with Twilio as the other
 provider. The credentials come from the environment, which config/secrets.env fills locally and
 Secret Manager fills on Cloud Run; none is in the repository.
 
@@ -7,7 +7,8 @@ Secret Manager fills on Cloud Run; none is in the repository.
   To / Body / MessagingServiceSid (or From), basic auth with the SID and token.
 - Without them, nothing leaves the server and the delivery is "skipped" with what is missing.
 - Twilio refusing (4xx/5xx) is "failed" with its code, and retried like every channel.
-- ACOS_SMS_PROVIDER picks one when both are set; with neither set, the missing names are Twilio's.
+- ACOS_SMS_PROVIDER picks one; without it MSG91 wins when both are set, and with neither set the
+  missing names are MSG91's.
 """
 from __future__ import annotations
 
@@ -44,13 +45,14 @@ def _twilio(monkeypatch, **extra):
         monkeypatch.setenv(k, v)
 
 
-def test_nothing_is_sent_and_the_twilio_names_are_given_until_it_is_set_up(monkeypatch):
+def test_nothing_is_sent_and_the_msg91_names_are_given_until_sms_is_set_up(monkeypatch):
     post = _Post()
     monkeypatch.setattr("requests.post", post)
+    assert messaging.sms_provider() == "msg91"
     missing = messaging._configured("sms")
-    assert missing and "ACOS_TWILIO_ACCOUNT_SID" in missing and "ACOS_TWILIO_AUTH_TOKEN" in missing
+    assert missing and "ACOS_SMS_AUTHKEY" in missing and "ACOS_SMS_TEMPLATE_ID" in missing
     status, err, pid = messaging.send_sms("+919876543210", "Homework due", "Light worksheet is due tomorrow.")
-    assert (status, pid) == ("skipped", None) and "ACOS_TWILIO" in err
+    assert (status, pid) == ("skipped", None) and "ACOS_SMS_AUTHKEY" in err
     assert post.calls == []
 
 
@@ -97,20 +99,20 @@ def test_twilio_refusing_is_a_failure_with_its_code(monkeypatch):
     assert "test-token" not in err
 
 
-def test_the_provider_can_be_chosen_and_msg91_still_works(monkeypatch):
+def test_msg91_is_used_when_both_are_set_and_twilio_can_be_chosen(monkeypatch):
     _twilio(monkeypatch, ACOS_TWILIO_FROM="ACADOS", ACOS_SMS_AUTHKEY="k", ACOS_SMS_TEMPLATE_ID="flow-1")
-    assert messaging.sms_provider() == "twilio", "Twilio when its credentials are there"
-    monkeypatch.setenv("ACOS_SMS_PROVIDER", "msg91")
     post = _Post(status=200, body={"type": "success", "message": "req-1"})
     monkeypatch.setattr("requests.post", post)
+    assert messaging.sms_provider() == "msg91", "MSG91 is the owner's choice"
     assert messaging.send_sms("+919876543210", "t", "b") == ("sent", None, "req-1")
     assert post.calls[0].url == "https://control.msg91.com/api/v5/flow"
+    monkeypatch.setenv("ACOS_SMS_PROVIDER", "twilio")
+    assert messaging.sms_provider() == "twilio"
 
 
-def test_msg91_alone_is_still_picked_without_a_setting(monkeypatch):
-    monkeypatch.setenv("ACOS_SMS_AUTHKEY", "k")
-    monkeypatch.setenv("ACOS_SMS_TEMPLATE_ID", "flow-1")
-    assert messaging.sms_provider() == "msg91" and messaging._configured("sms") is None
+def test_twilio_alone_is_picked_without_a_setting(monkeypatch):
+    _twilio(monkeypatch, ACOS_TWILIO_FROM="ACADOS")
+    assert messaging.sms_provider() == "twilio" and messaging._configured("sms") is None
 
 
 def test_an_unknown_provider_is_refused_by_name(monkeypatch):
