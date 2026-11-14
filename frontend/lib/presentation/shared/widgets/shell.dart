@@ -174,6 +174,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.assignment_turned_in_outlined, Icons.assignment_turned_in, 'Homework', '/school/homework'),
           _item(Icons.trending_up_outlined, Icons.trending_up, 'Class progress', '/school/class-progress'),
           _item(Icons.library_books_outlined, Icons.library_books, 'Question bank', '/school/question-bank'),
+          _item(Icons.receipt_long_outlined, Icons.receipt_long, 'Fees', '/school/fees'),
         ]),
         _group('Setup', [
           // The guided setup (onboarding/pages/setup_wizard_page.dart): the whole
@@ -207,6 +208,7 @@ List<NavSection> navSectionsFor(String role, {Set<String> grants = const {}}) {
           _item(Icons.upload_file_outlined, Icons.upload_file, 'Import and export', '/school/import'),
         if (grants.contains('reports'))
           _item(Icons.assessment_outlined, Icons.assessment, 'Term report', '/school/term-report'),
+        if (grants.contains('fees')) _item(Icons.receipt_long_outlined, Icons.receipt_long, 'Fees', '/school/fees'),
         if (grants.contains('qbank_review'))
           _item(Icons.library_books_outlined, Icons.library_books, 'Review answers', '/school/question-bank'),
       ];

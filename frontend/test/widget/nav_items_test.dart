@@ -36,7 +36,7 @@ void main() {
         'Lesson plans', 'Attendance and cover', 'Term report', 'Inbox']);
     expect(sections.first.collapsible, isFalse);
     expect([for (final i in sections[1].items) i.label], ['Paper reviews', 'School insights', 'Periods owed',
-        'Homework', 'Class progress', 'Question bank']);
+        'Homework', 'Class progress', 'Question bank', 'Fees']);
     expect([for (final i in sections[2].items) i.label], ['Set up your school', 'Invite people', 'Staff and access',
         'School profile', 'Import and export', 'Calendar and terms']);
     for (final s in sections.skip(1)) {

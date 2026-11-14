@@ -293,6 +293,15 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("GET", "/api/v1/fees/heads"),
+    ("POST", "/api/v1/fees/heads"),
+    ("DELETE", "/api/v1/fees/heads/{head_id}"),
+    ("POST", "/api/v1/fees/payments"),
+    ("PUT", "/api/v1/fees/concessions"),
+    ("GET", "/api/v1/fees/students/{student_id}"),
+    ("GET", "/api/v1/fees/sections/{section_id}"),
+    ("GET", "/api/v1/children/{student_id}/fees"),
+    ("GET", "/api/v1/my-fees"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -659,6 +668,15 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/children/{student_id}/consent"),
     ("POST", "/api/v1/children/{student_id}/consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"),
+    ("GET", "/api/v1/fees/heads"),
+    ("POST", "/api/v1/fees/heads"),
+    ("DELETE", "/api/v1/fees/heads/{head_id}"),
+    ("POST", "/api/v1/fees/payments"),
+    ("PUT", "/api/v1/fees/concessions"),
+    ("GET", "/api/v1/fees/students/{student_id}"),
+    ("GET", "/api/v1/fees/sections/{section_id}"),
+    ("GET", "/api/v1/children/{student_id}/fees"),
+    ("GET", "/api/v1/my-fees"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -1090,7 +1108,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 351: the Phase 1 pilot agreement (read, accept).
     # 352: NFR-7 per-school usage for the operator.
     # 356: staff rules and leave balances (read, set, mine, everyone's).
-    assert len(API_ROUTES) == 356
+    # 365: FEE-1 fees: heads (list, create, delete), a payment, a concession, a student's
+    # statement for the school, a class's dues, a parent's child's and a student's own.
+    assert len(API_ROUTES) == 365
 
 
 def test_docs_routes_present():

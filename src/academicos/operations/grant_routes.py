@@ -24,6 +24,7 @@ CAPABILITY_LABELS = {
     "exams": "Exams: datesheets, invigilation, paper approval",
     "qbank_review": "Question bank review",
     "reports": "Reports and analytics",
+    "fees": "Fees: fee heads, payments and concessions",
 }
 
 
