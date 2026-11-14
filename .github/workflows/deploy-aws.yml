@@ -1,0 +1,210 @@
+name: Deploy to AWS + Cloudflare (EC2 + Cloudflare Pages)
+
+# The AWS + Cloudflare release (deploy/aws/README.md). Every push to master that
+# passes both gates ships itself:
+#
+#   test          -> the pytest suite against a real PostgreSQL
+#   frontend-test -> flutter analyze + flutter test
+#   backend       -> docker build -> Amazon ECR -> SSM Run Command on the EC2 host
+#                    (deploy/aws/host/deploy.sh swaps the container, rolls back if
+#                    the new one does not report its commit on /health)
+#   frontend      -> Flutter web build -> Cloudflare Pages
+#
+# AWS auth is keyless (GitHub OIDC -> the academicos-github-deploy role, which
+# trusts master only). App secrets live in SSM Parameter Store on the AWS side.
+#
+# Repository variables (Settings -> Secrets and variables -> Actions -> Variables),
+# the first four from the CloudFormation stack's Outputs tab:
+#   AWS_DEPLOY_ROLE_ARN, AWS_INSTANCE_ID, AWS_REGION, AWS_ECR_REPO
+#   API_ORIGIN        https://api.<your domain>  (the Cloudflare Tunnel hostname)
+#   PAGES_PROJECT     the Cloudflare Pages project name (e.g. academicos)
+#   WEB_ORIGINS       the console's origins, comma-separated, https only
+#                     (https://academicos.pages.dev,https://app.<your domain>);
+#                     becomes ACOS_CORS_ORIGINS
+# Repository secrets: CLOUDFLARE_API_TOKEN (Pages: Edit only), CLOUDFLARE_ACCOUNT_ID
+#
+# Until AWS_DEPLOY_ROLE_ARN is set the deploy jobs skip, so the run stays green.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'pyproject.toml'
+      - 'config/**'
+      - 'src/academicos/**'
+      - 'tests/**'
+      - 'academicos-data/syllabus/**'
+      - 'frontend/**'
+      - 'design/**'
+      - 'scripts/**'
+      - 'deploy/aws/**'
+      - 'deploy/cloudflare/**'
+      - 'firebase.json'
+      - 'Dockerfile'
+      - 'contract/**'
+      - '.github/workflows/deploy-aws.yml'
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-aws-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: academicos_verify
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      ACOS_TEST_PG_HOST: localhost
+      ACOS_TEST_PG_PORT: '5432'
+      ACOS_TEST_PG_DB: academicos_verify
+      ACOS_TEST_PG_USER: postgres
+      ACOS_TEST_PG_PASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      # Same extras as deploy-gcp.yml's gate, for the same reasons (see there).
+      - run: pip install -e ".[dev,api,ocr,mobile-scan,gcs,postgres,mcp]"
+      - run: pytest tests/ -q
+
+  frontend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.9'   # pinned with deploy-gcp.yml and the dev machines
+          channel: stable
+          cache: true
+      - run: flutter pub get
+        working-directory: frontend
+      - run: flutter analyze --no-fatal-infos
+        working-directory: frontend
+      - run: flutter test --exclude-tags live-backend
+        working-directory: frontend
+
+  backend:
+    needs: [test, frontend-test]
+    if: vars.AWS_DEPLOY_ROLE_ARN != ''
+    runs-on: ubuntu-24.04
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      INSTANCE_ID: ${{ vars.AWS_INSTANCE_ID }}
+      ECR_REPO: ${{ vars.AWS_ECR_REPO }}
+      API_ORIGIN: ${{ vars.API_ORIGIN }}
+      WEB_ORIGINS: ${{ vars.WEB_ORIGINS }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required repository variables are set
+        run: |
+          missing=""
+          for name in AWS_REGION INSTANCE_ID ECR_REPO API_ORIGIN WEB_ORIGINS; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository variables:$missing (deploy/aws/README.md step 4)"; exit 1
+          fi
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Build and push the image
+        run: |
+          aws ecr get-login-password | docker login --username AWS --password-stdin "${ECR_REPO%%/*}"
+          docker build \
+            --build-arg BUILD_COMMIT="$GITHUB_SHA" \
+            --build-arg BUILT_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            -t "$ECR_REPO:$GITHUB_SHA" .
+          docker push "$ECR_REPO:$GITHUB_SHA"
+
+      # The host scripts travel with the release (a few KB), so the instance
+      # never needs repository access. install.sh is idempotent.
+      - name: Deploy on the host through SSM
+        run: |
+          cp deploy/gcp/schema.sql deploy/aws/host/schema.sql   # the Postgres schema (IF NOT EXISTS throughout)
+          bundle="$(tar -C deploy/aws/host -czf - . | base64 -w0)"
+          jq -n --arg b "$bundle" --arg img "$ECR_REPO:$GITHUB_SHA" --arg web "$WEB_ORIGINS" '{commands: [
+            "set -euo pipefail",
+            "rm -rf /opt/academicos-release && mkdir -p /opt/academicos-release",
+            ("echo " + $b + " | base64 -d | tar -C /opt/academicos-release -xzf -"),
+            "bash /opt/academicos-release/install.sh",
+            ("bash /opt/academicos-release/deploy.sh " + $img + " " + ($web | @sh))
+          ], executionTimeout: ["900"]}' > params.json
+          cid="$(aws ssm send-command --instance-ids "$INSTANCE_ID" \
+                  --document-name AWS-RunShellScript --comment "deploy $GITHUB_SHA" \
+                  --parameters file://params.json --query Command.CommandId --output text)"
+          echo "SSM command $cid"
+          status=Pending
+          for _ in $(seq 1 120); do
+            sleep 10
+            status="$(aws ssm get-command-invocation --command-id "$cid" --instance-id "$INSTANCE_ID" \
+                       --query Status --output text 2>/dev/null || echo Pending)"
+            case "$status" in Pending|InProgress|Delayed) continue ;; *) break ;; esac
+          done
+          aws ssm get-command-invocation --command-id "$cid" --instance-id "$INSTANCE_ID" \
+            --query '[StandardOutputContent,StandardErrorContent]' --output text || true
+          [ "$status" = Success ] || { echo "::error::host deploy ended $status"; exit 1; }
+
+      # Through Cloudflare, as a school reaches it: proves the tunnel as well as the app.
+      - name: Check the public API serves this commit
+        run: |
+          for _ in $(seq 1 12); do
+            if curl -fsS -m 10 "$API_ORIGIN/health" | python3 deploy/gcp/check_served_commit.py "$GITHUB_SHA"; then exit 0; fi
+            sleep 10
+          done
+          exit 1
+
+  frontend:
+    needs: backend
+    runs-on: ubuntu-24.04
+    env:
+      API_ORIGIN: ${{ vars.API_ORIGIN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.0'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.9'
+          channel: stable
+          cache: true
+      - name: Build Flutter web against the API
+        run: |
+          flutter pub get
+          flutter build web --release --dart-define=ACADEMICOS_API="$API_ORIGIN/api/v1"
+        working-directory: frontend
+      # Offline-only asset, never read by the web build (deploy-gcp.yml explains).
+      - run: rm -f frontend/build/web/assets/assets/corpus/questions.json
+      - run: python3 scripts/web_cache_bust.py frontend/build/web
+      - run: python3 deploy/cloudflare/pages_headers.py frontend/build/web "$API_ORIGIN"
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Creates the project on the first deploy; "already exists" afterwards is fine.
+          npx --yes wrangler@4 pages project create "${{ vars.PAGES_PROJECT }}" --production-branch main || true
+          npx --yes wrangler@4 pages deploy frontend/build/web \
+            --project-name "${{ vars.PAGES_PROJECT }}" --branch main \
+            --commit-hash "$GITHUB_SHA" --commit-dirty=true

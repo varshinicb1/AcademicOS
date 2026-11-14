@@ -1,0 +1,7 @@
+[Unit]
+Description=AcademicOS scheduled jobs (POST /api/v1/automations/run)
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/academicos-bin/run-automations.sh

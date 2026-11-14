@@ -1,0 +1,7 @@
+[Unit]
+Description=AcademicOS nightly backup to Cloudflare R2
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/academicos-bin/backup.sh

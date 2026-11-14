@@ -1,0 +1,238 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  AcademicOS backend on AWS (deploy/aws/README.md). One EC2 host in ap-south-1 runs
+  the API container and PostgreSQL 16 on an encrypted EBS data volume. No inbound
+  ports: the public reaches the API only through a Cloudflare Tunnel, and operators
+  reach the host only through SSM Session Manager. GitHub Actions deploys by OIDC
+  (no AWS keys stored anywhere). Launch once from the CloudFormation console.
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: varshinicb1/AcademicOS
+    Description: owner/name of the repository whose master branch may deploy.
+  CreateGitHubOidcProvider:
+    Type: String
+    AllowedValues: ["true", "false"]
+    Default: "true"
+    Description: >-
+      "false" if this AWS account already has an IAM identity provider for
+      token.actions.githubusercontent.com (an account can hold only one).
+  InstanceType:
+    Type: String
+    Default: t3.small
+    Description: >-
+      t3.small (2 GiB) holds the API (Cloud Run gave it 1 GiB) plus PostgreSQL.
+      t3.micro (1 GiB) is free-tier eligible on older accounts but too small for both.
+  DataVolumeGiB:
+    Type: Number
+    Default: 10
+    MinValue: 5
+    Description: PostgreSQL + school files. Can be grown later without downtime.
+  MonthlyBudgetUsd:
+    Type: Number
+    Default: 30
+    Description: Email alert when forecast AWS spend for the month passes this.
+  AlertEmail:
+    Type: String
+    Description: Where the budget alert goes (AWS sends a confirmation email first).
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+
+Conditions:
+  MakeOidcProvider: !Equals [!Ref CreateGitHubOidcProvider, "true"]
+
+Resources:
+  # ---------------------------------------------------------------- images
+  Repository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: academicos-backend
+      ImageScanningConfiguration: { ScanOnPush: true }
+      ImageTagMutability: MUTABLE
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {"rules":[{"rulePriority":1,"description":"keep the last 5 images",
+            "selection":{"tagStatus":"any","countType":"imageCountMoreThan","countNumber":5},
+            "action":{"type":"expire"}}]}
+
+  # ---------------------------------------------------------------- host
+  HostSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: AcademicOS host - no inbound at all (Cloudflare Tunnel and SSM are outbound)
+      # No ingress rules. Egress keeps the default allow-all (the host pulls
+      # images, reaches SSM, Cloudflare and the school's SMS/LLM providers).
+
+  HostRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: academicos-host
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ec2.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Policies:
+        - PolicyName: academicos-parameters
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              # The host reads its settings from /academicos/* and writes only the
+              # secrets it generates itself on first boot (host/install.sh).
+              - Effect: Allow
+                Action: [ssm:GetParameter, ssm:GetParameters, ssm:GetParametersByPath, ssm:PutParameter]
+                Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/academicos/*
+              - Effect: Allow
+                Action: [kms:Decrypt, kms:Encrypt]
+                Resource: "*"
+                Condition:
+                  StringEquals: { "kms:ViaService": !Sub "ssm.${AWS::Region}.amazonaws.com" }
+
+  HostProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref HostRole]
+
+  Host:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref HostProfile
+      SecurityGroupIds: [!GetAtt HostSecurityGroup.GroupId]
+      MetadataOptions: { HttpTokens: required, HttpPutResponseHopLimit: 2 }
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: { VolumeSize: 20, VolumeType: gp3, Encrypted: true, DeleteOnTermination: true }
+      Tags:
+        - { Key: Name, Value: academicos }
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          # First boot only. Everything that changes between releases (scripts,
+          # systemd units, the container) arrives with each GitHub deploy instead.
+          set -euxo pipefail
+          dnf install -y docker jq
+          systemctl enable --now docker
+          mkdir -p /etc/academicos
+          cat >/etc/academicos/stack.env <<EOF
+          AWS_REGION=${AWS::Region}
+          ECR_REPO=${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/academicos-backend
+          EOF
+
+  # The school's data lives on its own volume, so replacing or deleting the
+  # instance never deletes it, and deleting the stack leaves a snapshot.
+  DataVolume:
+    Type: AWS::EC2::Volume
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      AvailabilityZone: !GetAtt Host.AvailabilityZone
+      Size: !Ref DataVolumeGiB
+      VolumeType: gp3
+      Encrypted: true
+      Tags:
+        - { Key: Name, Value: academicos-data }
+
+  DataVolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref Host
+      VolumeId: !Ref DataVolume
+      Device: /dev/sdf
+
+  # ---------------------------------------------------------------- GitHub deploys
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: MakeOidcProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: [sts.amazonaws.com]
+      ThumbprintList:
+        - 6938fd4d98bab03faadb97b34396831e3780aea1
+        - 1c58a3a8518e8759bf075b76b750d4f2df264fcd
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: academicos-github-deploy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                "token.actions.githubusercontent.com:aud": sts.amazonaws.com
+                # master only: a branch or a fork's PR can never deploy.
+                "token.actions.githubusercontent.com:sub": !Sub repo:${GitHubRepo}:ref:refs/heads/master
+      Policies:
+        - PolicyName: academicos-deploy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:BatchGetImage
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                  - ecr:PutImage
+                Resource: !GetAtt Repository.Arn
+              - Effect: Allow
+                Action: ssm:SendCommand
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/${Host}
+                  - !Sub arn:aws:ssm:${AWS::Region}::document/AWS-RunShellScript
+              - Effect: Allow
+                Action: [ssm:GetCommandInvocation, ssm:ListCommandInvocations]
+                Resource: "*"
+
+  # ---------------------------------------------------------------- spend guard
+  # The first two AWS Budgets are free.
+  SpendBudget:
+    Type: AWS::Budgets::Budget
+    Properties:
+      Budget:
+        BudgetName: academicos-monthly
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit: { Amount: !Ref MonthlyBudgetUsd, Unit: USD }
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: FORECASTED
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+          Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 80
+          Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
+
+Outputs:
+  AwsDeployRoleArn:
+    Description: GitHub repository variable AWS_DEPLOY_ROLE_ARN
+    Value: !GetAtt DeployRole.Arn
+  AwsInstanceId:
+    Description: GitHub repository variable AWS_INSTANCE_ID
+    Value: !Ref Host
+  AwsRegion:
+    Description: GitHub repository variable AWS_REGION
+    Value: !Ref AWS::Region
+  EcrRepository:
+    Description: GitHub repository variable AWS_ECR_REPO
+    Value: !GetAtt Repository.RepositoryUri
