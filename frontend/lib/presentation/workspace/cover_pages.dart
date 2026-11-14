@@ -286,7 +286,11 @@ class _CoverPageState extends State<CoverPage> {
                         subtitle: Text('${_num(_policy!['annualAllowanceDays'])} days of leave a year. A check-in after '
                             '${_policy!['firstBell'] ?? 'the first bell'} plus ${_policy!['checkInGraceMinutes']} minutes '
                             'is late. ${_policy!['checkInReminder'] == true ? 'Teachers not in by 9:00 are reminded, '
-                                'and you are told.' : 'No check-in reminder.'}'),
+                                'and you are told.' : 'No check-in reminder.'} '
+                            '${_policy!['autoCompensate'] == true ? 'Lost periods are booked into make-up periods each '
+                                'afternoon.' : 'You book make-up periods.'} '
+                            '${((_policy!['substituteAnswerMinutes'] as num?) ?? 0) > 0 ? 'A substitution not answered in '
+                                '${_policy!['substituteAnswerMinutes']} minutes goes to the next teacher.' : ''}'.trim()),
                         trailing: TextButton(onPressed: _editRules, child: const Text('Change')),
                       ),
                     ),
@@ -319,10 +323,12 @@ class _CoverPageState extends State<CoverPage> {
     final p = Map<String, dynamic>.from(_policy!);
     var auto = p['autoApprove'] == true;
     var reminder = p['checkInReminder'] == true;
+    var makeup = p['autoCompensate'] == true;
     final maxDays = TextEditingController(text: _num(p['maxAutoDays']));
     final notice = TextEditingController(text: '${p['minNoticeDays']}');
     final allowance = TextEditingController(text: _num(p['annualAllowanceDays']));
     final grace = TextEditingController(text: '${p['checkInGraceMinutes']}');
+    final answer = TextEditingController(text: '${p['substituteAnswerMinutes'] ?? 0}');
     String? error;
     final saved = await showDialog<bool>(context: context, builder: (ctx) => StatefulBuilder(builder: (ctx, set) {
       Widget field(TextEditingController c, String label, String suffix) => Padding(
@@ -355,6 +361,16 @@ class _CoverPageState extends State<CoverPage> {
             title: const Text('Remind teachers not in by 9:00'),
             subtitle: const Text('And tell you who they are, once a day.'),
           ),
+          SwitchListTile(
+            key: const Key('rule-makeup'),
+            contentPadding: EdgeInsets.zero,
+            value: makeup,
+            onChanged: (v) => set(() => makeup = v),
+            title: const Text('Book make-up periods automatically'),
+            subtitle: const Text('Each afternoon a lost period goes into its class\'s first free period with its '
+                'teacher. The teacher and you are told.'),
+          ),
+          field(answer, 'Pass a substitution on if not answered in', 'minutes, 0 for never'),
           if (error != null) Text(error!, style: TextStyle(color: Theme.of(ctx).colorScheme.error)),
         ]))),
         actions: [
@@ -366,7 +382,8 @@ class _CoverPageState extends State<CoverPage> {
               final ahead = int.tryParse(notice.text.trim());
               final year = double.tryParse(allowance.text.trim());
               final late = int.tryParse(grace.text.trim());
-              if (days == null || ahead == null || year == null || late == null) {
+              final wait = int.tryParse(answer.text.trim());
+              if (days == null || ahead == null || year == null || late == null || wait == null) {
                 set(() => error = 'Type numbers: days may be a half, as 0.5.');
                 return;
               }
@@ -378,6 +395,8 @@ class _CoverPageState extends State<CoverPage> {
                   'annualAllowanceDays': year,
                   'checkInGraceMinutes': late,
                   'checkInReminder': reminder,
+                  'autoCompensate': makeup,
+                  'substituteAnswerMinutes': wait,
                 });
                 if (ctx.mounted) Navigator.pop(ctx, true);
               } catch (e) {

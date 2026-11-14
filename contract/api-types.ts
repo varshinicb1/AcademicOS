@@ -12876,6 +12876,11 @@ export interface components {
              */
             autoApprove: boolean;
             /**
+             * Autocompensate
+             * @default false
+             */
+            autoCompensate: boolean;
+            /**
              * Checkingraceminutes
              * @default 10
              */
@@ -12895,6 +12900,11 @@ export interface components {
              * @default 1
              */
             minNoticeDays: number;
+            /**
+             * Substituteanswerminutes
+             * @default 0
+             */
+            substituteAnswerMinutes: number;
         };
         /** StaffPolicyResponse */
         StaffPolicyResponse: {
@@ -12908,6 +12918,11 @@ export interface components {
              * @default false
              */
             autoApprove: boolean;
+            /**
+             * Autocompensate
+             * @default false
+             */
+            autoCompensate: boolean;
             /**
              * Checkingraceminutes
              * @default 10
@@ -12930,6 +12945,11 @@ export interface components {
              * @default 1
              */
             minNoticeDays: number;
+            /**
+             * Substituteanswerminutes
+             * @default 0
+             */
+            substituteAnswerMinutes: number;
             /** Updatedat */
             updatedAt?: string | null;
         };

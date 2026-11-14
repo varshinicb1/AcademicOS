@@ -27,6 +27,7 @@ const _day = '[{"sectionId":"s10a","period":1,"subjectId":"sci","teacherId":"u1"
 
 class _Server implements HttpClientAdapter {
   final List<RequestOptions> posted = [];
+  final List<RequestOptions> put = [];
   final Map<String, String> answers = {
     '/curriculum/my-day': _day,
     '/curriculum/my-attendance': '{"teacherId":"u1","name":"Tara Teacher","status":"unmarked"}',
@@ -53,6 +54,7 @@ class _Server implements HttpClientAdapter {
   @override
   Future<ResponseBody> fetch(RequestOptions o, Stream<List<int>>? body, Future<void>? cancel) async {
     if (o.method == 'POST') posted.add(o);
+    if (o.method == 'PUT') put.add(o);
     final post = o.path == '/curriculum/my-attendance'
         ? '{"teacherId":"u1","name":"Tara Teacher","status":"present"}'
         : '{}';
@@ -181,6 +183,35 @@ void main() {
     expect(find.textContaining('(periods 3, 5)'), findsOneWidget);
     expect(find.byKey(const Key('leave-document-l1')), findsOneWidget);
     expect(find.byTooltip('Open certificate.pdf'), findsOneWidget);
+  });
+
+  // SCH-6/SCH-7: the cover desk's own rules. The dialog sends every rule,
+  // so saving one never turns another off.
+  testWidgets('The principal turns on make-up booking and the answer time', (tester) async {
+    LocalStore.instance.authUser = {'id': 'p1', 'schoolId': 'school_1', 'role': 'principal', 'name': 'Priya'};
+    server.answers['/curriculum/academic-years'] = '[{"id":"y1","startDate":"2026-04-01","endDate":"2027-03-31"}]';
+    server.answers['/curriculum/teacher-attendance'] = '{"date":"2026-10-01","rows":[],"substitutions":[]}';
+    server.answers['/curriculum/staff-policy'] = '{"autoApprove":true,"maxAutoDays":2,"minNoticeDays":1,'
+        '"annualAllowanceDays":12,"checkInGraceMinutes":10,"checkInReminder":true,"autoCompensate":false,'
+        '"substituteAnswerMinutes":0,"firstBell":"08:00"}';
+    await pump(tester, const CoverPage(), size: const Size(1280, 1600));
+    expect(tester.takeException(), isNull);
+    expect(find.textContaining('You book make-up periods.'), findsOneWidget);
+    await tester.tap(find.text('Change'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.byKey(const Key('rule-makeup')));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.enterText(find.widgetWithText(TextField, 'Pass a substitution on if not answered in'), '20');
+    await tester.tap(find.byKey(const Key('rule-save')));
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump(const Duration(milliseconds: 50));
+    final sent = server.put.where((o) => o.path == '/curriculum/staff-policy').toList();
+    expect(sent, hasLength(1));
+    final body = sent.single.data as Map;
+    expect(body['autoCompensate'], isTrue);
+    expect(body['substituteAnswerMinutes'], 20);
+    expect(body['autoApprove'], isTrue, reason: 'the other rules go back as they were');
+    expect(body['checkInReminder'], isTrue);
   });
 
   test('a leave reads as its kind', () {

@@ -17,6 +17,8 @@ action learns to ignore all of them — including the one that mattered.
 Lesson marked by someone else | ✅ | A principal overrides a lesson completion the teacher recorded | It corrects the teacher's own record; they must not be surprised by it. |
 Paper approved / returned | ✅ | A principal approves or returns the teacher's paper | Blocks the teacher's next step. |
 Lesson rescheduled onto me | ✅ | A principal reschedules onto the teacher's calendar | Changes what they teach today. |
+Make-up period booked | ✅ | The school's rule books a lost period into a free slot (afternoon automation, opt-in in Cover > Leave and check-in rules) | Adds a period to the teacher's day; the principal gets one line a day for all of them, naming any with no free slot |
+Substitution passed on | ✅ | A proposed substitute did not answer in the school's set minutes (opt-in); the next candidate is asked | The silent teacher must not walk into a class that is now someone else's |
 Overdue summary | ✅ one per week | **Principal only**, Monday morning | A management cadence, not a nudge. |
 New feature available | ❌ | — | Product marketing inside an operations tool. |
 "Continue where you left off" | ❌ | — | Engagement-driven. |

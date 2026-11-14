@@ -922,6 +922,27 @@ class CoverMixin:
         self._commit()
         return self.get_substitution(sub_id)
 
+    def pass_unanswered(self, sub_id: str, *, answered_before: str) -> Optional[Substitution]:
+        """SCH-6 automation: a proposal its substitute has not answered since
+        `answered_before` (an ISO timestamp) goes to the next candidate, as a
+        decline would. The status, substitute and time in the WHERE are the
+        claim, so a late accept and this cannot both win. None when the
+        proposal was answered (or passed) meanwhile."""
+        with self._conn_lock:
+            sub = self.get_substitution(sub_id)
+            if sub is None or sub.status != "proposed" or not sub.substitute_id:
+                return None
+            cur = self.conn.execute(
+                "UPDATE substitutions SET status='declined', substitute_id=NULL, mode='substitute', updated_at=? "
+                "WHERE id=? AND status='proposed' AND substitute_id=? AND updated_at<=?",
+                (_now(), sub_id, sub.substitute_id, answered_before))
+            if cur.rowcount == 0:
+                return None
+            nxt = [c for c in self.substitute_candidates(sub_id) if c.teacher_id != sub.substitute_id]
+            self._propose(sub, nxt[0] if nxt else None)
+        self._commit()
+        return self.get_substitution(sub_id)
+
     def _propose(self, sub: Substitution, cand: Optional[Candidate], *,
                  note: Any = _KEEP_NOTE) -> Optional[LostPeriod]:
         """Put `cand` on the period, or leave it waiting for someone (open,
@@ -1139,8 +1160,13 @@ class CoverMixin:
                 raise CoverError(f"this lost period is already {lp.status}")
             if (on, period) not in self.compensation_options(lost_id, today=today, days_ahead=120, limit=10_000):
                 raise CoverError("that period is not free for this section and its teacher")
-            self._exec("UPDATE lost_periods SET status='compensated', compensation_date=?, compensation_period=?, "
-                       "updated_at=? WHERE id=?", (on, period, _now(), lost_id))
+            # The status in the WHERE is the claim: two callers (the principal and
+            # the afternoon automation, or two instances) cannot both book it.
+            cur = self.conn.execute("UPDATE lost_periods SET status='compensated', compensation_date=?, "
+                                    "compensation_period=?, updated_at=? WHERE id=? AND status='owed'",
+                                    (on, period, _now(), lost_id))
+            if cur.rowcount == 0:
+                raise CoverError("this lost period is already settled")
             self._replan(lp.academic_year_id, lp.section_id, lp.subject_id, on,
                          f"make-up period {period} on {on} for {lp.date} period {lp.period}")
         self._commit()

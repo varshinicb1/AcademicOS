@@ -527,6 +527,13 @@ class CurriculumStore(SchoolModelMixin, TeachingGroupsMixin, CoverMixin, SchoolP
                 self._exec(f"ALTER TABLE teaching_allocations ADD COLUMN {col} {ddl}")
         self._exec("CREATE INDEX IF NOT EXISTS idx_tt_co_teacher "
                    "ON timetable_entries(co_teacher_id, day_of_week, period)")
+        # SCH-6/SCH-7 automation: the school's rules for make-up periods and
+        # unanswered substitutions (staff_policy.StaffPolicy).
+        policy_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(staff_policies)")}
+        for col, ddl in (("auto_compensate", "INTEGER NOT NULL DEFAULT 0"),
+                         ("substitute_answer_minutes", "INTEGER NOT NULL DEFAULT 0")):
+            if policy_cols and col not in policy_cols:
+                self._exec(f"ALTER TABLE staff_policies ADD COLUMN {col} {ddl}")
 
     def _migrate_sections(self) -> None:
         """Give every grade that has no section its first one, and place
