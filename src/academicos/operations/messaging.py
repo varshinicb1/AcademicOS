@@ -88,13 +88,47 @@ def normalize_mobile(raw: str) -> str:
 
 # ---------------------------------------------------------------- senders
 
+SMS_PROVIDERS = ("twilio", "msg91")
+_TWILIO_KEYS = ("ACOS_TWILIO_ACCOUNT_SID", "ACOS_TWILIO_AUTH_TOKEN")
+_MSG91_KEYS = ("ACOS_SMS_AUTHKEY", "ACOS_SMS_TEMPLATE_ID")
+
+
+def _cred(name: str) -> Optional[str]:
+    """An environment credential (config/secrets.env locally, Secret Manager on Cloud Run); empty or
+    the deployment placeholder reads as missing."""
+    from ..config import credential_or_none
+    return credential_or_none(name)
+
+
+def sms_provider() -> str:
+    """Which SMS gateway sends: ACOS_SMS_PROVIDER when set; else Twilio when its account is set (the
+    owner's choice, 2026-11-14), else MSG91 when its key is, else Twilio (so "not configured" names
+    Twilio's settings)."""
+    chosen = (os.environ.get("ACOS_SMS_PROVIDER") or "").strip().lower()
+    if chosen:
+        return chosen
+    if _cred("ACOS_TWILIO_ACCOUNT_SID"):
+        return "twilio"
+    if _cred("ACOS_SMS_AUTHKEY"):
+        return "msg91"
+    return "twilio"
+
+
 def _configured(channel: str) -> Optional[str]:
     """None when the channel is set up; otherwise what is missing."""
     if channel == "whatsapp":
-        missing = [v for v in ("ACOS_WHATSAPP_TOKEN", "ACOS_WHATSAPP_PHONE_NUMBER_ID") if not os.environ.get(v)]
+        missing = [v for v in ("ACOS_WHATSAPP_TOKEN", "ACOS_WHATSAPP_PHONE_NUMBER_ID") if not _cred(v)]
+        return f"whatsapp is not configured ({', '.join(missing)})" if missing else None
+    provider = sms_provider()
+    if provider not in SMS_PROVIDERS:
+        return f"sms is not configured (ACOS_SMS_PROVIDER is {provider!r}; use one of {', '.join(SMS_PROVIDERS)})"
+    if provider == "twilio":
+        missing = [v for v in _TWILIO_KEYS if not _cred(v)]
+        if not (_cred("ACOS_TWILIO_MESSAGING_SERVICE_SID") or _cred("ACOS_TWILIO_FROM")):
+            missing.append("ACOS_TWILIO_MESSAGING_SERVICE_SID or ACOS_TWILIO_FROM")
     else:
-        missing = [v for v in ("ACOS_SMS_AUTHKEY", "ACOS_SMS_TEMPLATE_ID") if not os.environ.get(v)]
-    return f"{channel} is not configured ({', '.join(missing)})" if missing else None
+        missing = [v for v in _MSG91_KEYS if not _cred(v)]
+    return f"sms is not configured ({provider}: {', '.join(missing)})" if missing else None
 
 
 def send_whatsapp(phone: str, title: str, body: str, language: str) -> tuple[str, Optional[str], Optional[str]]:
@@ -130,22 +164,54 @@ def send_whatsapp(phone: str, title: str, body: str, language: str) -> tuple[str
 
 
 def send_sms(phone: str, title: str, body: str) -> tuple[str, Optional[str], Optional[str]]:
-    """(status, error, provider request id). MSG91's v5 flow API with the
-    DLT-registered flow ACOS_SMS_TEMPLATE_ID, whose text carries ##title##
-    and ##body##; at most SMS_LIMIT characters in all."""
+    """(status, error, provider message id), through the configured gateway (sms_provider)."""
     missing = _configured("sms")
     if missing:
         return "skipped", missing, None
+    if sms_provider() == "twilio":
+        return _send_twilio(phone, title, body)
+    return _send_msg91(phone, title, body)
+
+
+def _send_twilio(phone: str, title: str, body: str) -> tuple[str, Optional[str], Optional[str]]:
+    """Twilio's Messages API: one form POST with basic auth (account SID, auth token), from the
+    Messaging Service ACOS_TWILIO_MESSAGING_SERVICE_SID or else the sender ACOS_TWILIO_FROM (a
+    number, or in India the DLT-registered sender ID). The text is "title: body", at most SMS_LIMIT
+    characters; for India it must match a DLT template registered with Twilio."""
+    import requests
+    sid, token = _cred("ACOS_TWILIO_ACCOUNT_SID"), _cred("ACOS_TWILIO_AUTH_TOKEN")
+    data = {"To": phone}
+    service = _cred("ACOS_TWILIO_MESSAGING_SERVICE_SID")
+    if service:
+        data["MessagingServiceSid"] = service
+    else:
+        data["From"] = _cred("ACOS_TWILIO_FROM")
+    data["Body"] = f"{title}: {body}"[:SMS_LIMIT]
+    try:
+        r = requests.post(f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json", data=data,
+                          auth=(sid, token), timeout=10)
+        payload = r.json() if r.content else {}
+        if r.status_code >= 300:
+            info = payload if isinstance(payload, dict) else {}
+            return "failed", f"{r.status_code} code {info.get('code')}: {info.get('message')}"[:300], None
+        return "sent", None, (payload.get("sid") if isinstance(payload, dict) else None)
+    except Exception as exc:  # noqa: BLE001 - recorded on the delivery and retried
+        return "failed", str(exc)[:300], None
+
+
+def _send_msg91(phone: str, title: str, body: str) -> tuple[str, Optional[str], Optional[str]]:
+    """MSG91's v5 flow API with the DLT-registered flow ACOS_SMS_TEMPLATE_ID, whose text carries
+    ##title## and ##body##; at most SMS_LIMIT characters in all."""
     import requests
     room = max(0, SMS_LIMIT - len(title) - 2)
     payload = {
-        "template_id": os.environ["ACOS_SMS_TEMPLATE_ID"],
+        "template_id": _cred("ACOS_SMS_TEMPLATE_ID"),
         "short_url": "0",
         "recipients": [{"mobiles": phone.lstrip("+"), "title": title[:80], "body": body[:room]}],
     }
     try:
         r = requests.post("https://control.msg91.com/api/v5/flow", json=payload, timeout=10,
-                          headers={"authkey": os.environ["ACOS_SMS_AUTHKEY"], "accept": "application/json"})
+                          headers={"authkey": _cred("ACOS_SMS_AUTHKEY"), "accept": "application/json"})
         data = r.json() if r.content else {}
         if r.status_code >= 300 or (isinstance(data, dict) and data.get("type") == "error"):
             return "failed", f"{r.status_code} {str(data)[:200]}", None
