@@ -44,6 +44,7 @@ List<AppTab> appTabs(AppMode mode, {String role = ''}) => switch (mode) {
       AppMode.student => role == 'parent'
           ? [
               (icon: Icons.family_restroom_outlined, selected: Icons.family_restroom, label: tr('Children'), path: '/school/family'),
+              (icon: Icons.forum_outlined, selected: Icons.forum, label: tr('Messages'), path: '/school/messages'),
               (icon: Icons.notifications_outlined, selected: Icons.notifications, label: tr('Inbox'), path: '/school/inbox'),
             ]
           : [

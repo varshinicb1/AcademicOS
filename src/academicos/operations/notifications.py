@@ -157,6 +157,10 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
     Kind("test_marks", "Marks for a test", True, False,
          ("Marks: {title}", "{subject}: {marks}."),
          ("अंक: {title}", "{subject}: {marks}।")),
+    # MSG-1: a message from a parent or a teacher, for the other to read.
+    Kind("message_received", "A message from a parent or teacher", True, False,
+         ("Message from {sender}", "About {student}: {preview}"),
+         ("{sender} का संदेश", "{student} के बारे में: {preview}")),
     Kind("homework_overdue", "Homework with students missing", True, False,
          ("{count} not submitted: {title}", "{title} was due {due}; {count} students have not submitted."),
          ("{count} ने जमा नहीं किया: {title}", "{title} {due} तक था; {count} विद्यार्थियों ने जमा नहीं किया।")),

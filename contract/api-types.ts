@@ -953,6 +953,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/children/{student_id}/contacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Child Contacts
+         * @description Whom a parent may write to about this child.
+         */
+        get: operations["child_contacts_api_v1_children__student_id__contacts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/children/{student_id}/day": {
         parameters: {
             query?: never;
@@ -1166,6 +1186,64 @@ export interface paths {
          * @description Revoke parental consent for a student.
          */
         delete: operations["revoke_consent_api_v1_consent_students__student_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** My Conversations */
+        get: operations["my_conversations_api_v1_conversations_get"];
+        put?: never;
+        /**
+         * Start Conversation
+         * @description Write the first message (or one more, if the conversation exists).
+         */
+        post: operations["start_conversation_api_v1_conversations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/conversations/{conversation_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Conversation
+         * @description The whole conversation; reading it marks it read for the caller.
+         */
+        get: operations["read_conversation_api_v1_conversations__conversation_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/conversations/{conversation_id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reply */
+        post: operations["reply_api_v1_conversations__conversation_id__messages_post"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -4445,6 +4523,28 @@ export interface paths {
         get?: never;
         /** Save Progress */
         put: operations["save_progress_api_v1_me_progress__key__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/message-contacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Message Contacts
+         * @description The parents a teacher may write to: the linked parents of students in
+         *     the sections they are class teacher of or teach (the principal: every
+         *     section). Sorted by class, then student.
+         */
+        get: operations["message_contacts_api_v1_message_contacts_get"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -8007,6 +8107,15 @@ export interface components {
             hasConsent: boolean;
             record?: components["schemas"]["ParentalConsentRecord"] | null;
         };
+        /** Contact */
+        Contact: {
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Userid */
+            userId: string;
+        };
         /**
          * ContactRequest
          * @description phone null removes the number and withdraws both.
@@ -8054,6 +8163,56 @@ export interface components {
              * @default false
              */
             whatsappOk: boolean;
+        };
+        /** ConversationDetail */
+        ConversationDetail: {
+            /** Id */
+            id: string;
+            /** Lastat */
+            lastAt: string;
+            /** Lastmessage */
+            lastMessage?: string | null;
+            /** Messages */
+            messages: components["schemas"]["MessageResponse"][];
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /**
+             * Unread
+             * @default 0
+             */
+            unread: number;
+            /** Withid */
+            withId: string;
+            /** Withname */
+            withName: string;
+            /** Withrole */
+            withRole: string;
+        };
+        /** ConversationResponse */
+        ConversationResponse: {
+            /** Id */
+            id: string;
+            /** Lastat */
+            lastAt: string;
+            /** Lastmessage */
+            lastMessage?: string | null;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /**
+             * Unread
+             * @default 0
+             */
+            unread: number;
+            /** Withid */
+            withId: string;
+            /** Withname */
+            withName: string;
+            /** Withrole */
+            withRole: string;
         };
         /** Cover */
         Cover: {
@@ -9819,6 +9978,21 @@ export interface components {
             /** Present */
             present?: string[];
         };
+        /** MessageResponse */
+        MessageResponse: {
+            /** Body */
+            body: string;
+            /** Createdat */
+            createdAt: string;
+            /** Id */
+            id: string;
+            /** Mine */
+            mine: boolean;
+            /** Senderid */
+            senderId: string;
+            /** Sendername */
+            senderName: string;
+        };
         /** MissingConsentResponse */
         MissingConsentResponse: {
             /** Checked */
@@ -10508,6 +10682,24 @@ export interface components {
             subject: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /**
+         * ParentContact
+         * @description A parent a member of staff may write to, and the child it is about.
+         */
+        ParentContact: {
+            /** Classname */
+            className: string;
+            /** Parentid */
+            parentId: string;
+            /** Parentname */
+            parentName: string;
+            /** Relation */
+            relation: string;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
         };
         /** ParentalConsentRecord */
         ParentalConsentRecord: {
@@ -12566,6 +12758,11 @@ export interface components {
             /** Warning */
             warning?: string | null;
         };
+        /** SendMessageRequest */
+        SendMessageRequest: {
+            /** Body */
+            body: string;
+        };
         /** SendPaperRequest */
         SendPaperRequest: {
             /**
@@ -12932,6 +13129,15 @@ export interface components {
             minNoticeDays: number;
             /** Updatedat */
             updatedAt?: string | null;
+        };
+        /** StartConversationRequest */
+        StartConversationRequest: {
+            /** Body */
+            body: string;
+            /** Studentid */
+            studentId: string;
+            /** Withid */
+            withId: string;
         };
         /** StudentConcern */
         StudentConcern: {
@@ -16030,6 +16236,37 @@ export interface operations {
             };
         };
     };
+    child_contacts_api_v1_children__student_id__contacts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Contact"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     child_day_api_v1_children__student_id__day_get: {
         parameters: {
             query: {
@@ -16392,6 +16629,125 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ConsentStatusResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_conversations_api_v1_conversations_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationResponse"][];
+                };
+            };
+        };
+    };
+    start_conversation_api_v1_conversations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StartConversationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_conversation_api_v1_conversations__conversation_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reply_api_v1_conversations__conversation_id__messages_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                conversation_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendMessageRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationDetail"];
                 };
             };
             /** @description Validation Error */
@@ -22069,6 +22425,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    message_contacts_api_v1_message_contacts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParentContact"][];
                 };
             };
         };

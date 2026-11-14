@@ -382,6 +382,13 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("POST", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
     ("DELETE", "/api/v1/children/{student_id}/consent"): _p(ANY_USER, "the linked guardians own consent"),
+    # MSG-1 teacher-parent messaging.
+    ("GET", "/api/v1/children/{student_id}/contacts"): _p(ANY_USER, "handler admits the childs linked guardians only"),
+    ("GET", "/api/v1/conversations"): _p(ANY_USER, "parents and staff; the callers own conversations"),
+    ("POST", "/api/v1/conversations"): _p(ANY_USER, "a linked parent to the childs teachers, or staff to a parent of a student they teach; audited"),
+    ("GET", "/api/v1/conversations/{conversation_id}"): _p(ANY_USER, "the two people in the conversation only"),
+    ("POST", "/api/v1/conversations/{conversation_id}/messages"): _p(ANY_USER, "the two people in the conversation only; audited"),
+    ("GET", "/api/v1/message-contacts"): _p(STAFF, "the linked parents of students the caller teaches (principal: the school)"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/export/{kind}"): _p(ADMIN["users"]),
@@ -570,6 +577,10 @@ PARENT_PATHS = frozenset({
     "/api/v1/children/{student_id}/homework/{homework_id}/submit",
     "/api/v1/children/{student_id}/learning",
     "/api/v1/children/{student_id}/consent",
+    "/api/v1/children/{student_id}/contacts",
+    "/api/v1/conversations",
+    "/api/v1/conversations/{conversation_id}",
+    "/api/v1/conversations/{conversation_id}/messages",
 })
 
 

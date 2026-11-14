@@ -10,8 +10,8 @@ void main() {
 
   test('a teacher sees their day, papers, homework and marking; no principal tools', () {
     final t = labels('teacher');
-    expect(t.take(8),
-        ['Today', 'My day', 'My week', 'Papers', 'Homework', 'Mark answer sheets', 'Class progress', 'Inbox']);
+    expect(t.take(9), ['Today', 'My day', 'My week', 'Papers', 'Homework', 'Mark answer sheets', 'Class progress',
+        'Messages', 'Inbox'], reason: 'MSG-1: parents write to teachers');
     expect(t, containsAll(['Question bank', 'Paper reviews', 'Exam duties']));
     expect([for (final s in navSectionsFor('teacher')) s.title], [null, 'More']);
     expect(navSectionsFor('teacher').last.collapsible, isTrue);
@@ -36,7 +36,7 @@ void main() {
         'Lesson plans', 'Attendance and cover', 'Term report', 'Inbox']);
     expect(sections.first.collapsible, isFalse);
     expect([for (final i in sections[1].items) i.label], ['Paper reviews', 'School insights', 'Periods owed',
-        'Homework', 'Class progress', 'Question bank']);
+        'Homework', 'Class progress', 'Messages', 'Question bank']);
     expect([for (final i in sections[2].items) i.label], ['Set up your school', 'Invite people', 'Staff and access',
         'School profile', 'Import and export', 'Calendar and terms']);
     for (final s in sections.skip(1)) {
@@ -58,7 +58,7 @@ void main() {
 
   test('a student and a parent get their own few destinations', () {
     expect(labels('student'), ['Today', 'My week', 'Homework', 'Progress', 'Exams', 'Inbox']);
-    expect(labels('parent'), ['My children', 'Inbox']);
+    expect(labels('parent'), ['My children', 'Messages', 'Inbox']);
   });
 
   test('no account (offline, tests) keeps the pages that work on the device', () {

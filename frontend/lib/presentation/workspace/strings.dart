@@ -29,6 +29,32 @@ const hindiCoverage = 'Hindi covers the School page and its tiles, Today, My day
 String tr(String en) => uiHindi ? (_hi[en] ?? en) : en;
 
 const _hi = <String, String>{
+  // MSG-1 teacher-parent messages.
+  'About': 'किसके बारे में',
+  'Ask the school to link your account to your child.': 'विद्यालय से अपने खाते को अपने बच्चे से जोड़ने के लिए कहें।',
+  'Choose a teacher and write your message.': 'अध्यापक चुनें और अपना संदेश लिखें।',
+  'Conversations with parents': 'अभिभावकों से बातचीत',
+  'Message': 'संदेश',
+  'Messages from parents of the students you teach appear here.': 'आपके विद्यार्थियों के अभिभावकों के संदेश यहाँ दिखेंगे।',
+  'Write to a parent of a student you teach with New message. Their messages appear here too.': 'नया संदेश से अपने किसी विद्यार्थी के अभिभावक को लिखें। उनके संदेश भी यहाँ दिखेंगे।',
+  'Choose a parent and write your message.': 'अभिभावक चुनें और अपना संदेश लिखें।',
+  'No parent of a student you teach has an account yet. The school links parents to their children.': 'आपके किसी विद्यार्थी के अभिभावक का खाता अभी नहीं है। विद्यालय अभिभावकों को उनके बच्चों से जोड़ता है।',
+  'Find a student or parent': 'विद्यार्थी या अभिभावक खोजें',
+  'Nobody matches.': 'कोई नहीं मिला।',
+  'Change': 'बदलें',
+  'Mother': 'माँ',
+  'Father': 'पिता',
+  'Guardian': 'संरक्षक',
+  'Grandparent': 'दादा-दादी या नाना-नानी',
+  'New message': 'नया संदेश',
+  'No messages yet': 'अभी कोई संदेश नहीं',
+  'Send': 'भेजें',
+  'To': 'किसे',
+  'Write a reply': 'उत्तर लिखें',
+  "Write to your child's class teacher or subject teachers with New message.": 'नया संदेश से अपने बच्चे के कक्षा अध्यापक या विषय अध्यापकों को लिखें।',
+  "Write to your child's teachers": 'अपने बच्चे के अध्यापकों को लिखें',
+  'about': 'के बारे में',
+  'new': 'नए',
   // the School page and its tiles
   'School': 'विद्यालय',
   'Notifications': 'सूचनाएँ',

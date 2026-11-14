@@ -54,7 +54,7 @@ from ..operations import question_reviews
 from ..operations import exam_routes
 from ..operations import grant_routes
 from ..operations import owner_routes
-from ..operations import guardian_routes
+from ..operations import guardian_routes, message_routes
 from ..operations import homework_routes
 from ..operations import import_routes
 from ..operations import learning_routes
@@ -322,6 +322,7 @@ app.include_router(operations_routes.router)
 app.include_router(homework_routes.router)
 app.include_router(learning_routes.router)
 app.include_router(guardian_routes.router)
+app.include_router(message_routes.router)
 app.include_router(grant_routes.router)
 app.include_router(owner_routes.router)
 app.include_router(import_routes.router)
