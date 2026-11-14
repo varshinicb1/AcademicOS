@@ -5,7 +5,7 @@ Cloud billing account is closed. Free services first; AWS credits pay only for t
 one thing neither provider gives away: an always-on machine.
 
 ```
- browser ──► Cloudflare Pages (web console, app.<domain> / <project>.pages.dev)
+ browser ──► Cloudflare Pages (web console, app.vidyuthlabs.co.in / academicos.pages.dev)
     │
     └──────► Cloudflare edge (TLS, DNS, WAF, DDoS) ──► Cloudflare Tunnel ──┐
                                                                          │ outbound only
@@ -48,11 +48,14 @@ Lambda's free tier becomes an option.
    email → tick the IAM acknowledgement → Create. About 3 minutes. Copy the four
    values on the **Outputs** tab.
 2. **Cloudflare dashboard:**
-   - Add your domain (free plan) and switch its nameservers, if it is not on
-     Cloudflare already.
+   - The owner chose `vidyuthlabs.co.in` (2026-11-14): the API is
+     `api.vidyuthlabs.co.in`, the console `app.vidyuthlabs.co.in`. Add the domain to
+     Cloudflare (free plan) and switch its nameservers at the registrar, if it is
+     not on Cloudflare already. Any existing records (website, email MX) are
+     imported by Cloudflare's scan; check them before switching.
    - Zero Trust → Networks → Tunnels → Create a tunnel (Cloudflared) named
      `academicos`. Copy the token from the install command. Add a public hostname
-     `api.<domain>` → service `http://app:8080`.
+     `api.vidyuthlabs.co.in` → service `http://app:8080`.
    - R2 → Create bucket `academicos-backups` (location hint Asia-Pacific) → Manage
      API tokens → Create token, **Object Read & Write, this bucket only**. Copy the
      access key id and secret.
@@ -73,9 +76,10 @@ Lambda's free tier becomes an option.
    `ACOS_LLM_BASE_URL`. Each reaches the app on the next deploy.
 4. **GitHub → Settings → Secrets and variables → Actions:**
    - Variables: `AWS_DEPLOY_ROLE_ARN`, `AWS_INSTANCE_ID`, `AWS_REGION`, `AWS_ECR_REPO`
-     (from step 1), `API_ORIGIN` = `https://api.<domain>`, `PAGES_PROJECT` =
+     (from step 1), `API_ORIGIN` = `https://api.vidyuthlabs.co.in`, `PAGES_PROJECT` =
      `academicos`, `WEB_ORIGINS` = `https://academicos.pages.dev` (add
-     `,https://app.<domain>` once you attach that custom domain in Pages).
+     `,https://app.vidyuthlabs.co.in` once you attach that custom domain in Pages:
+     Pages project → Custom domains).
    - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
 5. Merge the PR that adds this, or run **Actions → Deploy to AWS + Cloudflare → Run
    workflow** on master. The run fails loudly if a variable is missing.

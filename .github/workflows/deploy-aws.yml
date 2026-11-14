@@ -16,10 +16,10 @@ name: Deploy to AWS + Cloudflare (EC2 + Cloudflare Pages)
 # Repository variables (Settings -> Secrets and variables -> Actions -> Variables),
 # the first four from the CloudFormation stack's Outputs tab:
 #   AWS_DEPLOY_ROLE_ARN, AWS_INSTANCE_ID, AWS_REGION, AWS_ECR_REPO
-#   API_ORIGIN        https://api.<your domain>  (the Cloudflare Tunnel hostname)
+#   API_ORIGIN        https://api.vidyuthlabs.co.in  (the Cloudflare Tunnel hostname)
 #   PAGES_PROJECT     the Cloudflare Pages project name (e.g. academicos)
 #   WEB_ORIGINS       the console's origins, comma-separated, https only
-#                     (https://academicos.pages.dev,https://app.<your domain>);
+#                     (https://academicos.pages.dev,https://app.vidyuthlabs.co.in);
 #                     becomes ACOS_CORS_ORIGINS
 # Repository secrets: CLOUDFLARE_API_TOKEN (Pages: Edit only), CLOUDFLARE_ACCOUNT_ID
 #
