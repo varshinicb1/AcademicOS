@@ -27,6 +27,11 @@ class StaffPolicyBody(Camel):
     annual_allowance_days: float = Field(default=12, ge=0, le=365)
     check_in_grace_minutes: int = Field(default=10, ge=0, le=180)
     check_in_reminder: bool = True
+    # SCH-7: book make-up periods for lost classes without the principal.
+    auto_compensate: bool = False
+    # SCH-6: pass an unanswered substitution to the next teacher after this
+    # many minutes; 0 is off.
+    substitute_answer_minutes: int = Field(default=0, ge=0, le=240)
 
 
 class StaffPolicyResponse(StaffPolicyBody):
@@ -66,7 +71,8 @@ def _policy_response(store, school_id: str, year_id: Optional[str]) -> StaffPoli
     return StaffPolicyResponse(auto_approve=p.auto_approve, max_auto_days=p.max_auto_days,
                                min_notice_days=p.min_notice_days, annual_allowance_days=p.annual_allowance_days,
                                check_in_grace_minutes=p.check_in_grace_minutes,
-                               check_in_reminder=p.check_in_reminder,
+                               check_in_reminder=p.check_in_reminder, auto_compensate=p.auto_compensate,
+                               substitute_answer_minutes=p.substitute_answer_minutes,
                                first_bell=store.first_bell(year_id) if year_id else None, updated_at=p.updated_at)
 
 

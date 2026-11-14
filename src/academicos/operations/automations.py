@@ -179,6 +179,110 @@ def substitution_escalation(ops, cs, users, notify, now: datetime) -> int:
     return n
 
 
+AUTO_ACTOR = "auto:school-rule"
+
+
+def _audit_auto(action: str, school_id: str, details: dict) -> None:
+    """An action the school's rule took is audited like the principal's,
+    with the rule as the actor (ROLE-3)."""
+    from ..assessment.audit_log import get_audit_log
+    from ..curriculum import routes as cr
+    get_audit_log(cr._cfg.data_root).append(action, actor=AUTO_ACTOR, details={"schoolId": school_id, **details})
+
+
+def substitution_timeout(ops, cs, users, notify, now: datetime) -> int:
+    """SCH-6, through the school day: where the school's rule sets a time to
+    answer (staff_policy.substitute_answer_minutes), a proposed substitute
+    who has not answered in it is passed over for the next candidate, who is
+    asked, and the silent teacher is told. With nobody left the period waits
+    as declined, and substitution_escalation tells the principal."""
+    today = now.astimezone(IST).date()
+    horizon = (today + timedelta(days=1)).isoformat()
+    n = 0
+    for school in _schools(cs):
+        minutes = cs.staff_policy(school).substitute_answer_minutes
+        year = _year_on(cs, school, today.isoformat())
+        if not minutes or year is None:
+            continue
+        cutoff = (now - timedelta(minutes=minutes)).astimezone(timezone.utc).isoformat()
+        for s in cs.substitutions_between(year.id, today.isoformat(), horizon):
+            if s.status != "proposed" or not s.substitute_id or s.updated_at > cutoff:
+                continue
+            after = cs.pass_unanswered(s.id, answered_before=cutoff)
+            if after is None:
+                continue
+            _audit_auto("substitution_passed", school, {"substitutionId": s.id, "from": s.substitute_id,
+                                                         "to": after.substitute_id, "minutes": minutes})
+            label, subject = _label(cs, s.section_id), _subject(cs, s.subject_id)
+            notify(school_id=school, user_ids=[s.substitute_id], kind="substitution_passed",
+                   params={"section": label, "period": s.period, "date": s.date, "subject": subject,
+                           "minutes": minutes},
+                   link=f"/my-day?date={s.date}", dedupe_key=f"subpass:{s.id}:{s.substitute_id}")
+            n += 1
+            if after.status == "proposed" and after.substitute_id:
+                notify(school_id=school, user_ids=[after.substitute_id], kind="substitution_proposed",
+                       params={"section": label, "period": s.period, "date": s.date, "subject": subject},
+                       link=f"/my-day?date={s.date}", dedupe_key=f"sub:{s.id}:{after.substitute_id}")
+                n += 1
+    return n
+
+
+def auto_compensate(ops, cs, users, notify, now: datetime) -> int:
+    """SCH-7, each afternoon: where the school's rule says so
+    (staff_policy.auto_compensate), every owed lost period is booked into
+    the section's first free period with its subject teacher free (the same
+    slots the principal is offered), and the plan reflows. The teacher hears
+    of each make-up period; the principal gets one line for the day,
+    naming any period with no free slot in three weeks."""
+    from ..curriculum.cover import CoverError
+    today = now.astimezone(IST).date().isoformat()
+    n = 0
+    for school in _schools(cs):
+        if not cs.staff_policy(school).auto_compensate:
+            continue
+        year = _year_on(cs, school, today)
+        if year is None:
+            continue
+        booked: list[str] = []
+        unbooked = 0
+        for lp in sorted(cs.lost_periods_for_year(year.id, "owed"), key=lambda l: (l.date, l.period)):
+            options = cs.compensation_options(lp.id, today=today, limit=1)
+            if not options:
+                unbooked += 1
+                continue
+            on, period = options[0]
+            try:
+                cs.compensate(lp.id, on=on, period=period, today=today)
+            except CoverError:
+                continue                       # settled meanwhile, by the principal or another run
+            _audit_auto("lost_period_compensated", school, {"lostPeriodId": lp.id, "before": "owed",
+                                                             "after": {"date": on, "period": period}})
+            label, subject = _label(cs, lp.section_id), _subject(cs, lp.subject_id)
+            booked.append(f"{label} {subject} on {on}")
+            alloc = cs.allocation_for(lp.section_id, lp.subject_id)
+            if alloc and alloc.teacher_id:
+                notify(school_id=school, user_ids=[alloc.teacher_id], kind="makeup_scheduled",
+                       params={"section": label, "subject": subject, "date": on, "period": period,
+                               "lost_date": lp.date},
+                       link=f"/my-day?date={on}", dedupe_key=f"makeup:{lp.id}")
+                n += 1
+        if not booked and not unbooked:
+            continue
+        principals = [u.id for u in users.users_for_school(school, role="principal")]
+        shown = ", ".join(booked[:5]) + (f" and {len(booked) - 5} more" if len(booked) > 5 else "")
+        notify(school_id=school, user_ids=principals, kind="makeups_booked",
+               params={"count": len(booked),
+                       "booked": f"Booked: {shown}. " if booked else "",
+                       "booked_hi": f"तय: {shown}। " if booked else "",
+                       "unbooked": (f"{unbooked} lost periods have no free slot in three weeks; "
+                                    "choose a swap or waive them." if unbooked else ""),
+                       "unbooked_hi": (f"{unbooked} छूटे पीरियड के लिए तीन सप्ताह में कोई खाली पीरियड नहीं; "
+                                       "अदला-बदली चुनें या छोड़ दें।" if unbooked else "")},
+               link="/school/cover", dedupe_key=f"makeups:{school}:{today}")
+        n += len(principals)
+    return n
+
+
 def staff_check_in(ops, cs, users, notify, now: datetime) -> int:
     """09:00 on a school day (staff_policy.py, check_in_reminder): a teacher
     who has not checked in and is not on leave is reminded, and the principal
@@ -519,7 +623,9 @@ def deliveries(ops, cs, users, notify, now: datetime) -> int:
 JOBS: list[tuple[str, int, str, Optional[int], Callable[..., int]]] = [
     ("homework_due_tomorrow", 16, "day", None, homework_due_tomorrow),
     ("homework_overdue", 9, "day", None, homework_overdue),
+    ("substitution_timeout", 7, "run", None, substitution_timeout),
     ("substitution_escalation", 7, "run", None, substitution_escalation),
+    ("auto_compensate", 16, "day", None, auto_compensate),
     ("teacher_daily_digest", 18, "day", None, teacher_daily_digest),
     ("principal_weekly_digest", 7, "week", 0, principal_weekly_digest),
     ("principal_alerts", 8, "day", None, principal_alerts),

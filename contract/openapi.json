@@ -16553,6 +16553,11 @@
             "title": "Autoapprove",
             "type": "boolean"
           },
+          "autoCompensate": {
+            "default": false,
+            "title": "Autocompensate",
+            "type": "boolean"
+          },
           "checkInGraceMinutes": {
             "default": 10,
             "maximum": 180.0,
@@ -16578,6 +16583,13 @@
             "minimum": 0.0,
             "title": "Minnoticedays",
             "type": "integer"
+          },
+          "substituteAnswerMinutes": {
+            "default": 0,
+            "maximum": 240.0,
+            "minimum": 0.0,
+            "title": "Substituteanswerminutes",
+            "type": "integer"
           }
         },
         "title": "StaffPolicyBody",
@@ -16596,6 +16608,11 @@
           "autoApprove": {
             "default": false,
             "title": "Autoapprove",
+            "type": "boolean"
+          },
+          "autoCompensate": {
+            "default": false,
+            "title": "Autocompensate",
             "type": "boolean"
           },
           "checkInGraceMinutes": {
@@ -16633,6 +16650,13 @@
             "maximum": 30.0,
             "minimum": 0.0,
             "title": "Minnoticedays",
+            "type": "integer"
+          },
+          "substituteAnswerMinutes": {
+            "default": 0,
+            "maximum": 240.0,
+            "minimum": 0.0,
+            "title": "Substituteanswerminutes",
             "type": "integer"
           },
           "updatedAt": {

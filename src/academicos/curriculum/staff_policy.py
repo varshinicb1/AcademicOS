@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS staff_policies (
   annual_allowance_days  REAL NOT NULL DEFAULT 12,
   check_in_grace_minutes INTEGER NOT NULL DEFAULT 10,
   check_in_reminder      INTEGER NOT NULL DEFAULT 1,
+  auto_compensate        INTEGER NOT NULL DEFAULT 0,
+  substitute_answer_minutes INTEGER NOT NULL DEFAULT 0,
   updated_by             TEXT,
   updated_at             TEXT
 );
@@ -51,6 +53,13 @@ class StaffPolicy:
     annual_allowance_days: float = 12
     check_in_grace_minutes: int = 10
     check_in_reminder: bool = True
+    # SCH-7: book every owed lost period into the section's first free slot
+    # with its subject teacher, each afternoon (automations.auto_compensate).
+    auto_compensate: bool = False
+    # SCH-6: a proposed substitute who has not answered in this many minutes
+    # is passed over for the next candidate (automations.substitution_timeout).
+    # 0 leaves the proposal with them until the principal acts.
+    substitute_answer_minutes: int = 0
     updated_by: Optional[str] = None
     updated_at: Optional[str] = None
 
@@ -95,7 +104,10 @@ class StaffPolicyMixin:
                            min_notice_days=int(r["min_notice_days"]),
                            annual_allowance_days=float(r["annual_allowance_days"]),
                            check_in_grace_minutes=int(r["check_in_grace_minutes"]),
-                           check_in_reminder=bool(r["check_in_reminder"]), updated_by=r["updated_by"],
+                           check_in_reminder=bool(r["check_in_reminder"]),
+                           auto_compensate=bool(r["auto_compensate"]),
+                           substitute_answer_minutes=int(r["substitute_answer_minutes"]),
+                           updated_by=r["updated_by"],
                            updated_at=r["updated_at"])
 
     def set_staff_policy(self, school_id: str, policy: StaffPolicy, *, updated_by: str) -> StaffPolicy:
@@ -104,16 +116,18 @@ class StaffPolicyMixin:
         with self._conn_lock:
             self._exec(
                 "INSERT INTO staff_policies (school_id, auto_approve, max_auto_days, min_notice_days, "
-                "annual_allowance_days, check_in_grace_minutes, check_in_reminder, updated_by, updated_at) "
-                "VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(school_id) DO UPDATE SET "
+                "annual_allowance_days, check_in_grace_minutes, check_in_reminder, auto_compensate, "
+                "substitute_answer_minutes, updated_by, updated_at) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(school_id) DO UPDATE SET "
                 "auto_approve=excluded.auto_approve, max_auto_days=excluded.max_auto_days, "
                 "min_notice_days=excluded.min_notice_days, annual_allowance_days=excluded.annual_allowance_days, "
                 "check_in_grace_minutes=excluded.check_in_grace_minutes, "
-                "check_in_reminder=excluded.check_in_reminder, updated_by=excluded.updated_by, "
+                "check_in_reminder=excluded.check_in_reminder, auto_compensate=excluded.auto_compensate, "
+                "substitute_answer_minutes=excluded.substitute_answer_minutes, updated_by=excluded.updated_by, "
                 "updated_at=excluded.updated_at",
                 (school_id, int(p["auto_approve"]), p["max_auto_days"], p["min_notice_days"],
                  p["annual_allowance_days"], p["check_in_grace_minutes"], int(p["check_in_reminder"]),
-                 updated_by, now))
+                 int(p["auto_compensate"]), int(p["substitute_answer_minutes"]), updated_by, now))
             self._commit()
         return self.staff_policy(school_id)
 
