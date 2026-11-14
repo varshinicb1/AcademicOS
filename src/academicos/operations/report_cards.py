@@ -12,14 +12,21 @@ only partly entered, which reads "incomplete" (v3 audit N-2-10: such a paper
 was totalled over the whole paper and graded).
 
 It says only what was measured: marks entered in AcademicOS for papers set
-this term. Co-scholastic areas, attendance and teachers' remarks are not
-recorded here, and the card says so. No rank and no class position (the
+this term, and the class teacher's remark. Co-scholastic areas and
+attendance are not recorded here, and the card says so. No rank and no class position (the
 product shows no leaderboards to children, REQUIREMENTS section 0).
 
 Who reads a card: the student, their linked parent, the principal or a
 teacher given the `reports` permission, and the section's class teacher.
 Every read by someone other than the student is logged as a read of student
 data.
+
+Remarks: the class teacher (or a teacher given `reports`, or the principal)
+writes one per student per term. Each comes with a draft built only from
+what the card measured -- the overall percentage and band, the strongest and
+weakest subject when they differ, papers missed -- so a class of forty is
+reviewed and saved rather than written from nothing. The draft is never
+stored and never printed: only a remark someone saved reaches the card.
 """
 from __future__ import annotations
 
@@ -30,6 +37,8 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import Response
+from pydantic import ConfigDict, Field
+from pydantic.alias_generators import to_camel
 
 from ..assessment.auth_routes import get_current_user, holds
 from ..assessment.users import User
@@ -43,8 +52,9 @@ EXAM_TYPE_LABELS = {
     "class_test": "Class test", "weekly_test": "Weekly test", "board": "Board", "custom": "Test",
 }
 EXAM_TYPE_ORDER = ["unit_test", "weekly_test", "class_test", "periodic", "half_yearly", "annual", "board", "custom"]
-NOT_RECORDED = ("Marks entered in AcademicOS for papers set this term. Co-scholastic areas, attendance and "
-                "teachers' remarks are not recorded here.")
+NOT_RECORDED = ("Marks entered in AcademicOS for papers set this term, and the class teacher's remark. "
+                "Co-scholastic areas and attendance are not recorded here.")
+REMARK_MAX = 600
 
 
 @dataclass
@@ -239,6 +249,9 @@ class ReportCardResponse(Camel):
     maximum: int
     percent: Optional[float] = None
     band: Optional[str] = None
+    # The class teacher's saved remark for the term; none until one is saved
+    # (a draft is never shown on the card).
+    remark: Optional[str] = None
     note: str = NOT_RECORDED
 
 
@@ -257,7 +270,8 @@ def _response(ctx: _Context, lines: list[SubjectLine]) -> ReportCardResponse:
                                       obtained=p.obtained, maximum=p.maximum, absent=p.absent,
                                       incomplete=p.incomplete)
                     for p in l.papers]) for l in lines],
-        obtained=obtained, maximum=maximum, percent=pct, band=_band(pct))
+        obtained=obtained, maximum=maximum, percent=pct, band=_band(pct),
+        remark=(_store().remark_for(ctx.term.id, ctx.student.id) or {}).get("remark"))
 
 
 @router.get("/students/{student_id}", response_model=ReportCardResponse)
@@ -346,6 +360,10 @@ def render_pdf(cards: list[ReportCardResponse], school_id: str) -> bytes:
                                    ("VALIGN", (0, 0), (-1, -1), "TOP")]))
         story.append(table if c.subjects else Paragraph("No marks have been entered for this term yet.", cell))
         story.append(Spacer(1, 8))
+        if c.remark:
+            story.append(Paragraph("<b>Class teacher's remark</b>", cell))
+            story.append(Paragraph(pdf_export.escape(c.remark), cell))
+            story.append(Spacer(1, 8))
         story.append(Paragraph(pdf_export.escape(NOT_RECORDED) + " Grades: CBSE 8-point scale "
                                "(A1 91-100, A2 81-90, B1 71-80, B2 61-70, C1 51-60, C2 41-50, D 33-40, E below 33).",
                                note_style))
@@ -372,27 +390,163 @@ def report_card_pdf(student_id: str, term_id: Optional[str] = Query(default=None
     return _pdf(render_pdf([card], current.school_id), f"report-card-{ctx.term.name}.pdf".replace(" ", "-"))
 
 
+def _section_students(section_id: str, current: User) -> list:
+    """The section's students in name order, for the principal, a teacher
+    given reports, and the section's class teacher."""
+    section = cr._require_school_owns_section(section_id, current)
+    if current.role not in ("teacher", "principal") or not _may_read_section(current, section):
+        raise HTTPException(403, "report cards are for the principal, a teacher given reports, "
+                                 "and the section's class teacher")
+    users = cr._require_users()
+    ids = [e.student_id for e in cr._require().enrollments_for_section(section_id)]
+    students = sorted((u for u in (users.get(i) for i in ids) if u is not None), key=lambda u: u.name.lower())
+    if not students:
+        raise HTTPException(409, "no students are enrolled in this section")
+    return students
+
+
+def _section_cards(section_id: str, current: User, term_id: Optional[str]) -> list[ReportCardResponse]:
+    papers = _school_papers(current.school_id)          # once, not once a student
+    cards = []
+    for s in _section_students(section_id, current):
+        ctx = _context(s.id, current, term_id)
+        cards.append(_response(ctx, _lines(ctx, papers)))
+    return cards
+
+
 @router.get("/sections/{section_id}/pdf")
 def section_report_cards_pdf(section_id: str, term_id: Optional[str] = Query(default=None, alias="termId"),
                              current: User = Depends(get_current_user)) -> Response:
     """Every student of the section, one page each, in name order. For the
     principal, a teacher given reports, and the section's class teacher."""
     section = cr._require_school_owns_section(section_id, current)
-    if current.role not in ("teacher", "principal") or not _may_read_section(current, section):
-        raise HTTPException(403, "report cards are for the principal, a teacher given reports, "
-                                 "and the section's class teacher")
     cs = cr._require()
-    users = cr._require_users()
-    ids = [e.student_id for e in cs.enrollments_for_section(section_id)]
-    students = sorted((u for u in (users.get(i) for i in ids) if u is not None), key=lambda u: u.name.lower())
-    if not students:
-        raise HTTPException(409, "no students are enrolled in this section")
-    papers = _school_papers(current.school_id)          # once, not once a student
-    cards = []
-    for s in students:
-        ctx = _context(s.id, current, term_id)
-        cards.append(_response(ctx, _lines(ctx, papers)))
-    _log_read(current, "report_cards_section_pdf", [s.id for s in students], sectionId=section_id,
+    cards = _section_cards(section_id, current, term_id)
+    _log_read(current, "report_cards_section_pdf", [c.student_id for c in cards], sectionId=section_id,
               termId=cards[0].term_id)
     label = cs._section_label(section)
     return _pdf(render_pdf(cards, current.school_id), f"report-cards-{label}-{cards[0].term_name}.pdf".replace(" ", "-"))
+
+
+# ---------------------------------------------------------------- remarks
+
+def _pct(x: Optional[float]) -> str:
+    return f"{_fmt(x)}%"
+
+
+def draft_remark(card: ReportCardResponse) -> Optional[str]:
+    """A remark built only from what the card measured, for the class teacher
+    to edit or keep: the overall percentage and band; the strongest and the
+    weakest subject when they are 10 points or more apart (else that results
+    are even); a lone subject below 50% as one to practise; papers missed.
+    None when the term has no marks: there is nothing to say yet. No rank and
+    no comparison with other children (REQUIREMENTS section 0)."""
+    scored = [s for s in card.subjects if s.percent is not None]
+    if not scored or card.percent is None:
+        return None
+    name = (card.student_name or "").split()[0] if (card.student_name or "").strip() else "The student"
+    parts = [f"{name} scored {_pct(card.percent)} overall this term"
+             + (f" (grade {card.band})." if card.band else ".")]
+    if len(scored) >= 2:
+        best = max(scored, key=lambda s: s.percent)
+        worst = min(scored, key=lambda s: s.percent)
+        if best.percent - worst.percent >= 10:
+            parts.append(f"Strongest in {best.subject} ({_pct(best.percent)}); "
+                         f"{worst.subject} ({_pct(worst.percent)}) is the one to focus on next.")
+        else:
+            parts.append("Results are even across subjects.")
+    elif scored[0].percent < 50:
+        parts.append(f"{scored[0].subject} needs more practice.")
+    missed = sum(1 for s in card.subjects for p in s.papers if p.absent)
+    if missed:
+        parts.append(f"Absent for {missed} paper{'s' if missed > 1 else ''} this term.")
+    return " ".join(parts)
+
+
+class _Req(Camel):
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
+
+
+class RemarkEntry(_Req):
+    student_id: str
+    # Empty removes the remark.
+    remark: str = Field(default="", max_length=REMARK_MAX)
+
+
+class RemarksRequest(_Req):
+    remarks: list[RemarkEntry] = Field(min_length=1, max_length=200)
+
+
+class RemarkRow(Camel):
+    student_id: str
+    student_name: str
+    percent: Optional[float] = None
+    band: Optional[str] = None
+    remark: Optional[str] = None           # saved; shown on the card
+    draft: Optional[str] = None            # suggested from the marks; never shown on the card
+    written_by: Optional[str] = None
+    updated_at: Optional[str] = None
+
+
+class RemarksResponse(Camel):
+    term_id: str
+    term_name: str
+    section: str
+    rows: list[RemarkRow]
+
+
+def _remarks(section_id: str, current: User, term_id: Optional[str]) -> RemarksResponse:
+    cards = _section_cards(section_id, current, term_id)
+    users = cr._require_users()
+    saved = _store().remarks_for(cards[0].term_id, [c.student_id for c in cards])
+    rows = []
+    for c in cards:
+        r = saved.get(c.student_id)
+        writer = users.get(r["written_by"]) if r else None
+        rows.append(RemarkRow(student_id=c.student_id, student_name=c.student_name, percent=c.percent, band=c.band,
+                              remark=r["remark"] if r else None, draft=draft_remark(c),
+                              written_by=getattr(writer, "name", None) if r else None,
+                              updated_at=r["updated_at"] if r else None))
+    return RemarksResponse(term_id=cards[0].term_id, term_name=cards[0].term_name, section=cards[0].section,
+                           rows=rows)
+
+
+@router.get("/sections/{section_id}/remarks", response_model=RemarksResponse)
+def section_remarks(section_id: str, term_id: Optional[str] = Query(default=None, alias="termId"),
+                    current: User = Depends(get_current_user)) -> RemarksResponse:
+    """Each student's remark for the term, saved or not yet, with a draft from
+    their marks. For whoever may print the section's cards."""
+    out = _remarks(section_id, current, term_id)
+    _log_read(current, "report_card_remarks", [r.student_id for r in out.rows], sectionId=section_id,
+              termId=out.term_id)
+    return out
+
+
+@router.put("/sections/{section_id}/remarks", response_model=RemarksResponse)
+def save_section_remarks(section_id: str, req: RemarksRequest,
+                         term_id: Optional[str] = Query(default=None, alias="termId"),
+                         current: User = Depends(get_current_user)) -> RemarksResponse:
+    """Save remarks for students of the section (an empty one removes it).
+    The whole batch is refused if a student is not in the section, or has no
+    parental consent on record for a remark being written; it is audited."""
+    from ..assessment.audit_log import get_audit_log
+    from ..assessment.authz import require_consent_for_all
+    from ..assessment.consent import get_consent_store
+    students = {u.id for u in _section_students(section_id, current)}
+    term = _term(term_id, current.school_id)
+    texts: dict[str, str] = {}
+    for e in req.remarks:
+        if e.student_id not in students:
+            raise HTTPException(422, "a remark is for a student of this section; reload the list and try again")
+        texts[e.student_id] = " ".join(e.remark.split())
+    written = [sid for sid, text in texts.items() if text]
+    if written:
+        require_consent_for_all(get_consent_store(cr._cfg.data_root), current.school_id, written)
+    before = _store().remarks_for(term.id, list(texts))
+    _store().save_remarks(school_id=current.school_id, term_id=term.id, remarks=texts, written_by=current.id)
+    get_audit_log(cr._cfg.data_root).append(
+        "report_card_remarks_saved", actor=current.id,
+        details={"schoolId": current.school_id, "sectionId": section_id, "termId": term.id,
+                 "written": written, "removed": [sid for sid, t in texts.items() if not t and sid in before],
+                 "changed": [sid for sid in written if sid in before and before[sid]["remark"] != texts[sid]]})
+    return _remarks(section_id, current, term.id)

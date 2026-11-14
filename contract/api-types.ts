@@ -5509,6 +5509,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/report-cards/sections/{section_id}/remarks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Section Remarks
+         * @description Each student's remark for the term, saved or not yet, with a draft from
+         *     their marks. For whoever may print the section's cards.
+         */
+        get: operations["section_remarks_api_v1_report_cards_sections__section_id__remarks_get"];
+        /**
+         * Save Section Remarks
+         * @description Save remarks for students of the section (an empty one removes it).
+         *     The whole batch is refused if a student is not in the section, or has no
+         *     parental consent on record for a remark being written; it is audited.
+         */
+        put: operations["save_section_remarks_api_v1_report_cards_sections__section_id__remarks_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/report-cards/students/{student_id}": {
         parameters: {
             query?: never;
@@ -11408,6 +11435,51 @@ export interface components {
             /** Schoolid */
             schoolId?: string | null;
         };
+        /** RemarkEntry */
+        RemarkEntry: {
+            /**
+             * Remark
+             * @default
+             */
+            remark: string;
+            /** Studentid */
+            studentId: string;
+        };
+        /** RemarkRow */
+        RemarkRow: {
+            /** Band */
+            band?: string | null;
+            /** Draft */
+            draft?: string | null;
+            /** Percent */
+            percent?: number | null;
+            /** Remark */
+            remark?: string | null;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /** Updatedat */
+            updatedAt?: string | null;
+            /** Writtenby */
+            writtenBy?: string | null;
+        };
+        /** RemarksRequest */
+        RemarksRequest: {
+            /** Remarks */
+            remarks: components["schemas"]["RemarkEntry"][];
+        };
+        /** RemarksResponse */
+        RemarksResponse: {
+            /** Rows */
+            rows: components["schemas"]["RemarkRow"][];
+            /** Section */
+            section: string;
+            /** Termid */
+            termId: string;
+            /** Termname */
+            termName: string;
+        };
         /** RenameRequest */
         RenameRequest: {
             /** Name */
@@ -11426,13 +11498,15 @@ export interface components {
             maximum: number;
             /**
              * Note
-             * @default Marks entered in AcademicOS for papers set this term. Co-scholastic areas, attendance and teachers' remarks are not recorded here.
+             * @default Marks entered in AcademicOS for papers set this term, and the class teacher's remark. Co-scholastic areas and attendance are not recorded here.
              */
             note: string;
             /** Obtained */
             obtained: number;
             /** Percent */
             percent?: number | null;
+            /** Remark */
+            remark?: string | null;
             /** Section */
             section: string;
             /** Studentid */
@@ -23792,6 +23866,76 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    section_remarks_api_v1_report_cards_sections__section_id__remarks_get: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RemarksResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    save_section_remarks_api_v1_report_cards_sections__section_id__remarks_put: {
+        parameters: {
+            query?: {
+                termId?: string | null;
+            };
+            header?: never;
+            path: {
+                section_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RemarksRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RemarksResponse"];
                 };
             };
             /** @description Validation Error */

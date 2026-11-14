@@ -90,6 +90,8 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/report-cards/students/{student_id}"): _p(ANY_USER, "the student, their linked parent, a reports admin or the class teacher; logged"),
     ("GET", "/api/v1/report-cards/students/{student_id}/pdf"): _p(ANY_USER, "as above; logged"),
     ("GET", "/api/v1/report-cards/sections/{section_id}/pdf"): _p(ANY_USER, "a reports admin or the section's class teacher; logged"),
+    ("GET", "/api/v1/report-cards/sections/{section_id}/remarks"): _p(ANY_USER, "a reports admin or the section's class teacher; each student's remark and a draft from their marks; logged"),
+    ("PUT", "/api/v1/report-cards/sections/{section_id}/remarks"): _p(ANY_USER, "a reports admin or the section's class teacher; students of the section with consent; audited"),
     ("GET", "/v1/registry/stats"): _p(ANY_USER, "one corpus-wide document count"),
     ("POST", "/v1/search"): _p(ANY_USER, "shared NCERT corpus, no school data"),
     ("POST", "/v1/agent/doubt"): _p(ANY_USER, "a student asking a doubt is the intended user"),
