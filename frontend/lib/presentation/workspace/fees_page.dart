@@ -63,7 +63,9 @@ class FeeStatementView extends StatefulWidget {
 class _FeeStatementViewState extends State<FeeStatementView> {
   late Future<Map<String, dynamic>> _future = Ops.map(widget.path);
 
-  void _reload() => setState(() => _future = Ops.map(widget.path));
+  void _reload() => setState(() {
+        _future = Ops.map(widget.path);
+      });
 
   Future<void> _record(Map<String, dynamic> s) async {
     final saved = await showDialog<bool>(context: context, builder: (_) => _PaymentDialog(statement: s));
