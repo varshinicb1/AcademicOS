@@ -1301,6 +1301,60 @@
         "title": "AttendanceMark",
         "type": "object"
       },
+      "AttendanceOverview": {
+        "properties": {
+          "awayToday": {
+            "title": "Awaytoday",
+            "type": "integer"
+          },
+          "belowFloor": {
+            "items": {
+              "$ref": "#/components/schemas/BelowFloor"
+            },
+            "title": "Belowfloor",
+            "type": "array"
+          },
+          "belowFloorTotal": {
+            "title": "Belowfloortotal",
+            "type": "integer"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "floor": {
+            "title": "Floor",
+            "type": "number"
+          },
+          "notTaken": {
+            "title": "Nottaken",
+            "type": "integer"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/SectionDay"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "yearStart": {
+            "title": "Yearstart",
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "yearStart",
+          "floor",
+          "sections",
+          "notTaken",
+          "awayToday",
+          "belowFloor",
+          "belowFloorTotal"
+        ],
+        "title": "AttendanceOverview",
+        "type": "object"
+      },
       "AttendanceRequest": {
         "additionalProperties": false,
         "properties": {
@@ -1838,6 +1892,39 @@
           "kind"
         ],
         "title": "BellSlotResponse",
+        "type": "object"
+      },
+      "BelowFloor": {
+        "properties": {
+          "daysTaken": {
+            "title": "Daystaken",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "percent": {
+            "title": "Percent",
+            "type": "number"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "sectionName",
+          "percent",
+          "daysTaken"
+        ],
+        "title": "BelowFloor",
         "type": "object"
       },
       "BloomDistribution": {
@@ -15462,6 +15549,53 @@
         "title": "SectionBlueprint",
         "type": "object"
       },
+      "SectionDay": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "enrolled": {
+            "title": "Enrolled",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "sectionName": {
+            "title": "Sectionname",
+            "type": "string"
+          },
+          "taken": {
+            "title": "Taken",
+            "type": "boolean"
+          },
+          "yearPercent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yearpercent"
+          }
+        },
+        "required": [
+          "sectionId",
+          "sectionName",
+          "enrolled",
+          "taken",
+          "counts"
+        ],
+        "title": "SectionDay",
+        "type": "object"
+      },
       "SectionFix": {
         "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap: every kind carries the value to apply, never only a\nsentence to parse.",
         "properties": {
@@ -20639,6 +20773,58 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/v1/admin/attendance/overview": {
+      "get": {
+        "description": "One day's registers across the school, each section's attendance for\nthe year so far, and the students below the floor.",
+        "operationId": "attendance_overview_api_v1_admin_attendance_overview_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceOverview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Attendance Overview"
+      }
+    },
     "/api/v1/admin/export/{kind}": {
       "get": {
         "description": "The school's data as CSV or Excel, in the import's own columns where\nthere is an import for it, so an export edited in a spreadsheet imports\nback.",

@@ -137,6 +137,7 @@ class _AttendanceRegisterPageState extends State<AttendanceRegisterPage> {
     return Scaffold(
       appBar: destinationAppBar(context, title: Text(tr('Class register'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
+        if (CurrentSession.role == 'principal') SchoolAttendanceOverview(onOpen: _load),
         if (sections == null && _error == null) const SizedBox(height: 120, child: LoadingIndicator()),
         if (sections != null && sections.isEmpty)
           EmptyState(icon: Icons.groups_outlined, title: tr('No classes to take'),
@@ -260,4 +261,94 @@ class MyAttendancePage extends StatelessWidget {
         appBar: destinationAppBar(context, title: Text(tr('My attendance'))),
         body: const AttendanceRecordView(path: '/my-attendance-record'),
       );
+}
+
+/// The principal's view across the school (ATT-1 oversight): today's
+/// registers, the classes still to take one, and the students below the
+/// attendance floor this year. Tapping a class opens its register below.
+class SchoolAttendanceOverview extends StatefulWidget {
+  const SchoolAttendanceOverview({super.key, required this.onOpen});
+
+  final void Function(String sectionId) onOpen;
+
+  @override
+  State<SchoolAttendanceOverview> createState() => _SchoolAttendanceOverviewState();
+}
+
+class _SchoolAttendanceOverviewState extends State<SchoolAttendanceOverview> {
+  Map<String, dynamic>? _data;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final d = await Ops.map('/admin/attendance/overview');
+      if (mounted) setState(() => _data = d);
+    } catch (e) {
+      if (mounted) setState(() => _error = serverErrorMessage(e));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    if (_error != null) {
+      return Padding(padding: const EdgeInsets.only(bottom: 12),
+          child: Text(_error!, style: TextStyle(color: theme.colorScheme.error)));
+    }
+    final d = _data;
+    if (d == null) return const SizedBox(height: 80, child: LoadingIndicator());
+    final sections = (d['sections'] as List).cast<Map>().where((s) => (s['enrolled'] as num) > 0).toList();
+    final missing = sections.where((s) => s['taken'] != true).toList();
+    final low = (d['belowFloor'] as List).cast<Map>();
+    final floor = (d['floor'] as num).toStringAsFixed(0);
+    return Card(
+      key: const ValueKey('school-attendance'),
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(tr('Across the school today'), style: theme.textTheme.titleMedium),
+          const SizedBox(height: 4),
+          Text('${sections.length - missing.length}/${sections.length} ${tr('classes taken')} · '
+              '${d['awayToday']} ${tr('absent')}'),
+          if (missing.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(tr('Not taken yet. Tap a class to take it.'), style: theme.textTheme.bodySmall),
+            const SizedBox(height: 4),
+            Wrap(spacing: 8, runSpacing: 8, children: [
+              for (final s in missing)
+                ActionChip(
+                  key: ValueKey('missing-${s['sectionId']}'),
+                  avatar: const Icon(Icons.pending_actions_outlined, size: 18),
+                  label: Text(s['sectionName'] as String),
+                  onPressed: () => widget.onOpen(s['sectionId'] as String),
+                ),
+            ]),
+          ],
+          const SizedBox(height: 16),
+          Text('${tr('Students below the attendance floor this year')} ($floor%): ${d['belowFloorTotal']}',
+              style: theme.textTheme.titleSmall),
+          if (low.isEmpty)
+            Padding(padding: const EdgeInsets.only(top: 4),
+                child: Text(tr('Nobody, over at least 10 school days taken.'), style: theme.textTheme.bodySmall)),
+          for (final x in low)
+            ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              title: Text(x['name'] as String),
+              subtitle: Text('${x['sectionName']} · ${x['daysTaken']} ${tr('days taken')}'),
+              trailing: Text('${(x['percent'] as num).toStringAsFixed(0)}%',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.error)),
+            ),
+        ]),
+      ),
+    );
+  }
 }

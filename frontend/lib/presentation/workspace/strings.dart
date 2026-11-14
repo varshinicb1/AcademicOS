@@ -54,6 +54,12 @@ const _hi = <String, String>{
   'Taken. Change any row and save again.': 'भरा गया। कोई पंक्ति बदलें और फिर से सहेजें।',
   'You take the register for the classes you teach or are class teacher of.': 'आप उन कक्षाओं का रजिस्टर भरते हैं जिन्हें आप पढ़ाते हैं या जिनके कक्षा अध्यापक हैं।',
   'absent': 'अनुपस्थित',
+  // ATT-1 oversight: the principal's view across the school.
+  'Across the school today': 'आज पूरे विद्यालय में',
+  'Students below the attendance floor this year': 'इस वर्ष न्यूनतम उपस्थिति से कम विद्यार्थी',
+  'Nobody, over at least 10 school days taken.': 'कोई नहीं, कम से कम 10 दर्ज दिनों में।',
+  'Not taken yet. Tap a class to take it.': 'अभी नहीं भरा गया। भरने के लिए कक्षा चुनें।',
+  'classes taken': 'कक्षाओं का रजिस्टर भरा',
   'days taken': 'दिन दर्ज',
   'of school days attended': 'विद्यालय के दिनों में उपस्थित',
   // the School page and its tiles

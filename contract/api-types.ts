@@ -4,6 +4,27 @@
  */
 
 export interface paths {
+    "/api/v1/admin/attendance/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Attendance Overview
+         * @description One day's registers across the school, each section's attendance for
+         *     the year so far, and the students below the floor.
+         */
+        get: operations["attendance_overview_api_v1_admin_attendance_overview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/export/{kind}": {
         parameters: {
             query?: never;
@@ -7120,6 +7141,25 @@ export interface components {
             /** Teacherid */
             teacherId: string;
         };
+        /** AttendanceOverview */
+        AttendanceOverview: {
+            /** Awaytoday */
+            awayToday: number;
+            /** Belowfloor */
+            belowFloor: components["schemas"]["BelowFloor"][];
+            /** Belowfloortotal */
+            belowFloorTotal: number;
+            /** Date */
+            date: string;
+            /** Floor */
+            floor: number;
+            /** Nottaken */
+            notTaken: number;
+            /** Sections */
+            sections: components["schemas"]["SectionDay"][];
+            /** Yearstart */
+            yearStart: string;
+        };
         /** AttendanceRequest */
         AttendanceRequest: {
             /** Marks */
@@ -7301,6 +7341,19 @@ export interface components {
             period?: number | null;
             /** Start */
             start: string;
+        };
+        /** BelowFloor */
+        BelowFloor: {
+            /** Daystaken */
+            daysTaken: number;
+            /** Name */
+            name: string;
+            /** Percent */
+            percent: number;
+            /** Sectionname */
+            sectionName: string;
+            /** Studentid */
+            studentId: string;
         };
         /** BloomDistribution */
         BloomDistribution: {
@@ -12461,6 +12514,23 @@ export interface components {
             /** Totalmarks */
             totalMarks: number;
         };
+        /** SectionDay */
+        SectionDay: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Enrolled */
+            enrolled: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Sectionname */
+            sectionName: string;
+            /** Taken */
+            taken: boolean;
+            /** Yearpercent */
+            yearPercent?: number | null;
+        };
         /**
          * SectionFix
          * @description One change the teacher can make to a short section, with what it buys.
@@ -14501,6 +14571,37 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    attendance_overview_api_v1_admin_attendance_overview_get: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttendanceOverview"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     export_api_v1_admin_export__kind__get: {
         parameters: {
             query?: {

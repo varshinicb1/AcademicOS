@@ -388,6 +388,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/my-attendance-record"): _p(ANY_USER, "students only, their own record; logged"),
     ("GET", "/api/v1/children/{student_id}/attendance"): _p(ANY_USER, "handler admits the childs linked guardians only"),
     ("GET", "/api/v1/students/{student_id}/attendance"): _p(STAFF, "the student's teachers or the principal; logged"),
+    ("GET", "/api/v1/admin/attendance/overview"): _p(ADMIN["reports"], "sections in the grant's scope; names read are logged"),
     ("POST", "/api/v1/admin/import/{kind}"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/import/{kind}/template"): _p(ADMIN["users"]),
     ("GET", "/api/v1/admin/export/{kind}"): _p(ADMIN["users"]),

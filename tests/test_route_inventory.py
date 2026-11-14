@@ -298,6 +298,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-attendance-record"),
     ("GET", "/api/v1/children/{student_id}/attendance"),
     ("GET", "/api/v1/students/{student_id}/attendance"),
+    ("GET", "/api/v1/admin/attendance/overview"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -669,6 +670,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/my-attendance-record"),
     ("GET", "/api/v1/children/{student_id}/attendance"),
     ("GET", "/api/v1/students/{student_id}/attendance"),
+    ("GET", "/api/v1/admin/attendance/overview"),
     ("POST", "/api/v1/admin/import/{kind}"),
     ("GET", "/api/v1/admin/import/{kind}/template"),
     ("GET", "/api/v1/admin/export/{kind}"),
@@ -1102,7 +1104,9 @@ def test_canonical_route_inventory_matches_live_app():
     # 356: staff rules and leave balances (read, set, mine, everyone's).
     # 361: ATT-1 student attendance: a section's register (read, take), a student's own,
     # a parent's child's and a teacher's view of one student.
-    assert len(API_ROUTES) == 361
+    # 362: ATT-1 oversight: the principal's attendance overview (a day's registers,
+    # the year's share per section, students below the floor).
+    assert len(API_ROUTES) == 362
 
 
 def test_docs_routes_present():

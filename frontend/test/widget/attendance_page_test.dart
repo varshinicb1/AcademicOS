@@ -17,6 +17,7 @@ import '../responsive/responsive_harness.dart' show useAppFonts;
 
 class _Server implements HttpClientAdapter {
   final List<Map<String, dynamic>> saved = [];
+  final List<String> asked = [];
   List<String> withoutConsent = const [];
   static const _json = {Headers.contentTypeHeader: ['application/json']};
 
@@ -41,7 +42,24 @@ class _Server implements HttpClientAdapter {
       };
       return ResponseBody.fromString(jsonEncode(_register(statuses)), 200, headers: _json);
     }
+    asked.add(o.path);
     final Object answer = switch (o.path) {
+      '/admin/attendance/overview' => {
+          'date': '2026-06-01', 'yearStart': '2026-04-01', 'floor': 75.0, 'notTaken': 1, 'awayToday': 1,
+          'sections': [
+            {'sectionId': 'sec-a', 'sectionName': '10-A', 'enrolled': 30, 'taken': false,
+             'counts': {'present': 0, 'late': 0, 'absent': 0, 'excused': 0}, 'yearPercent': 91.5},
+            {'sectionId': 'sec-b', 'sectionName': '10-B', 'enrolled': 2, 'taken': true,
+             'counts': {'present': 1, 'late': 0, 'absent': 1, 'excused': 0}, 'yearPercent': 80.0},
+            {'sectionId': 'sec-c', 'sectionName': '10-C', 'enrolled': 0, 'taken': false,
+             'counts': {'present': 0, 'late': 0, 'absent': 0, 'excused': 0}},
+          ],
+          'belowFloor': [
+            {'studentId': 's2', 'name': 'Bina', 'sectionName': '10-B', 'percent': 60.0, 'daysTaken': 10},
+          ],
+          'belowFloorTotal': 1,
+        },
+      '/sections/sec-a/attendance' => {..._register(const {}), 'sectionId': 'sec-a', 'sectionName': '10-A'},
       '/curriculum/academic-years' => [
           {'id': 'y1', 'startDate': '2026-04-01'},
         ],
@@ -147,6 +165,29 @@ void main() {
     expect(find.textContaining('no parental consent on file: Bina. Record their consent under Classes'),
         findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  // ATT-1 oversight: the principal sees the school at a glance and opens a
+  // class with no register from it.
+  testWidgets('the principal sees which classes have no register and who is below the floor', (tester) async {
+    LocalStore.instance.authUser = {'id': 'p1', 'schoolId': 'school_1', 'role': 'principal', 'name': 'Priya'};
+    await pump(tester, const AttendanceRegisterPage());
+    expect(tester.takeException(), isNull);
+    expect(find.text('Across the school today'), findsOneWidget);
+    expect(find.text('1/2 classes taken · 1 absent'), findsOneWidget, reason: 'a class with no students is left out');
+    expect(find.byKey(const ValueKey('missing-sec-a')), findsOneWidget);
+    expect(find.byKey(const ValueKey('missing-sec-c')), findsNothing);
+    expect(find.text('Students below the attendance floor this year (75%): 1'), findsOneWidget);
+    expect(find.text('60%'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('missing-sec-a')));
+    await settle(tester);
+    expect(server.asked, contains('/sections/sec-a/attendance'));
+  });
+
+  testWidgets('a teacher does not get the school-wide view', (tester) async {
+    await pump(tester, const AttendanceRegisterPage());
+    expect(find.text('Across the school today'), findsNothing);
+    expect(server.asked, isNot(contains('/admin/attendance/overview')));
   });
 
   testWidgets("a student's record: the share attended and the days away or late", (tester) async {

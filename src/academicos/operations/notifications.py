@@ -159,6 +159,12 @@ CATALOGUE: dict[str, Kind] = {k.key: k for k in (
          ("अंक: {title}", "{subject}: {marks}।")),
     # ATT-1: a parent hears the same day that their child was marked absent,
     # so they can tell the school if it is wrong.
+    Kind("register_not_taken", "Your class's register is not taken", True, False,
+         ("Register not taken: {section}", "Today's attendance for {section} is not taken yet. Take it in AcademicOS."),
+         ("उपस्थिति दर्ज नहीं: {section}", "{section} की आज की उपस्थिति अभी दर्ज नहीं हुई है। AcademicOS में दर्ज करें।")),
+    Kind("registers_missing", "Classes with no register today", True, False,
+         ("No register yet: {count} classes", "{sections}. {note}"),
+         ("उपस्थिति नहीं: {count} कक्षाएँ", "{sections}। {note}")),
     Kind("child_absent", "Your child marked absent", True, False,
          ("Absent today: {student}", "{student} was marked absent in {section} on {date}. If this is wrong, "
                                      "tell the class teacher."),
